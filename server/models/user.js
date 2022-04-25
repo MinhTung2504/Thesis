@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { REG_EXP_EMAIL, SALT_HASH } from "../utils/constants";
 
 const { Schema } = mongoose;
 
@@ -16,10 +17,7 @@ const userSchema = new Schema(
       trim: true,
       required: "Email is required",
       unique: true,
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please fill a valid email address",
-      ],
+      match: [REG_EXP_EMAIL, "Please fill a valid email address"],
     },
     password: {
       type: String,
@@ -29,19 +27,36 @@ const userSchema = new Schema(
     },
     adress: {
       type: String,
-      default: null,
+      default: "",
     },
     city: {
       type: String,
-      default: null,
+      default: "",
     },
     country: {
       type: String,
-      default: null,
+      default: "",
     },
     phone: {
       type: String,
-      default: null,
+      default: "",
+    },
+    birthday: {
+      type: Date,
+      default: "",
+    },
+    avatar: {
+      type: String,
+      default: "",
+    },
+    role: {
+      type: String,
+      enum: ["user", "host", "admin"],
+      default: "user",
+    },
+    isBanned: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
@@ -50,7 +65,7 @@ const userSchema = new Schema(
 userSchema.pre("save", function (next) {
   let user = this;
   if (user.isModified("password")) {
-    return bcrypt.hash(user.password, 12, (err, hash) => {
+    return bcrypt.hash(user.password, SALT_HASH, (err, hash) => {
       if (err) {
         console.log("BCRYPT HASH ERR ", err);
         return next(err);
