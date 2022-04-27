@@ -20,19 +20,19 @@ export default function Header() {
   return (
     <>
       <div
-        className="nav d-flex justify-content-between w-100 position-fixed"
+        className="nav bg-dark opacity-75 d-flex justify-content-between w-100 position-fixed p-3"
         style={{ zIndex: 1000 }}
       >
         <div>
-          <Link className="nav-link" to="/">
-            Home
+          <Link className="nav-link brand-name" to="/">
+            NICE HOMESTAY
           </Link>
         </div>
 
         <div className="d-flex ">
           {auth !== null && (
             <>
-              <Link className="nav-link" to="dashboard">
+              <Link className="nav-link" to="host-dashboard">
                 Dashboard
               </Link>
             </>

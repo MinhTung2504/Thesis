@@ -3,6 +3,7 @@ import { Carousel } from "react-bootstrap";
 import image1 from "../../assets/images/carousel-1.jpg";
 import image2 from "../../assets/images/carousel-2.jpg";
 import image3 from "../../assets/images/carousel-3.jpg";
+import HouseList from "../HouseList/HouseList";
 
 export default function Home() {
   return (
@@ -30,8 +31,8 @@ export default function Home() {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            <h3>Friendly Homestay</h3>
+            <p>With the price is extremely suitable for your travel.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item
@@ -54,8 +55,8 @@ export default function Home() {
           />
 
           <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>Friendly Homestay</h3>
+            <p>With the price is extremely suitable for your travel.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item
@@ -77,13 +78,13 @@ export default function Home() {
             alt="Third slide"
           />
           <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
+            <h3>Friendly Homestay</h3>
+            <p>With the price is extremely suitable for your travel.</p>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
+
+      <HouseList />
     </>
   );
 }

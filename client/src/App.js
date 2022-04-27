@@ -6,6 +6,8 @@ import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import HostDashboard from "./components/Dashboards/HostDashboard";
+import HouseDetail from "./components/HouseDetail/HouseDetail";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
+        <Route exact path="/host-dashboard" element={<HostDashboard />} />
+        <Route exact path="/house/:houseId" element={<HouseDetail />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,0 +1,25 @@
+.container {
+    margin: auto;
+    width: 100%;
+}
+.listItem {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 3rem auto;
+}
+.listItem__title {
+    text-align: center;
+}
+.listItem__title p {
+    margin-bottom: 10px;
+}
+	
+.listItem__room {
+    display: flex;
+    min-height: calc(100vh - 11.25rem);
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
