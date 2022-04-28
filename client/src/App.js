@@ -8,6 +8,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import HostDashboard from "./components/Dashboards/HostDashboard";
 import HouseDetail from "./components/HouseDetail/HouseDetail";
+import HouseList from "./components/HouseList/HouseList";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/page/:pageNumber" element={<Home />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/host-dashboard" element={<HostDashboard />} />

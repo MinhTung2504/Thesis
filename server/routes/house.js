@@ -5,6 +5,7 @@ import { requireSignin } from "../middlewares";
 const router = express.Router();
 
 // router.post("/house/new", requireSignin, createHouse);
+// router.get("/", getAllHouses);
 router.get("/houses", getAllHouses);
 router.get("/house/:houseId", getHouseById);
 

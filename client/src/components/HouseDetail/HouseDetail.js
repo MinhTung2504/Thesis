@@ -14,7 +14,7 @@ import "./HouseDetail.css";
 export default function HouseDetail() {
   const [isScroll, setIsScroll] = useState(false);
   const setFixHeader = () => {
-    console.log(window.scrollY);
+    // console.log(window.scrollY);
     if (window.scrollY >= 700) {
       setIsScroll(true);
     } else {
@@ -65,7 +65,7 @@ export default function HouseDetail() {
                 <GoLocation /> {house.address}
               </p>
               <p className="detail__left-header_space">
-                <CgDetailsMore /> {house.bed} giường,
+                <CgDetailsMore /> {house.num_beds} giường,
                 {house.num_bathrooms} phòng tắm, tối đa {house.max_guest} người
               </p>
               {/* <div dangerouslySetInnerHTML={{ __html: dirty }}></div> */}
