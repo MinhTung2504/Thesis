@@ -3,3 +3,7 @@ export const REG_EXP_PHONE = /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
 export const PASSWORD_MIN_LENGTH = 6;
 export const EXPIRESIN_TOKEN = "7d";
 export const SALT_HASH = 12;
+export const WIDTH_IMAGE = 1920;
+export const HEIGHT_IMAGE = 1080;
+export const PAGE_LIST_HOUSE = 1;
+export const PAGESIZE_LIST_HOUSE = 9;

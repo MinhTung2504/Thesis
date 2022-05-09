@@ -15,15 +15,18 @@ const houseSchema = new Schema(
       required: "Content is required",
       maxlength: 500,
     },
+    address: {
+      type: String,
+      required: true,
+    },
     city: {
       type: String,
       required: true,
     },
-    phone: {
-      type: String,
-      required: true,
-      match: [REG_EXP_PHONE, "Please fill a valid phone number"],
-    },
+    // country: {
+    //   type: String,
+    //   required: true,
+    // },
     price: {
       type: Number,
       required: "Price is required",
@@ -38,11 +41,19 @@ const houseSchema = new Schema(
       default: "",
     },
     images: [],
-    bed: {
+    num_beds: {
       type: Number,
       required: true,
     },
-    max_guest: {
+    num_bedrooms: {
+      type: Number,
+      required: true,
+    },
+    num_bathrooms: {
+      type: Number,
+      required: true,
+    },
+    max_guests: {
       type: Number,
       required: true,
     },

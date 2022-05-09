@@ -6,9 +6,10 @@ import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-import HostDashboard from "./components/Dashboards/HostDashboard";
+import Dashboard from "./components/Dashboards/Dashboard";
 import HouseDetail from "./components/HouseDetail/HouseDetail";
-import HouseList from "./components/HouseList/HouseList";
+import Footer from "./components/Footer/Footer";
+import CreateNewHouse from "./components/ActionHouses/CreateNewHouse";
 
 function App() {
   return (
@@ -16,13 +17,15 @@ function App() {
       <Header />
       <ToastContainer />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/page/:pageNumber" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/host-dashboard" element={<HostDashboard />} />
-        <Route exact path="/house/:houseId" element={<HouseDetail />} />
+        <Route index path="/" element={<Home />} />
+        <Route index path="/page/:pageNumber" element={<Home />} />
+        <Route index path="/login" element={<Login />} />
+        <Route index path="/register" element={<Register />} />
+        <Route index path="/dashboard" element={<Dashboard />} />
+        <Route index path="/house/new" element={<CreateNewHouse />} />
+        <Route index path="/house/:houseId" element={<HouseDetail />} />
       </Routes>
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

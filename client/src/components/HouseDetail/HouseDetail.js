@@ -10,26 +10,39 @@ import { FaCampground } from "react-icons/fa";
 import DOMPurify from "dompurify";
 import ShowMoreText from "react-show-more-text";
 import "./HouseDetail.css";
+import DetailCarousel from "./DetailCarousel";
+import { formatCurrency } from "../../utils";
 
 export default function HouseDetail() {
-  const [isScroll, setIsScroll] = useState(false);
-  const setFixHeader = () => {
-    // console.log(window.scrollY);
-    if (window.scrollY >= 700) {
-      setIsScroll(true);
-    } else {
-      setIsScroll(false);
-    }
-  };
-  useEffect(() => {
-    setFixHeader();
-    window.addEventListener("scroll", setFixHeader);
-  });
-  let param = useParams();
+  // const [isScroll, setIsScroll] = useState(false);
   const [house, setHouse] = useState({});
+
+  // const formatCurrenryVND = (number) => {
+  //   number.toLocaleString("vi-VN", {
+  //     style: "currency",
+  //     currency: "VND",
+  //   });
+  // };
+  // const setFixHeader = () => {
+  //   // console.log(window.scrollY);
+  //   if (window.scrollY >= 700) {
+  //     setIsScroll(true);
+  //   } else {
+  //     setIsScroll(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   setFixHeader();
+  //   window.addEventListener("scroll", setFixHeader);
+  // }, []);
+  let param = useParams();
+
   useEffect(() => {
     loadHouseById();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log("re-render");
 
   const loadHouseById = async () => {
     let h = await getHouseById(param.houseId);
@@ -49,12 +62,14 @@ export default function HouseDetail() {
         <h1>{house.title}</h1>
       </div> */}
 
-      <div className="detail pt-5">
+      <div className="detail">
         <div className="detail__slide">
-          <img
-            src="https://cdn.luxstay.com/users/35478/hjldv7VD-BPTZPsiElahqjO7.jpg"
-            alt=""
-          />
+          {/* {house.images} */}
+          {/* {console.log(JSON.parse(house.images))} */}
+          {/*{console.log(typeof house.images)}
+          {console.log(JSON.parse('["a", "b", "c"]'))} */}
+          {/* {house} */}
+          <DetailCarousel data={house.images} />
         </div>
 
         <div className="detail__info">
@@ -66,7 +81,7 @@ export default function HouseDetail() {
               </p>
               <p className="detail__left-header_space">
                 <CgDetailsMore /> {house.num_beds} giường,
-                {house.num_bathrooms} phòng tắm, tối đa {house.max_guest} người
+                {house.num_bathrooms} phòng tắm, tối đa {house.max_guests} người
               </p>
               {/* <div dangerouslySetInnerHTML={{ __html: dirty }}></div> */}
               {/* <div
@@ -228,12 +243,15 @@ export default function HouseDetail() {
 
           <div className="detail__info-right">
             <div
-              className={
-                isScroll ? "detail__right-price active" : "detail__right-price"
-              }
+              // className={
+              //   isScroll ? "detail__right-price active" : "detail__right-price"
+              // }
+              className={"detail__right-price"}
             >
               <p className="detail__price-info">
-                <strong>{house.price} đ</strong>/1 đêm
+                <strong>{house.price && formatCurrency(house.price)}</strong>/1
+                đêm
+                {/* <strong>{house.price}</strong>/1 đêm */}
               </p>
               <button className="detail__price-book">Đặt ngay</button>
             </div>

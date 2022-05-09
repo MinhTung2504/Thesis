@@ -16,6 +16,7 @@ export default function HouseList() {
   // console.log(page);
   useEffect(() => {
     loadAllHouses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const loadAllHouses = async () => {

@@ -32,7 +32,7 @@ export default function Header() {
         <div className="d-flex ">
           {auth !== null && (
             <>
-              <Link className="nav-link" to="host-dashboard">
+              <Link className="nav-link" to="dashboard">
                 Dashboard
               </Link>
             </>
