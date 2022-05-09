@@ -60,7 +60,7 @@ export default function CreateNewHouse() {
 
     try {
       let res = await createNewHouse(token, houseData);
-      console.log(res);
+      // console.log(res);
       toast.success("New House is posted");
       setTimeout(() => {
         window.location.reload();
@@ -84,19 +84,14 @@ export default function CreateNewHouse() {
       setImageSelected((prevImages) => prevImages.concat(imageArray));
       Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
     }
-    // for (let i = 0; i < files.length; i++) {
-    //   if (!files[i].type.match("image")) continue;
-    //   const imgReader = new FileReader();
-    //   imgReader.
-    // }
   };
-  const handleBodyContent = (e) => {
-    setValues({ ...values, content: e });
-  };
+  // const handleBodyContent = (e) => {
+  //   setValues({ ...values, content: e });
+  // };
   return (
     <>
       <div className="container-fluid bg-secondary p-5 text-center">
-        <h2 className="p-5">Add hotel</h2>
+        <h2 className="p-5">Create New House</h2>
       </div>
       <div className="container-fluid">
         <div className="row">
@@ -106,7 +101,7 @@ export default function CreateNewHouse() {
               values={values}
               setValues={setValues}
               handleChange={handleChange}
-              handleBodyContent={handleBodyContent}
+              // handleBodyContent={handleBodyContent}
               handleImageChange={handleImageChange}
               handleSubmit={handleSubmit}
             />
@@ -125,14 +120,16 @@ export default function CreateNewHouse() {
                     </div>
                   );
                 })}
-              <button
-                onClick={() => {
-                  setImageSelected([]);
-                  setValues({ ...values, image: "" });
-                }}
-              >
-                Delete Images
-              </button>
+              {image && (
+                <button
+                  onClick={() => {
+                    setImageSelected([]);
+                    setValues({ ...values, image: "" });
+                  }}
+                >
+                  Delete Images
+                </button>
+              )}
             </div>
           </div>
         </div>

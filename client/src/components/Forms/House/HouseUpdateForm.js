@@ -1,15 +1,9 @@
 import React from "react";
 import ReactQuill from "react-quill";
 
-export default function HouseCreateForm(props) {
-  const {
-    values,
-    setValues,
-    handleChange,
-    // handleBodyContent,
-    handleImageChange,
-    handleSubmit,
-  } = props;
+export default function HouseUpdateForm(props) {
+  const { values, handleChange, handleSubmit, setValues, handleBodyContent } =
+    props;
 
   const {
     title,
@@ -25,7 +19,7 @@ export default function HouseCreateForm(props) {
   } = values;
   return (
     <form onSubmit={handleSubmit}>
-      <div className="form-group">
+      {/* <div className="form-group">
         <label className="m-2" htmlFor="inputTitle">
           Images:
         </label>
@@ -36,7 +30,7 @@ export default function HouseCreateForm(props) {
           onChange={handleImageChange}
           name="image"
         ></input>
-      </div>
+      </div> */}
       <div className="form-group">
         {/* <label className="btn btn-outline-secondary btn-lock m-2 text-left">
           Image
@@ -68,8 +62,9 @@ export default function HouseCreateForm(props) {
         </label>
         <ReactQuill
           className="form-control m-2"
+          // onChange={(value) => setValues({ ...values, content: value })}
+          // onChange={handleBodyContent}
           value={content}
-          onChange={(value) => setValues({ ...values, content: value })}
         />
       </div>
 

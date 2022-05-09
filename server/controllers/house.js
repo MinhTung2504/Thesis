@@ -41,13 +41,13 @@ export const createHouse = async (req, res) => {
       size: req.body.size,
       image: imageUrls[0],
       images: imageUrls,
-      // host: req.user._id,
+      host: req.user._id,
     });
     await house.save();
     res.json(house);
   } catch (error) {
     console.log(error);
-    res.status(StatusCodes.BAD_REQUEST).j;
+    res.status(StatusCodes.BAD_REQUEST);
     res.json({
       error: error.message,
     });
@@ -99,4 +99,79 @@ export const getHouseById = async (req, res) => {
   let house = await House.findById(req.params.houseId).exec();
   console.log(house);
   res.json(house);
+};
+
+export const deleteHouse = async (req, res) => {
+  let deleted = await House.findByIdAndDelete(req.params.houseId).exec();
+  res.json(deleted);
+};
+
+export const getHostHouses = async (req, res) => {
+  // let hostHouses = await House.find({ host: req.user._id })
+  // .select("-image.data")
+  // .populate("host", "_id name")
+  // .count();
+  // .exec();
+  // res.json(hostHouses);
+  try {
+    const page = parseInt(req.query.page) || PAGE_LIST_HOUSE;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST_HOUSE;
+    // const pageSize = parseInt(req.query.limit) || 2;
+    const skip = (page - 1) * pageSize;
+    if (myCache.has("totalHostHouse")) {
+      var total;
+      total = myCache.get("totalHostHouse");
+    } else {
+      total = await House.find({ host: req.user._id }).count();
+      myCache.set("totalHostHouse", total);
+    }
+    const pages = Math.ceil(total / pageSize);
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    const result = await House.find({ host: req.user._id })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize);
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      count: result.length,
+      page,
+      pages,
+      data: result,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      message: "Server Error",
+    });
+  }
+};
+
+export const updateHouse = async (req, res) => {
+  try {
+    let data = req.body;
+
+    // console.log(data);
+    // console.log(req.params.houseId);
+
+    let updated = await House.findByIdAndUpdate(req.params.houseId, data, {
+      new: true,
+    });
+    res.json(updated);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .send("House update failed. Try again!");
+  }
 };
