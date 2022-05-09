@@ -102,7 +102,7 @@ export const getHouseById = async (req, res) => {
 };
 
 export const deleteHouse = async (req, res) => {
-  let deleted = await House.findByIdAndDelete(req.params.houseId).exec();
+  let deleted = await House.deleteById(req.params.houseId).exec();
   res.json(deleted);
 };
 

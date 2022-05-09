@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { REG_EXP_PHONE } from "../utils/constants";
+import mongoose_delete from "mongoose-delete";
 
 const { Schema } = mongoose;
 const { ObjectId } = mongoose.Schema;
@@ -73,5 +74,7 @@ const houseSchema = new Schema(
   },
   { timestamps: true }
 );
+
+houseSchema.plugin(mongoose_delete, { overrideMethods: "all" });
 
 export default mongoose.model("House", houseSchema);
