@@ -27,6 +27,7 @@ export default function HouseItem({ h }) {
             Price: {formatCurrency(h.price)}
           </span>
           <span>City: {h.city}</span> <span>Max Guests: {h.max_guests}</span>
+          <span>Property Size: {h.size} m2</span>
         </div>
       </li>
     </Link>
