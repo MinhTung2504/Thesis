@@ -2,8 +2,7 @@ import React from "react";
 import ReactQuill from "react-quill";
 
 export default function HouseUpdateForm(props) {
-  const { values, handleChange, handleSubmit, setValues, handleBodyContent } =
-    props;
+  const { values, handleChange, handleSubmit, setValues } = props;
 
   const {
     title,
@@ -17,6 +16,8 @@ export default function HouseUpdateForm(props) {
     num_bedrooms,
     num_bathrooms,
   } = values;
+
+  console.log(values);
   return (
     <form onSubmit={handleSubmit}>
       {/* <div className="form-group">
@@ -63,7 +64,9 @@ export default function HouseUpdateForm(props) {
         <ReactQuill
           className="form-control m-2"
           // onChange={(value) => setValues({ ...values, content: value })}
-          // onChange={handleBodyContent}
+          onChange={(value) =>
+            setValues((prev) => ({ ...prev, content: value }))
+          }
           value={content}
         />
       </div>

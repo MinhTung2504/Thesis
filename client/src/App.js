@@ -27,7 +27,7 @@ function App() {
         <Route exact path="/house/:houseId" element={<HouseDetail />} />
         <Route exact path="/house/edit/:houseId" element={<UpdateHouse />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }

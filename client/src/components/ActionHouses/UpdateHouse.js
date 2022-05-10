@@ -50,23 +50,14 @@ export default function UpdateHouse() {
 
   const loadHouseForUpdate = async () => {
     let res = await getHouseById(params.houseId);
-    console.log(res.data);
-    // const datares = res.data;
-    // console.log(datares);
-    // console.log(...datares);
-    res.data && setValues({ ...values, ...res.data });
-    // setValues({
-    //   ...values,
-    //   title: res.data.title,
-    //   content: res.data.content,
-    //   address: res.data.address,
-    //   city: res.data.city,
-    //   price: res.data.price,
-    //   num_beds: res.data.num_beds,
-    //   size: res.data.size,
-    //   max_guests: res.data.max_guests,
-    //   num_bedrooms: res.data.num_bedrooms,
-    //   num_bathrooms: res.data.num_bathrooms,
+    // console.log(res.data);
+    // res.data && setValues({ ...values, ...res.data });
+    const newValues = { ...values, ...res.data };
+    // console.log(newValues);
+    setValues(newValues);
+    // setValues((prev) => {
+    //   console.log({ ...prev, ...res.data });
+    //   return { ...prev, ...res.data };
     // });
   };
 
@@ -120,7 +111,6 @@ export default function UpdateHouse() {
               setValues={setValues}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
-              // handleBodyContent={handleBodyContent}
             />
             <pre>{JSON.stringify(values, null, 4)}</pre>
           </div>

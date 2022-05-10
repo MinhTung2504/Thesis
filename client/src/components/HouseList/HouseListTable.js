@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getHostHouses } from "../../actions/house";
 import { formatCurrency } from "../../utils";
-import HouseItem from "../HouseItem/HouseItem";
 import Pagination from "../Pagination/Pagination";
 import { useSelector } from "react-redux";
 // import "./HouseList.css";
