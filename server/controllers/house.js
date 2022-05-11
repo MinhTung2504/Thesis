@@ -96,14 +96,28 @@ export const getAllHouses = async (req, res) => {
 };
 
 export const getHouseById = async (req, res) => {
-  let house = await House.findById(req.params.houseId).exec();
-  console.log(house);
-  res.json(house);
+  try {
+    let house = await House.findById(req.params.houseId).exec();
+    console.log(house);
+    res.json(house);
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: "error",
+      message: "House Not Found",
+    });
+  }
 };
 
 export const deleteHouse = async (req, res) => {
-  let deleted = await House.deleteById(req.params.houseId).exec();
-  res.json(deleted);
+  try {
+    let deleted = await House.deleteById(req.params.houseId).exec();
+    res.json(deleted);
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      status: "error",
+      message: "House Not Found To Delete",
+    });
+  }
 };
 
 export const getHostHouses = async (req, res) => {

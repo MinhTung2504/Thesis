@@ -3,10 +3,15 @@ import { useParams } from "react-router-dom";
 import { getHouseById } from "../../actions/house";
 import { GoLocation } from "react-icons/go";
 import { CgDetailsMore, CgSmartHomeRefrigerator } from "react-icons/cg";
-import { MdWifi, MdMicrowave } from "react-icons/md";
+import {
+  MdWifi,
+  MdMicrowave,
+  MdOutlineAirplay,
+  MdOutlineOtherHouses,
+} from "react-icons/md";
 import { BiRestaurant } from "react-icons/bi";
-import { GiGasStove } from "react-icons/gi";
-import { FaCampground } from "react-icons/fa";
+import { GiGasStove, GiWashingMachine } from "react-icons/gi";
+import { FaAirbnb, FaCampground } from "react-icons/fa";
 import DOMPurify from "dompurify";
 import ShowMoreText from "react-show-more-text";
 import "./HouseDetail.css";
@@ -80,8 +85,12 @@ export default function HouseDetail() {
                 <GoLocation /> {house.address}
               </p>
               <p className="detail__left-header_space">
-                <CgDetailsMore /> {house.num_beds} giường,
-                {house.num_bathrooms} phòng tắm, tối đa {house.max_guests} người
+                <CgDetailsMore /> {house.num_beds} beds,
+                {house.num_bathrooms} bathrooms, maximum {house.max_guests}{" "}
+                guests
+              </p>
+              <p className="detail__left-header_space">
+                <MdOutlineOtherHouses /> Property Size: {house.size} m2
               </p>
               {/* <div dangerouslySetInnerHTML={{ __html: dirty }}></div> */}
               {/* <div
@@ -100,41 +109,41 @@ export default function HouseDetail() {
 
             <div className="detail__left-convenient">
               <div className="detail__convenient-title">
-                <h3>Tiện ích chỗ ở</h3>
-                <p>Giới thiệu về các tiện nghi và dịch vụ tại nơi lưu trú</p>
+                <h3>Amenities</h3>
+                <p>Amenities and services at the accommodation</p>
               </div>
               <ul className="detail__convenient-list">
                 <li className="detail__convenient-list-item">
-                  <h4>Tiện ích</h4>
+                  <h4>Facilities</h4>
                   <ul>
                     <li>
                       <MdWifi />
                       <span>Wifi</span>
                     </li>
                     <li>
-                      <BiRestaurant />
-                      <span>Nhà hàng</span>
+                      <MdOutlineAirplay />
+                      <span>TV</span>
                     </li>
                     <li>
-                      <FaCampground />
-                      <span>Sân chơi</span>
+                      <GiWashingMachine />
+                      <span>Washing machine</span>
                     </li>
                   </ul>
                 </li>
                 <li className="detail__convenient-list-item">
-                  <h4>Tiện ích bếp</h4>
+                  <h4>Kitchen Facilities</h4>
                   <ul>
                     <li>
                       <GiGasStove />
-                      <span>Bếp điện</span>
+                      <span>Electric stove</span>
                     </li>
                     <li>
                       <MdMicrowave />
-                      <span>Wifi</span>
+                      <span>Microwave</span>
                     </li>
                     <li>
                       <CgSmartHomeRefrigerator />
-                      <span>Tủ lạnh</span>
+                      <span>Fridge/ Freezer</span>
                     </li>
                   </ul>
                 </li>
@@ -143,27 +152,27 @@ export default function HouseDetail() {
 
             <div className="detail__left-policy">
               <div className="detail__policy-title">
-                <h4>Nội quy và chính sách về chỗ ở</h4>
+                <h4>House Rules & Cancellation Policy</h4>
               </div>
               <div className="detail__left-cancel">
-                <h5>Chính sách hủy phòng</h5>
+                <h5>Cancellation policy</h5>
                 <span>
-                  <strong>Nghiêm ngặt:</strong> Hoàn lại 50% giá trị đặt phòng
-                  khi khách hàng huỷ phòng trong vòng 48h sau khi đặt phòng
-                  thành công và trước 14 ngày so với thời gian check-in. Sau đó,
-                  hủy phòng trước 14 ngày so với thời gian check-in, được hoàn
-                  lại 50% tổng số tiền đã trả (trừ phí dịch vụ).
+                  <strong>Flexible:</strong> Guests will receive a full refund
+                  if cancel within 48 hours of booking and at least 24 hours
+                  before check-in. If guests cancel after 48 hours of booking
+                  and at least 24 hours before check-in, the service fee is
+                  non-refundable.
                 </span>
                 <div className="detail__left-cancel_rule">
                   <div className="cancel__rule-title">
                     <div>
-                      <p>Đặt phòng thành công</p>
+                      <p>Reservation Submit</p>
                     </div>
                     <div>
-                      <p>Sau 48h</p>
+                      <p>48 hours later</p>
                     </div>
                     <div>
-                      <p>14 ngày trước check-in</p>
+                      <p>a day before check-in</p>
                     </div>
                     <div>
                       <p>Check-in</p>
@@ -176,7 +185,7 @@ export default function HouseDetail() {
                         <div className="rule-process__line is-top"></div>
                         <div className="rule-process__line is-bottom"></div>
                       </div>
-                      <p className="rule-process__txt">Hoàn tiền 50%</p>
+                      <p className="rule-process__txt">Full refund</p>
                     </div>
                     <div className="rule-process">
                       <div
@@ -193,7 +202,7 @@ export default function HouseDetail() {
                         ></div>
                       </div>
                       <p className="rule-process__txt">
-                        Hoàn tiền 50% (trừ phí dịch vụ)
+                        Full refund, minus the service fee
                       </p>
                     </div>
                     <div className="rule-process" style={{ width: "280px" }}>
@@ -210,7 +219,10 @@ export default function HouseDetail() {
                           style={{ background: "rgb(246, 94, 57)" }}
                         ></div>
                       </div>
-                      <p className="rule-process__txt">Không hoàn tiền</p>
+                      <p className="rule-process__txt">
+                        50% Refund, minus the first night and the service fee
+                        and other free
+                      </p>
                     </div>
                     <div className="rule-process is-last">
                       <div
@@ -230,13 +242,12 @@ export default function HouseDetail() {
                     </div>
                   </div>
                 </div>
-                <h5>Lưu ý đặc biệt</h5>
-                <span>
-                  Vui lòng xuất trình giấy tờ tùy thân để Home thực hiện thủ tục
-                  khai báo tạm trú
-                </span>
-                <span>Quý khách vui lòng không checkout muộn hơn 12 giờ</span>
-                <span> Quý khách vui long không gây ồn sau 22 giờ</span>
+                <h5>Special Notes</h5>
+                <span>No smoking in the apartment</span>
+                <span>Do not use stimulants</span>
+                <span>Please keep silent after 10pm</span>
+                <span>Do not bring pets</span>
+                <span>Please turn off the device when you leave the room</span>
               </div>
             </div>
           </div>
@@ -249,11 +260,11 @@ export default function HouseDetail() {
               className={"detail__right-price"}
             >
               <p className="detail__price-info">
-                <strong>{house.price && formatCurrency(house.price)}</strong>/1
-                đêm
+                <strong>{house.price && formatCurrency(house.price)}</strong>/
+                night
                 {/* <strong>{house.price}</strong>/1 đêm */}
               </p>
-              <button className="detail__price-book">Đặt ngay</button>
+              <button className="detail__price-book">Book now</button>
             </div>
           </div>
         </div>

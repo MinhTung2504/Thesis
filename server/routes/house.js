@@ -7,7 +7,7 @@ import {
   getHouseById,
   updateHouse,
 } from "../controllers/house";
-import { auth, housesOfHost, requireSignin } from "../middlewares";
+import { auth, authPage } from "../middlewares";
 const upload = require("../utils/multer");
 
 const router = express.Router();
@@ -20,17 +20,23 @@ const router = express.Router();
 //   auth,
 //   createHouse
 // );
-router.post("/house/new", upload.array("image"), auth, createHouse);
+router.post(
+  "/house/new",
+  upload.array("image"),
+  auth,
+  authPage(["host"]),
+  createHouse
+);
 // router.get("/host/houses", requireSignin, auth, getHostHouses);
-router.get("/host/houses", auth, getHostHouses);
+router.get("/host/houses", auth, authPage(["host"]), getHostHouses);
 
 // router.get("/", getAllHouses);
 router.get("/houses", getAllHouses);
 router.get("/house/:houseId", getHouseById);
 // router.put("/house/update/:houseId", requireSignin, updateHouse);
-router.put("/house/update/:houseId", auth, updateHouse);
+router.put("/house/update/:houseId", auth, authPage(["host"]), updateHouse);
 // router.delete("/house/delete/:houseId", requireSignin, deleteHouse);
-router.delete("/house/delete/:houseId", auth, deleteHouse);
+router.delete("/house/delete/:houseId", auth, authPage(["host"]), deleteHouse);
 
 // export default router;
 module.exports = router;

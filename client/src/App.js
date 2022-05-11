@@ -11,6 +11,7 @@ import HouseDetail from "./components/HouseDetail/HouseDetail";
 import Footer from "./components/Footer/Footer";
 import CreateNewHouse from "./components/ActionHouses/CreateNewHouse";
 import UpdateHouse from "./components/ActionHouses/UpdateHouse";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -18,14 +19,42 @@ function App() {
       <Header />
       <ToastContainer />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/page/:pageNumber" element={<Home />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route exact path="/house/new" element={<CreateNewHouse />} />
-        <Route exact path="/house/:houseId" element={<HouseDetail />} />
-        <Route exact path="/house/edit/:houseId" element={<UpdateHouse />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/page/:pageNumber" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/house/new"
+          element={
+            <PrivateRoute>
+              <CreateNewHouse />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/house/:houseId"
+          element={
+            <PrivateRoute>
+              <HouseDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/house/edit/:houseId"
+          element={
+            <PrivateRoute>
+              <UpdateHouse />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       <Footer />
     </BrowserRouter>

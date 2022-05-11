@@ -4,11 +4,11 @@ import jwt from "jsonwebtoken";
 import House from "../models/house";
 
 // req.user
-export const requireSignin = expressjwt({
-  // secret, expiryDate
-  secret: process.env.JWT_SECRET,
-  algorithms: ["HS256"],
-});
+// const requireSignin = expressjwt({
+//   secret, expiryDate
+//   secret: process.env.JWT_SECRET,
+//   algorithms: ["HS256"],
+// });
 
 export const auth = async (req, res, next) => {
   const token = req.header("Authorization").replace("Bearer ", "");
@@ -26,11 +26,22 @@ export const auth = async (req, res, next) => {
   }
 };
 
-export const housesOfHost = async (req, res, next) => {
-  let house = await House.findById(req.params.houseId).exec();
-  let hostHouse = house.host._id.toString() === req.user._id.toString();
-  if (!hostHouse) {
-    return res.status(403).send("Unauthorized");
-  }
-  next();
+// export const housesOfHost = async (req, res, next) => {
+//   let house = await House.findById(req.params.houseId).exec();
+//   let hostHouse = house.host._id.toString() === req.user._id.toString();
+//   if (!hostHouse) {
+//     return res.status(403).send("Unauthorized");
+//   }
+//   next();
+// };
+
+export const authPage = (permission) => {
+  return (req, res, next) => {
+    const { role } = req.user;
+    if (!permission.includes(role)) {
+      return res.status(401).json("You don't have permission");
+    }
+
+    next();
+  };
 };
