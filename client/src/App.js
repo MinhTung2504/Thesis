@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // components
-import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
@@ -12,15 +11,16 @@ import Footer from "./components/Footer/Footer";
 import CreateNewHouse from "./components/ActionHouses/CreateNewHouse";
 import UpdateHouse from "./components/ActionHouses/UpdateHouse";
 import PrivateRoute from "./components/PrivateRoute";
+import SearchHouse from "./components/SearchHouse/SearchHouse";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/page/:pageNumber" element={<Home />} />
+        {/* <Route path="/page/:pageNumber" element={<Home />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
@@ -55,6 +55,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/search-house" element={<SearchHouse />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -23,7 +23,7 @@ export default function HouseList() {
     setLoading(true);
     try {
       const res = await getAllHouses(page);
-      console.log(res);
+      // console.log(res);
       // const { data, pages: totalPages } = await res.json();
 
       setPages(res.data.pages);
@@ -49,6 +49,13 @@ export default function HouseList() {
         <h3 className="error-text">{error}</h3>
       ) : (
         <>
+          {/* <div className="listItem__title">
+            <h2>Gợi ý khám phá</h2>
+            <p>
+              Để mỗi chuyến đi là một hành trình truyền cảm hứng, mỗi căn phòng
+              là một khoảng trời an yên
+            </p>
+          </div> */}
           <div className="listItem__title">
             <h2>Gợi ý khám phá</h2>
             <p>
@@ -56,11 +63,13 @@ export default function HouseList() {
               là một khoảng trời an yên
             </p>
           </div>
-          <ul className="listItem__room">
-            {houses.map((h) => (
-              <HouseItem key={h._id} h={h} />
-            ))}
-          </ul>
+          <div className="listItem__room">
+            <div className="row row-cols-1 row-cols-md-3 g-4">
+              {houses.map((h) => (
+                <HouseItem key={h._id} h={h} />
+              ))}
+            </div>
+          </div>
           <Pagination page={page} pages={pages} changePage={setPage} />
         </>
       )}

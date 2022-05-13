@@ -4,3 +4,5 @@ export const formatCurrency = (num) => {
     currency: "VND",
   });
 };
+
+export const ROLES = { HOST: "host", ADMIN: "admin", USER: "user" };

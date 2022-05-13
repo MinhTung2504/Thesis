@@ -3,33 +3,28 @@ import { Link } from "react-router-dom";
 import { formatCurrency } from "../../utils";
 import "./HouseItem.css";
 
-// const number = 12342;
-// console.log(
-//   number.toLocaleString("vi-VN", {
-//     style: "currency",
-//     currency: "VND",
-//   })
-// );
-// const formatCurrency = (num) => {
-//   return num.toLocaleString("vi-VN", {
-//     style: "currency",
-//     currency: "VND",
-//   });
-// };
 export default function HouseItem({ h }) {
   return (
     <Link className="listItem__room-list" to={`/house/${h._id}`}>
-      <li key={h.id}>
-        <img src={h.image} alt="" />
-        <div className="listItem__room-info">
-          <h3 className="listItem__room-info_title">{h.title}</h3>
-          <span className="listItem__room-info_price">
-            Price: {formatCurrency(h.price)}
-          </span>
-          <span>City: {h.city}</span> <span>Max Guests: {h.max_guests}</span>
-          <span>Property Size: {h.size} m2</span>
+      <div className="col">
+        <div key={h.id} className="card" style={{ height: "600px" }}>
+          <img
+            src={h.image}
+            alt="card-img-top"
+            className="card-img-top"
+            style={{ width: "100%", height: "50%" }}
+          />
+          <div className="card-body text-dark">
+            <h3 className="card-title" style={{ fontSize: "1.5rem" }}>
+              {h.title}
+            </h3>
+            <p className="card-text">Price: {formatCurrency(h.price)}</p>
+            <p className="card-text">City: {h.city}</p>{" "}
+            <p className="card-text">Max Guests: {h.max_guests}</p>
+            <p className="card-text">Property Size: {h.size} m2</p>
+          </div>
         </div>
-      </li>
+      </div>
     </Link>
   );
 }

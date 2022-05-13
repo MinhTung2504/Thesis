@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "antd/dist/antd.css";
 import "react-quill/dist/quill.snow.css";

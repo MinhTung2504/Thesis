@@ -3,6 +3,7 @@ import { Carousel } from "react-bootstrap";
 import image1 from "../../assets/images/carousel-1.jpg";
 import image2 from "../../assets/images/carousel-2.jpg";
 import image3 from "../../assets/images/carousel-3.jpg";
+import Header from "../Header/Header";
 import HouseList from "../HouseList/HouseList";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
       {/* <div className="container-fluid p-5 text-center">
         <h1>All hotels</h1>
       </div> */}
+      <Header />
       <Carousel fade>
         <Carousel.Item
           style={{

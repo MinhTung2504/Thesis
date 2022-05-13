@@ -6,8 +6,8 @@ export const getAllHouses = async (page) =>
 export const getHouseById = async (houseId) =>
   await axios.get(`${process.env.REACT_APP_API}/house/${houseId}`);
 
-export const getHostHouses = async (token) =>
-  await axios.get(`${process.env.REACT_APP_API}/host/houses`, {
+export const getHostHouses = async (token, page) =>
+  await axios.get(`${process.env.REACT_APP_API}/host/houses?page=${page}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

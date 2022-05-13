@@ -26,7 +26,7 @@ export default function HouseDashboard() {
         </div>
       </div>
       <div className="row">
-        <div className="col-md-12">
+        <div className="table-responsive">
           <HouseListTable handleHouseDelete={handleHouseDelete} />
         </div>
       </div>
