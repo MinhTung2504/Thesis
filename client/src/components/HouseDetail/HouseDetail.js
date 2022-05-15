@@ -9,14 +9,13 @@ import {
   MdOutlineAirplay,
   MdOutlineOtherHouses,
 } from "react-icons/md";
-import { BiRestaurant } from "react-icons/bi";
 import { GiGasStove, GiWashingMachine } from "react-icons/gi";
-import { FaAirbnb, FaCampground } from "react-icons/fa";
 import DOMPurify from "dompurify";
 import ShowMoreText from "react-show-more-text";
 import "./HouseDetail.css";
 import DetailCarousel from "./DetailCarousel";
 import { formatCurrency } from "../../utils";
+import Header from "../Header/Header";
 
 export default function HouseDetail() {
   // const [isScroll, setIsScroll] = useState(false);
@@ -61,6 +60,7 @@ export default function HouseDetail() {
   // document.getElementById("house_content").innerHTML = house.content;
   return (
     <>
+      <Header />
       {/* <div className="container-fluid p-5 text-center">
         <h1>House Detail {param.houseId}</h1>
         <pre>{JSON.stringify(house)}</pre>
