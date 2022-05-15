@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../actions/auth";
 import "./auth.css";
+import Header from "../Header/Header";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -32,25 +33,7 @@ export default function Register() {
 
   return (
     <>
-      {/* <div className="container-fluid bg-secondary p-5 text-center">
-        <h1>Register</h1>
-      </div>
-
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 offset-md-3">
-            <RegisterForm
-              handleSubmit={handleSubmit}
-              name={name}
-              setName={setName}
-              email={email}
-              setEmail={setEmail}
-              password={password}
-              setPassword={setPassword}
-            />
-          </div>
-        </div>
-      </div> */}
+      <Header />
       <section className="background-radial-gradient overflow-hidden">
         <div className="container px-4 py-5 px-md-5 text-center text-lg-start my-5 ">
           <div className="row gx-lg-5 align-items-center mb-5">

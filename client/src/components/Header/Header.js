@@ -108,12 +108,12 @@ export default function Header() {
             {auth === null && (
               <>
                 <div className="d-flex">
-                  <Link className="nav-link" to="login">
+                  <Link className="nav-link" to="/login">
                     Login
                   </Link>
                 </div>
                 <div className="d-flex">
-                  <Link className="nav-link" to="register">
+                  <Link className="nav-link" to="/register">
                     Register
                   </Link>
                 </div>
