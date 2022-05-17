@@ -12,7 +12,7 @@ export default function Home() {
       {/* <div className="container-fluid p-5 text-center">
         <h1>All hotels</h1>
       </div> */}
-      <Header />
+      <Header type="position-fixed opacity-75" />
       <Carousel fade>
         <Carousel.Item
           style={{
@@ -85,7 +85,9 @@ export default function Home() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-
+      <div className="text-center mt-5">
+        <h2>Feature Properties</h2>
+      </div>
       <HouseList />
     </>
   );

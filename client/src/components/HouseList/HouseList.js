@@ -56,13 +56,6 @@ export default function HouseList() {
               là một khoảng trời an yên
             </p>
           </div> */}
-          <div className="listItem__title">
-            <h2>Gợi ý khám phá</h2>
-            <p>
-              Để mỗi chuyến đi là một hành trình truyền cảm hứng, mỗi căn phòng
-              là một khoảng trời an yên
-            </p>
-          </div>
           <div className="listItem__room">
             <div className="row row-cols-1 row-cols-md-3 g-4">
               {houses.map((h) => (
