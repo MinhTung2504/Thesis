@@ -6,7 +6,10 @@ import "./Header.css";
 import { FaRegBell } from "react-icons/fa";
 import { ROLES } from "../../utils";
 
-export default function Header() {
+export default function Header(typeofHeader) {
+  // console.log(typeofHeader);
+  const type = typeofHeader.type;
+  // console.log(t);
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => ({ ...state }));
   // console.log(auth.user.role);
@@ -23,7 +26,8 @@ export default function Header() {
   return (
     <>
       <nav
-        className="navbar navbar-expand-lg navbar-dark bg-dark position-fixed opacity-75 w-100 p-3"
+        className={`navbar navbar-expand-lg navbar-dark bg-dark ${type} w-100 p-3`}
+        // className="navbar navbar-expand-lg navbar-dark bg-dark position-fixed opacity-75 w-100 p-3"
         style={{ zIndex: 1000 }}
       >
         <div className="container-fluid">
@@ -75,12 +79,12 @@ export default function Header() {
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
-                      <Link class="dropdown-item" to="/">
+                      <Link class="dropdown-item" to="/user-profile">
                         Your Profile
                       </Link>
                     </li>
                     <li>
-                      <Link class="dropdown-item" to="/">
+                      <Link class="dropdown-item" to="/user-booking">
                         Booking History
                       </Link>
                     </li>

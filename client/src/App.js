@@ -13,6 +13,8 @@ import UpdateHouse from "./components/ActionHouses/UpdateHouse";
 import PrivateRoute from "./components/PrivateRoute";
 import SearchHouse from "./components/SearchHouse/SearchHouse";
 import NotFound from "./components/NotFound";
+import UserProfile from "./components/UserProfile/UserProfile";
+import FilterHouses from "./components/FilterHouses/FilterHouses";
 
 function App() {
   return (
@@ -57,8 +59,10 @@ function App() {
         />
         <Route path="/search-house" element={<SearchHouse />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/houses-filter" element={<FilterHouses />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }

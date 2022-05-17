@@ -16,6 +16,8 @@ import "./HouseDetail.css";
 import DetailCarousel from "./DetailCarousel";
 import { formatCurrency } from "../../utils";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
+import { DatePicker } from "antd";
 
 export default function HouseDetail() {
   // const [isScroll, setIsScroll] = useState(false);
@@ -60,7 +62,7 @@ export default function HouseDetail() {
   // document.getElementById("house_content").innerHTML = house.content;
   return (
     <>
-      <Header />
+      <Header type="position-fixed opacity-75" />
       {/* <div className="container-fluid p-5 text-center">
         <h1>House Detail {param.houseId}</h1>
         <pre>{JSON.stringify(house)}</pre>
@@ -150,7 +152,7 @@ export default function HouseDetail() {
               </ul>
             </div>
 
-            <div className="detail__left-policy">
+            {/* <div className="detail__left-policy">
               <div className="detail__policy-title">
                 <h4>House Rules & Cancellation Policy</h4>
               </div>
@@ -249,6 +251,111 @@ export default function HouseDetail() {
                 <span>Do not bring pets</span>
                 <span>Please turn off the device when you leave the room</span>
               </div>
+            </div> */}
+
+            <div className="detail__left-policy">
+              <div className="detail__policy-title">
+                <h4>House Rules & Cancellation Policy</h4>
+              </div>
+              <div className="detail__left-cancel">
+                <h5>Cancellation policy</h5>
+                <span>
+                  <strong>Flexible:</strong> Guests will receive a full refund
+                  if cancel within 48 hours of booking and at least 24 hours
+                  before check-in. If guests cancel after 48 hours of booking
+                  and at least 24 hours before check-in, the service fee is
+                  non-refundable.
+                </span>
+                <div className="detail__left-cancel_rule">
+                  {/* <div className="cancel__rule-title">
+                    <div>
+                      <p>Reservation Submit</p>
+                    </div>
+                    <div>
+                      <p>48 hours later</p>
+                    </div>
+                    <div>
+                      <p>a day before check-in</p>
+                    </div>
+                    <div>
+                      <p>Check-in</p>
+                    </div>
+                  </div> */}
+                  <div className="cancel__rule-content">
+                    <div className="rule-process">
+                      <div className="rule-process__symbol is-first">
+                        <div className="check-mark"></div>
+                        <div className="rule-process__line is-top"></div>
+                        <div className="rule-process__line is-bottom"></div>
+                      </div>
+                      <p className="rule-process__txt">Full refund</p>
+                      <p className="rule-process__title">Reservation Submit</p>
+                    </div>
+                    <div className="rule-process">
+                      <div
+                        className="rule-process__symbol"
+                        style={{ background: "rgb(255, 181, 0)" }}
+                      >
+                        <div
+                          className="rule-process__line is-top"
+                          style={{ background: "rgb(255, 181, 0)" }}
+                        ></div>
+                        <div
+                          className="rule-process__line is-bottom"
+                          style={{ background: "rgb(255, 181, 0)" }}
+                        ></div>
+                      </div>
+                      <p className="rule-process__txt">
+                        Full refund, minus the service fee
+                      </p>
+                      <p class="rule-process__title">48 hours later</p>
+                    </div>
+                    <div className="rule-process" style={{ width: "280px" }}>
+                      <div
+                        className="rule-process__symbol"
+                        style={{ background: "rgb(246, 94, 57)" }}
+                      >
+                        <div
+                          className="rule-process__line is-top is-third"
+                          style={{ background: "rgb(246, 94, 57)" }}
+                        ></div>
+                        <div
+                          className="rule-process__line is-bottom is-third"
+                          style={{ background: "rgb(246, 94, 57)" }}
+                        ></div>
+                      </div>
+                      <p className="rule-process__txt">
+                        50% Refund, minus the first night and the service fee
+                        and other free
+                      </p>
+                      <p class="rule-process__title">a day before check-in</p>
+                    </div>
+                    <div className="rule-process is-last">
+                      <div
+                        className="rule-process__symbol is-last"
+                        style={{ background: "rgb(246, 94, 57)" }}
+                      >
+                        <div
+                          className="rule-process__line is-top"
+                          style={{ background: "rgb(246, 94, 57)" }}
+                        ></div>{" "}
+                        <div
+                          className="rule-process__line is-bottom"
+                          style={{ background: "rgb(246, 94, 57)" }}
+                        ></div>
+                      </div>
+                      <p className="rule-process__txt"></p>
+                      <p class="rule-process__title">Check-in</p>
+                    </div>
+                  </div>
+                </div>
+                <h5>Special Notes</h5>
+                <span>No smoking in the apartment</span>
+                <span>Do not use stimulants</span>
+                <span>Please keep silent after 10pm</span>
+                <span>Do not bring pets</span>
+                <span>Please turn off the device when you leave the room</span>
+              </div>
             </div>
           </div>
 
@@ -264,11 +371,37 @@ export default function HouseDetail() {
                 night
                 {/* <strong>{house.price}</strong>/1 đêm */}
               </p>
+              <DatePicker
+                placeholder="From date"
+                className="form-control"
+                // onChange={(date, dateString) =>
+                //   setValues({ ...values, from: dateString })
+                // }
+                // disabledDate={(current) =>
+                //   current && current.valueOf() < moment().subtract(1, "days")
+                // }
+              />
+
+              <DatePicker
+                placeholder="To date"
+                className="form-control "
+                // onChange={(date, dateString) =>
+                //   setValues({ ...values, to: dateString })
+                // }
+                // disabledDate={(current) =>
+                //   current && current.valueOf() < moment().subtract(1, "days")
+                // }
+              />
+              <h5 className="detail__price-info">
+                Total:{" "}
+                <strong>{house.price && formatCurrency(house.price)}</strong>
+              </h5>
               <button className="detail__price-book">Book now</button>
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
