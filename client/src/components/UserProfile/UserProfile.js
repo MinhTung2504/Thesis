@@ -1,3 +1,4 @@
+import { DatePicker } from "antd";
 import React from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
@@ -66,7 +67,7 @@ export default function UserProfile() {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="enter address line 2"
+                    placeholder="Country"
                     value=""
                   />
                 </div>
@@ -90,11 +91,22 @@ export default function UserProfile() {
                 </div>
                 <div className="col-md-12">
                   <label className="labels">Birthday</label>
-                  <input
+                  {/* <input
                     type="date"
                     className="form-control"
                     placeholder="education"
                     value=""
+                  /> */}
+                  <DatePicker
+                    placeholder="Your Birthday"
+                    className="form-control p-2"
+                    // onChange={(date, dateString) =>
+                    //   setValues({ ...values, date_check_out: dateString })
+                    // }
+                    // disabledDate={(current) =>
+                    //   current &&
+                    //   current.valueOf() < moment().subtract(1, "days")
+                    // }
                   />
                 </div>
               </div>

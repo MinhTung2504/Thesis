@@ -15,6 +15,7 @@ import SearchHouse from "./components/SearchHouse/SearchHouse";
 import NotFound from "./components/NotFound";
 import UserProfile from "./components/UserProfile/UserProfile";
 import FilterHouses from "./components/FilterHouses/FilterHouses";
+import CheckBooking from "./components/CheckBooking/CheckBooking";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/houses-filter" element={<FilterHouses />} />
+        <Route path="/check-booking/:houseId" element={<CheckBooking />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
