@@ -7,12 +7,17 @@ import Header from "../Header/Header";
 import { DatePicker } from "antd";
 import moment from "moment";
 import { formatCurrency } from "../../utils";
+import { createNewBooking } from "../../actions/booking";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckBooking() {
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
   const [house, setHouse] = useState({});
   const { auth } = useSelector((state) => ({ ...state }));
+  const { token } = auth;
+  let navigate = useNavigate();
   //   console.log(auth.user.name);
 
   const [values, setValues] = useState({
@@ -56,10 +61,24 @@ export default function CheckBooking() {
     payment: totalAmout,
     date_check_in: date_check_in,
     date_check_out: date_check_out,
-    user_id: auth.user._id,
-    house_id: param.houseId,
+    house: { _id: param.houseId, image: house.image, title: house.title },
   };
   console.log(bookingInformation);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      let res = await createNewBooking(token, bookingInformation);
+      console.log(res);
+      toast.success("New Booking is created");
+      navigate("/user-booking");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -134,8 +153,7 @@ export default function CheckBooking() {
                           setValues({ ...values, date_check_out: dateString })
                         }
                         disabledDate={(current) =>
-                          current &&
-                          current.valueOf() < moment().subtract(1, "days")
+                          current && current.valueOf() < date_check_inObj
                         }
                       />
                     </div>
@@ -186,6 +204,7 @@ export default function CheckBooking() {
                 <button
                   style={{ textAlign: "right" }}
                   className="btn btn-primary mt-5"
+                  onClick={handleSubmit}
                 >
                   Book Now
                 </button>
