@@ -39,18 +39,26 @@ export default function UserBooking() {
   };
   return (
     <>
-      {/* <pre>{JSON.stringify(bookings)}</pre> */}
-      <Header />
-      <div className="container-fluid bg-secondary p-5 mb-5">
-        <h1 className="text-center">Your Booking History</h1>
-      </div>
-      <div className="container text-center">
-        {bookings.map((b) => (
-          <BookingHistory booking={b} />
-        ))}
-        <br />
-        <Pagination page={page} pages={pages} changePage={setPage} />
-      </div>
+      {loading ? (
+        <h1> Loading...</h1>
+      ) : error ? (
+        <h1>Error...</h1>
+      ) : (
+        <>
+          <Header />
+          <div className="container-fluid bg-secondary p-5 mb-5">
+            <h1 className="text-center">Your Booking History</h1>
+          </div>
+          <div className="container text-center">
+            {bookings.map((b) => (
+              <BookingHistory booking={b} />
+            ))}
+            <br />
+            <Pagination page={page} pages={pages} changePage={setPage} />
+          </div>
+        </>
+      )}
+      ;
     </>
   );
 }

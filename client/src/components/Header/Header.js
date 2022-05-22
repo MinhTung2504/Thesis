@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import { FaRegBell } from "react-icons/fa";
 import { ROLES } from "../../utils";
+import { Dropdown } from "react-bootstrap";
 
 export default function Header(typeofHeader) {
   // console.log(typeofHeader);
@@ -58,7 +59,16 @@ export default function Header(typeofHeader) {
               <>
                 <div className="d-flex">
                   <Link className="nav-link" to="/dashboard">
-                    Dashboard
+                    Host Dashboard
+                  </Link>
+                </div>
+              </>
+            )}
+            {auth !== null && auth.user.role === ROLES.ADMIN && (
+              <>
+                <div className="d-flex">
+                  <Link className="nav-link" to="/admin">
+                    Admin Dashboard
                   </Link>
                 </div>
               </>
@@ -66,7 +76,7 @@ export default function Header(typeofHeader) {
 
             {auth !== null && (
               <>
-                <div class="d-flex dropdown">
+                {/* <div class="d-flex dropdown">
                   <a
                     class="nav-link dropdown-toggle"
                     href="#"
@@ -98,6 +108,38 @@ export default function Header(typeofHeader) {
                     </li>
                   </ul>
                 </div>
+                <div className="d-flex">
+                  <FaRegBell
+                    style={{
+                      fontSize: "1rem",
+                      color: "white",
+                    }}
+                  />
+                </div> */}
+                <Dropdown>
+                  <Dropdown.Toggle id="dropdown-basic" variant="secondary">
+                    Hello, {auth.user.name}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item>
+                      <Link className="text-black" to="/user-profile">
+                        Your Profile
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link className="text-black" to="/user-booking">
+                        Booking History
+                      </Link>
+                    </Dropdown.Item>
+                    <hr className="dropdown-divider" />
+                    <Dropdown.Item>
+                      <a className="text-black" onClick={logout}>
+                        Logout
+                      </a>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
                 <div className="d-flex">
                   <FaRegBell
                     style={{

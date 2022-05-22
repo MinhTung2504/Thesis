@@ -95,7 +95,7 @@ export default function BookingHistory({ booking }) {
           {booking.status === "pending" && (
             <div>
               <div className="row mb-3 ">
-                <button className="btn btn-secondary" disabled>
+                <button className="btn btn-secondary text-black" disabled>
                   Wait To Comfirm
                 </button>
               </div>
@@ -104,7 +104,7 @@ export default function BookingHistory({ booking }) {
           {booking.status === "canceled" && (
             <div>
               <div className="row mb-3 ">
-                <button className="btn btn-danger" disabled>
+                <button className="btn btn-danger text-black" disabled>
                   Canceled
                 </button>
               </div>
@@ -113,7 +113,7 @@ export default function BookingHistory({ booking }) {
           {booking.status === "in-progress" && (
             <div>
               <div className="row mb-3">
-                <button className="btn btn-secondary" disabled>
+                <button className="btn btn-secondary text-black" disabled>
                   In Progress
                 </button>
               </div>
@@ -122,22 +122,26 @@ export default function BookingHistory({ booking }) {
           {booking.status === "not-paid" && (
             <div>
               <div className="row mb-3">
-                <button className="btn btn-primary">Pay</button>
+                <button className="btn btn-primary text-black">Pay</button>
               </div>
               <div className="row mb-3">
-                <button className="btn btn-cancel">Cancel Booking</button>
+                <button className="btn btn-cancel text-black">
+                  Cancel Booking
+                </button>
               </div>
             </div>
           )}
           {booking.status === "paid" && (
             <div>
               <div className="row mb-3">
-                <button className="btn btn-secondary" disabled>
+                <button className="btn btn-secondary text-black" disabled>
                   Paid
                 </button>
               </div>
               <div className="row mb-3">
-                <button className="btn btn-cancel">Cancel Booking</button>
+                <button className="btn btn-cancel text-black">
+                  Cancel Booking
+                </button>
               </div>
             </div>
           )}

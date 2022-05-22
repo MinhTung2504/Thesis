@@ -17,6 +17,9 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import FilterHouses from "./components/FilterHouses/FilterHouses";
 import CheckBooking from "./components/CheckBooking/CheckBooking";
 import UserBooking from "./components/UserBooking/UserBooking";
+import DashboardAdmin from "./components/DashboardAdmin/DashboardAdmin";
+import ManageUsers from "./components/DashboardAdmin/views/ManageUsers";
+import ManageHouses from "./components/DashboardAdmin/views/ManageHouses";
 
 function App() {
   return (
@@ -65,6 +68,10 @@ function App() {
         <Route path="/houses-filter" element={<FilterHouses />} />
         <Route path="/check-booking/:houseId" element={<CheckBooking />} />
         <Route path="/user-booking" element={<UserBooking />} />
+        <Route path="/admin" element={<DashboardAdmin />} />
+        <Route path="/admin/users" element={<ManageUsers />} />
+        <Route path="/admin/houses" element={<ManageHouses />} />
+        <Route path="/admin/dashboard" element={<DashboardAdmin />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
