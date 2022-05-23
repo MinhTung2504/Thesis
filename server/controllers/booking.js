@@ -7,7 +7,6 @@ import House from "../models/house";
 const myCache = new NodeCache({ stdTTL: 3600 });
 export const createBooking = async (req, res) => {
   try {
-    // let houseData = await House.findById(req.body.house_id);
     let booking = new Booking({
       payment: req.body.payment,
       user: req.user._id,
@@ -46,6 +45,7 @@ export const getUserBooking = async (req, res) => {
       });
     }
     const result = await Booking.find({ user: req.user._id })
+      .populate("house", "title image -_id")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize);

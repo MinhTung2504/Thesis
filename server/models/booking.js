@@ -32,7 +32,7 @@ const bookingSchema = new Schema(
       ref: "User",
     },
     house: {
-      type: Object,
+      type: ObjectId,
       ref: "House",
     },
   },
