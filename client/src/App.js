@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./components/Home/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import HouseDetail from "./components/HouseDetail/HouseDetail";
+import PrivateRoute from "./components/PrivateRoute";
 import SearchHouse from "./components/SearchHouse/SearchHouse";
 import NotFound from "./components/NotFound";
 import UserProfile from "./components/UserProfile/UserProfile";
@@ -15,7 +17,6 @@ import DashboardAdmin from "./components/DashboardAdmin/DashboardAdmin";
 import ManageUsers from "./components/DashboardAdmin/views/ManageUsers";
 import ManageHouses from "./components/DashboardAdmin/views/ManageHouses";
 import DashboardHost from "./components/DashboardHost/DashboardHost";
-
 import ManageBookings from "./components/DashboardHost/views/ManageBookings";
 import ManageHostHouses from "./components/DashboardHost/views/ManageHostHouses/ManageHostHouses";
 import CreateNewHostHouse from "./components/DashboardHost/views/ManageHostHouses/CreateNewHostHouse";
@@ -30,54 +31,114 @@ function App() {
         {/* <Route path="/page/:pageNumber" element={<Home />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/house/new"
-          element={
-            <PrivateRoute>
-              <CreateNewHouse />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/house/:houseId"
-          element={
-            <PrivateRoute>
-              <HouseDetail />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/house/edit/:houseId"
-          element={
-            <PrivateRoute>
-              <UpdateHouse />
-            </PrivateRoute>
-          }
-        /> */}
         <Route path="/search-house" element={<SearchHouse />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/houses-filter" element={<FilterHouses />} />
-        <Route path="/check-booking/:houseId" element={<CheckBooking />} />
-        <Route path="/user-booking" element={<UserBooking />} />
-        <Route path="/admin" element={<DashboardAdmin />} />
-        <Route path="/admin/users" element={<ManageUsers />} />
-        <Route path="/admin/houses" element={<ManageHouses />} />
-        <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-        <Route path="/host" element={<DashboardHost />} />
-        <Route path="/host/houses" element={<ManageHostHouses />} />
-        <Route path="/host/houses/new" element={<CreateNewHostHouse />} />
-        <Route path="/host/houses/edit/:houseId" element={<EditHostHouse />} />
-        <Route path="/host/bookings" element={<ManageBookings />} />
-        <Route path="/host/dashboard" element={<DashboardHost />} />
+        <Route path="/house/:houseId" element={<HouseDetail />} />
+        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/user-profile"
+          element={
+            <PrivateRoute>
+              <UserProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/check-booking/:houseId"
+          element={
+            <PrivateRoute>
+              <CheckBooking />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/user-booking"
+          element={
+            <PrivateRoute>
+              <UserBooking />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <DashboardAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <PrivateRoute>
+              <ManageUsers />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/houses"
+          element={
+            <PrivateRoute>
+              <ManageHouses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host"
+          element={
+            <PrivateRoute>
+              <DashboardHost />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host/houses"
+          element={
+            <PrivateRoute>
+              <ManageHostHouses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host/houses/new"
+          element={
+            <PrivateRoute>
+              <CreateNewHostHouse />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host/houses/edit/:houseId"
+          element={
+            <PrivateRoute>
+              <EditHostHouse />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host/bookings"
+          element={
+            <PrivateRoute>
+              <ManageBookings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host/dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardHost />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

@@ -94,67 +94,6 @@ export default function Login() {
           </div>
         </div>
       </section>
-
-      {/* <Fade duration={600}> */}
-      {/* <div className="container">
-        <div className="row">
-          <div className="col-sm-6 col-md-4 mx-auto mt-2 mb-5">
-            <h3 className="mb-3">Login</h3>
-            <form method="post">
-              <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input
-                  id="username"
-                  type="text"
-                  className={`form-control`}
-                  name="username"
-                  placeholder={"Username or email address"}
-                  required
-                  maxLength="50"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  className={`form-control `}
-                  name="password"
-                  placeholder={"Your password"}
-                  required
-                  maxLength="50"
-                />
-              </div>
-              <div className="form-group auth-control">
-                <div className="row">
-                  <div className="col">
-                    <div className="custom-control custom-checkbox">
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="remember"
-                        name="remember"
-                        value="1"
-                      />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="remember"
-                      >
-                        Remember me
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button className="btn btn-block btn-primary mb-3">Login</button>
-            </form>
-            <div className="text-center auth-control">
-              <span>Not a member? </span>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      {/* </Fade> */}
     </>
   );
 }

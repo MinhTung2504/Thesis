@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function RegisterForm({
   handleSubmit,
@@ -44,12 +45,21 @@ export default function RegisterForm({
         ></input>
       </div>
 
-      <button
-        disabled={!name || !email || !password}
-        className="btn btn-primary"
-      >
-        Sign up
-      </button>
+      <div className="text-center">
+        <button
+          disabled={!name || !email || !password}
+          className="btn btn-primary mb-2"
+        >
+          Sign up
+        </button>
+        <p>
+          Already Registered?
+          <Link to="/login">
+            {" "}
+            <strong className="text-warning">Login Now</strong>
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }

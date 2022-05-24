@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function LoginForm({
   handleSubmit,
@@ -29,9 +30,17 @@ export default function LoginForm({
           onChange={(e) => setPassword(e.target.value)}
         ></input>
       </div>
-      <button disabled={!email || !password} className="btn btn-primary">
-        Submit
-      </button>
+      <div className="text-center">
+        <button disabled={!email || !password} className="btn btn-primary mb-2">
+          Login
+        </button>
+        <p>
+          Not registered?{" "}
+          <Link to="/register">
+            <strong className="text-warning">Create an account</strong>
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }
