@@ -6,7 +6,7 @@ import { getUsers } from "../../../actions/user";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 
-export default function ManageUsers() {
+export default function ManageBookings() {
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
   // console.log(pageNumber);
@@ -51,9 +51,9 @@ export default function ManageUsers() {
                 <Col md="12">
                   <Card className="striped-tabled-with-hover">
                     <Card.Header>
-                      <Card.Title as="h4">All Users</Card.Title>
+                      <Card.Title as="h4">All Bookings</Card.Title>
                       <p className="card-category">
-                        Table list of all system's users
+                        Table list of all Bookings
                       </p>
                     </Card.Header>
                     {/* <Card.Body className="table-full-width table-responsive px-0"> */}
@@ -93,17 +93,13 @@ export default function ManageUsers() {
                                 {user.isBanned === true ? (
                                   <Link
                                     className="text-primary"
-                                    to="unban-user"
+                                    to={"ban-user"}
                                   >
-                                    <button>
-                                      <i class="fa-solid fa-user-unlock"></i>
-                                    </button>
+                                    <button>Unban User</button>
                                   </Link>
                                 ) : (
-                                  <Link className="text-danger" to="ban-user">
-                                    <button>
-                                      <i class="fa-solid fa-user-lock"></i>
-                                    </button>
+                                  <Link className="text-danger" to={"ban-user"}>
+                                    <button>Ban User</button>
                                   </Link>
                                 )}
                               </td>

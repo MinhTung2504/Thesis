@@ -2,45 +2,52 @@ import React, { useEffect, useState } from "react";
 import { Card, Table, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getAllHouses } from "../../../actions/house";
-import { formatCurrency } from "../../../utils";
-import Pagination from "../../Pagination/Pagination";
-import Header from "../components/Header/Header";
-import Sidebar from "../components/Sidebar/Sidebar";
+import { toast } from "react-toastify";
+import { deleteHouse, getHostHouses } from "../../../../actions/house";
+import { formatCurrency } from "../../../../utils";
+import Pagination from "../../../Pagination/Pagination";
+import Header from "../../components/Header/Header";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
-export default function ManageHouses() {
+export default function ManageHostHouses() {
+  const pageNumber = useParams().pageNumber || 1;
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
-  const pageNumber = useParams().pageNumber || 1;
   // console.log(pageNumber);
   const [houses, setHouses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
-  //   console.log(page);
+  // console.log(page);
 
   useEffect(() => {
-    loadAllHouses();
+    loadHostHouses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const loadAllHouses = async () => {
+  const loadHostHouses = async () => {
     setLoading(true);
     try {
-      const res = await getAllHouses(page);
+      const res = await getHostHouses(token, page);
       console.log(res);
       // const { data, pages: totalPages } = await res.json();
 
       setPages(res.data.pages);
       // setHouses(res.data);
-      //   setHouses(res.data.data);
       setHouses(res.data.data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       setError("Some Error Occured");
     }
+  };
+
+  const handleHouseDelete = async (houseId) => {
+    if (!window.confirm("Are you sure?")) return;
+    deleteHouse(token, houseId).then((res) => {
+      toast.success("House Deleted!");
+    });
   };
   return (
     <>
@@ -53,10 +60,21 @@ export default function ManageHouses() {
               <Row>
                 <Col md="12">
                   <Card className="striped-tabled-with-hover">
-                    <Card.Header>
-                      <Card.Title as="h4">All Houses</Card.Title>
-                      <p className="card-category">Table list of all Houses</p>
-                    </Card.Header>
+                    <Row>
+                      <Col md="10">
+                        <Card.Header>
+                          <Card.Title as="h4">All Host's Houses</Card.Title>
+                          <p className="card-category">
+                            Table list of all Host's Houses
+                          </p>
+                        </Card.Header>
+                      </Col>
+                      <Col md="2">
+                        <Link to="/host/houses/new" className="btn btn-primary">
+                          <i class="fa-solid fa-plus"></i>
+                        </Link>
+                      </Col>
+                    </Row>
                     {/* <Card.Body className="table-full-width table-responsive px-0"> */}
                     <div className="table-responsive">
                       <table class="table table-hover table-striped">
@@ -71,12 +89,12 @@ export default function ManageHouses() {
                             <th scope="col">Price</th>
                             <th scope="col">City</th>
                             <th scope="col">Max Guests</th>
-                            <th scope="col">Number of Bedrooms</th>
-                            <th scope="col">Property Size</th>
-                            <th scope="col">Number of Beds</th>
-                            <th scope="col">Host</th>
-                            {/* <th scope="col">Hidden/Show</th> */}
-                            <th scope="col">Actions</th>
+                            <th scope="col">No. Bedrooms</th>
+                            <th scope="col">Area</th>
+                            <th scope="col">No. Beds</th>
+                            <th scope="col" colSpan={3}>
+                              Actions
+                            </th>
                           </tr>
                         </thead>
                         {houses.map((h, index) => (
@@ -87,14 +105,14 @@ export default function ManageHouses() {
                           >
                             <tr key={h._id}>
                               <th scope="row">{index + 1}</th>
-                              {/* <td>{h.country}</td> */}
+
                               <td>
                                 <img
                                   src={h.image}
                                   key={h._id}
                                   style={{
-                                    objectFit: "cover",
-                                    width: "100%",
+                                    width: "10rem",
+                                    height: "5rem",
                                   }}
                                   alt="ImageHouse"
                                 />
@@ -106,25 +124,26 @@ export default function ManageHouses() {
                               <td>{h.num_bedrooms}</td>
                               <td>{h.size} m2</td>
                               <td>{h.num_beds}</td>
-                              <td>Name of Host</td>
 
-                              {h.isBlocked === true ? (
-                                <td>
-                                  <Link to={`/house/unlock/${h._id}`}>
-                                    <button className="text-primary">
-                                      <i class="fa-solid fa-lock-open"></i>
-                                    </button>
-                                  </Link>
-                                </td>
-                              ) : (
-                                <td>
-                                  <Link to={`/house/lock/${h._id}`}>
-                                    <button className="text-danger">
-                                      <i class="fa-solid fa-lock"></i>
-                                    </button>
-                                  </Link>
-                                </td>
-                              )}
+                              <td>
+                                <Link to={`/host/houses/edit/${h._id}`}>
+                                  <button>
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                  </button>
+                                </Link>
+                              </td>
+
+                              <td>
+                                <button
+                                  onClick={() => {
+                                    handleHouseDelete(h._id);
+                                    loadHostHouses();
+                                  }}
+                                  className="text-danger"
+                                >
+                                  <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                              </td>
                             </tr>
                           </tbody>
                         ))}

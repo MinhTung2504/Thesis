@@ -2,14 +2,8 @@ import React from "react";
 import ReactQuill from "react-quill";
 
 export default function HouseCreateForm(props) {
-  const {
-    values,
-    setValues,
-    handleChange,
-    // handleBodyContent,
-    handleImageChange,
-    handleSubmit,
-  } = props;
+  const { values, setValues, handleChange, handleImageChange, handleSubmit } =
+    props;
 
   const {
     title,
@@ -27,7 +21,7 @@ export default function HouseCreateForm(props) {
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="m-2" htmlFor="inputTitle">
-          Images:
+          Images: (Maximun <strong>6 Images</strong>)
         </label>
         <input
           type="file"
@@ -38,17 +32,6 @@ export default function HouseCreateForm(props) {
         ></input>
       </div>
       <div className="form-group">
-        {/* <label className="btn btn-outline-secondary btn-lock m-2 text-left">
-          Image
-          <input
-            type="file"
-            name="image"
-            onChange={handleImageChange}
-            accept="image/*"
-            hidden
-          />
-        </label> */}
-
         <label className="m-2" htmlFor="inputTitle">
           Title:
         </label>
@@ -62,12 +45,12 @@ export default function HouseCreateForm(props) {
         ></input>
       </div>
 
-      <div className="form-group">
+      <div className="row mb-5">
         <label className="m-2" htmlFor="inputContent">
           Content:
         </label>
         <ReactQuill
-          className="form-control m-2"
+          className="m-2"
           value={content}
           onChange={(value) => setValues({ ...values, content: value })}
         />
@@ -187,7 +170,11 @@ export default function HouseCreateForm(props) {
         </div>
       </div>
 
-      <button className="btn btn-outline-primary m-2">Save</button>
+      <div className="text-center">
+        <button className="btn btn-outline-primary m-2 align-item-center">
+          Save
+        </button>
+      </div>
     </form>
   );
 }

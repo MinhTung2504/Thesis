@@ -20,30 +20,7 @@ export default function HouseUpdateForm(props) {
   console.log(values);
   return (
     <form onSubmit={handleSubmit}>
-      {/* <div className="form-group">
-        <label className="m-2" htmlFor="inputTitle">
-          Images:
-        </label>
-        <input
-          type="file"
-          multiple
-          className="form-control m-2"
-          onChange={handleImageChange}
-          name="image"
-        ></input>
-      </div> */}
       <div className="form-group">
-        {/* <label className="btn btn-outline-secondary btn-lock m-2 text-left">
-          Image
-          <input
-            type="file"
-            name="image"
-            onChange={handleImageChange}
-            accept="image/*"
-            hidden
-          />
-        </label> */}
-
         <label className="m-2" htmlFor="inputTitle">
           Title:
         </label>
@@ -57,13 +34,12 @@ export default function HouseUpdateForm(props) {
         ></input>
       </div>
 
-      <div className="form-group">
+      <div className="row mb-5">
         <label className="m-2" htmlFor="inputContent">
           Content:
         </label>
         <ReactQuill
-          className="form-control m-2"
-          // onChange={(value) => setValues({ ...values, content: value })}
+          className="m-2"
           onChange={(value) =>
             setValues((prev) => ({ ...prev, content: value }))
           }
@@ -185,7 +161,11 @@ export default function HouseUpdateForm(props) {
         </div>
       </div>
 
-      <button className="btn btn-outline-primary m-2">Save</button>
+      <div className="text-center">
+        <button className="btn btn-outline-primary m-2 align-item-center">
+          Save
+        </button>
+      </div>
     </form>
   );
 }

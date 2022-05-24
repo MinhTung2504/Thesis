@@ -64,9 +64,9 @@ export default function HouseListTable({ handleHouseDelete = (f) => f }) {
                 <th scope="col">Price</th>
                 <th scope="col">City</th>
                 <th scope="col">Max Guests</th>
-                <th scope="col">Number of Bedrooms</th>
-                <th scope="col">Property Size</th>
-                <th scope="col">Number of Beds</th>
+                <th scope="col">No. Bedrooms</th>
+                <th scope="col">Area</th>
+                <th scope="col">No. Beds</th>
                 {/* <th scope="col">Hidden/Show</th> */}
                 <th scope="col" colSpan={3}>
                   Actions
@@ -88,7 +88,8 @@ export default function HouseListTable({ handleHouseDelete = (f) => f }) {
                       key={h._id}
                       style={{
                         objectFit: "cover",
-                        width: "100%",
+                        width: "10rem",
+                        height: "5rem",
                       }}
                       alt="ImageHouse"
                     />
@@ -104,7 +105,7 @@ export default function HouseListTable({ handleHouseDelete = (f) => f }) {
                       <button>Hidden</button>
                     </td> */}
                   <td>
-                    <Link to={`/house/edit/${h._id}`}>
+                    <Link to={`/host/houses/edit/${h._id}`}>
                       <button>Edit</button>
                     </Link>
                   </td>

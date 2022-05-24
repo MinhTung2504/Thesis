@@ -58,7 +58,7 @@ export default function Header(typeofHeader) {
             {auth !== null && auth.user.role === ROLES.HOST && (
               <>
                 <div className="d-flex">
-                  <Link className="nav-link" to="/dashboard">
+                  <Link className="nav-link" to="/host">
                     Host Dashboard
                   </Link>
                 </div>

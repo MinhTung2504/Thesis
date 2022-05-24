@@ -74,6 +74,10 @@ export const getAllHouses = async (req, res) => {
       });
     }
     const result = await House.find().skip(skip).limit(pageSize);
+    // const result = await House.find()
+    //   .populate("user", "name -_id")
+    //   .skip(skip)
+    //   .limit(pageSize);
     if (page > pages) {
       res.status(StatusCodes.BAD_REQUEST).json({
         status: "Fail",
