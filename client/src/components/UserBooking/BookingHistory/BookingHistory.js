@@ -5,7 +5,7 @@ import { formatCurrency } from "../../../utils";
 export default function BookingHistory({ booking }) {
   console.log(booking);
   return (
-    <div className="container">
+    <div className="container mb-2">
       <div
         className="row justify-content-center"
         style={{

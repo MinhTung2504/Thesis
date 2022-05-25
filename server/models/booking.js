@@ -18,6 +18,7 @@ const bookingSchema = new Schema(
         "in-progress",
         "completed",
         "canceled",
+        "rejected",
       ],
       default: "pending",
     },

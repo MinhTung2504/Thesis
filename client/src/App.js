@@ -17,12 +17,12 @@ import DashboardAdmin from "./components/DashboardAdmin/DashboardAdmin";
 import ManageUsers from "./components/DashboardAdmin/views/ManageUsers";
 import ManageHouses from "./components/DashboardAdmin/views/ManageHouses";
 import DashboardHost from "./components/DashboardHost/DashboardHost";
-import ManageBookings from "./components/DashboardHost/views/ManageBookings";
 import ManageHostHouses from "./components/DashboardHost/views/ManageHostHouses/ManageHostHouses";
 import CreateNewHostHouse from "./components/DashboardHost/views/ManageHostHouses/CreateNewHostHouse";
 import EditHostHouse from "./components/DashboardHost/views/ManageHostHouses/EditHostHouse";
 import { ROLES } from "./utils";
 import Unauthorized from "./components/Unauthorized";
+import ManageBookings from "./components/DashboardHost/views/ManageBookings/ManageBookings";
 
 function App() {
   return (
@@ -89,8 +89,8 @@ function App() {
         <Route
           path="/admin/dashboard"
           element={
-            <PrivateRoute>
-              <DashboardAdmin allowedRoles={[ROLES.ADMIN]} />
+            <PrivateRoute allowedRoles={[ROLES.ADMIN]}>
+              <DashboardAdmin />
             </PrivateRoute>
           }
         />

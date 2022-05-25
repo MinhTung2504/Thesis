@@ -1,5 +1,12 @@
 import express from "express";
-import { createBooking, getUserBooking } from "../controllers/booking";
+import {
+  acceptBooking,
+  checkoutBooking,
+  createBooking,
+  getBookingsOfHostHouses,
+  getUserBooking,
+} from "../controllers/booking";
+import { rejectRequest } from "../controllers/request";
 // import {
 //   acceptRequest,
 //   createRequest,
@@ -12,18 +19,25 @@ const router = express.Router();
 // router.get("/booking", auth, authPage(["user", "admin"]), createRequest);
 router.post("/booking/new", auth, createBooking);
 router.get("/user/booking", auth, getUserBooking);
-// router.put(
-//   "/user/request/:requestId/accepted",
-//   auth,
-//   authPage(["admin"]),
-//   acceptRequest
-// );
-// router.put(
-//   "/user/request/:requestId/rejected",
-//   auth,
-//   authPage(["admin"]),
-//   rejectRequest
-// );
+router.get("/host/bookings", auth, authPage(["host"]), getBookingsOfHostHouses);
+router.put(
+  "/host/bookings/:bookingId/accepted",
+  auth,
+  authPage(["host"]),
+  acceptBooking
+);
+router.put(
+  "/host/bookings/:bookingId/rejected",
+  auth,
+  authPage(["host"]),
+  rejectRequest
+);
+router.put(
+  "/host/bookings/:bookingId/checkout-success",
+  auth,
+  authPage(["host"]),
+  checkoutBooking
+);
 
 // export default router;
 module.exports = router;

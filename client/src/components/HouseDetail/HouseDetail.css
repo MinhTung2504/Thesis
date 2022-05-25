@@ -242,6 +242,11 @@
   .detail__convenient-list-item ul li {
     font-size: 15px;
   }
+
+  .detail__slide img {
+    width: 100%;
+    height: 400px;
+  }
 }
 
 /* MOBILE */
@@ -256,5 +261,10 @@
 
   .rule-process__title {
     font-size: 11px;
+  }
+
+  .detail__slide img {
+    width: 100%;
+    height: 300px;
   }
 }

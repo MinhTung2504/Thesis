@@ -18,18 +18,18 @@ export default function Header() {
   const routes = [
     {
       path: "/dashboard",
-      name: "Dashboard",
-      layout: "/admin",
-    },
-    {
-      path: "/users",
-      name: "All Users",
-      layout: "/admin",
+      name: "Host Dashboard",
+      layout: "/host",
     },
     {
       path: "/houses",
       name: "All Houses",
-      layout: "/admin",
+      layout: "/host",
+    },
+    {
+      path: "/bookings",
+      name: "All Bookings",
+      layout: "/host",
     },
   ];
   const location = useLocation();
@@ -51,7 +51,7 @@ export default function Header() {
         return routes[i].name;
       }
     }
-    return "Dashboard";
+    return "Host Dashboard";
   };
   return (
     <Navbar bg="light" expand="lg">

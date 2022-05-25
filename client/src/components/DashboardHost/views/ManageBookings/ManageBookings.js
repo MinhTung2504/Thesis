@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Card, Table, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUsers } from "../../../actions/user";
-import Header from "../components/Header/Header";
-import Sidebar from "../components/Sidebar/Sidebar";
+import { getUsers } from "../../../../actions/user";
+import Header from "../../components/Header/Header";
+import Sidebar from "../../components/Sidebar/Sidebar";
+// import { getUsers } from "../../../../actions/user";
+// import Header from "../../components/Header/Header";
+// import Sidebar from "../../components/Sidebar/Sidebar";
 
 export default function ManageBookings() {
   const { auth } = useSelector((state) => ({ ...state }));

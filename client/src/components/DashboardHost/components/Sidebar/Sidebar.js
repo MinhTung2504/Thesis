@@ -20,7 +20,7 @@ export default function Sidebar() {
         <Nav defaultActiveKey="/admin" className="flex-column">
           <Nav.Link>
             <Link className="text-white" to="/host/dashboard">
-              Dashboard
+              Host Dashboard
             </Link>
           </Nav.Link>
           <Nav.Link>
