@@ -130,11 +130,13 @@ export default function ManageHouses() {
                         ))}
                       </table>
                       {/* </ul> */}
+
                       <Pagination
                         page={page}
                         pages={pages}
                         changePage={setPage}
                       />
+
                       {/* </Card.Body> */}
                     </div>
                   </Card>

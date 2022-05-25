@@ -32,7 +32,7 @@ export default function Header(typeofHeader) {
         style={{ zIndex: 1000 }}
       >
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand text-white" to="/">
             NICE HOMESTAY
           </Link>
           <button

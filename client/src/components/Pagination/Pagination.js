@@ -80,7 +80,7 @@ export default function Pagination({ page, pages, changePage }) {
   }
   return (
     pages > 1 && (
-      <div className="pagination">
+      <div className="pagination justify-content-center">
         <button
           className="pagination__prev"
           onClick={() => changePage((page) => page - 1)}

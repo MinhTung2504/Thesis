@@ -96,13 +96,13 @@ export default function ManageUsers() {
                                     to="unban-user"
                                   >
                                     <button>
-                                      <i class="fa-solid fa-user-unlock"></i>
+                                      <i class="fa-solid fa-user"></i>
                                     </button>
                                   </Link>
                                 ) : (
                                   <Link className="text-danger" to="ban-user">
                                     <button>
-                                      <i class="fa-solid fa-user-lock"></i>
+                                      <i class="fa-solid fa-user-slash"></i>
                                     </button>
                                   </Link>
                                 )}

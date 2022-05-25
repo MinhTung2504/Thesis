@@ -21,6 +21,8 @@ import ManageBookings from "./components/DashboardHost/views/ManageBookings";
 import ManageHostHouses from "./components/DashboardHost/views/ManageHostHouses/ManageHostHouses";
 import CreateNewHostHouse from "./components/DashboardHost/views/ManageHostHouses/CreateNewHostHouse";
 import EditHostHouse from "./components/DashboardHost/views/ManageHostHouses/EditHostHouse";
+import { ROLES } from "./utils";
+import Unauthorized from "./components/Unauthorized";
 
 function App() {
   return (
@@ -35,10 +37,11 @@ function App() {
         <Route path="/houses-filter" element={<FilterHouses />} />
         <Route path="/house/:houseId" element={<HouseDetail />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route
           path="/user-profile"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.USER, ROLES.HOST, ROLES.ADMIN]}>
               <UserProfile />
             </PrivateRoute>
           }
@@ -46,7 +49,7 @@ function App() {
         <Route
           path="/check-booking/:houseId"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.USER, ROLES.HOST, ROLES.ADMIN]}>
               <CheckBooking />
             </PrivateRoute>
           }
@@ -54,7 +57,7 @@ function App() {
         <Route
           path="/user-booking"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.USER, ROLES.HOST, ROLES.ADMIN]}>
               <UserBooking />
             </PrivateRoute>
           }
@@ -62,7 +65,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.ADMIN]}>
               <DashboardAdmin />
             </PrivateRoute>
           }
@@ -70,7 +73,7 @@ function App() {
         <Route
           path="/admin/users"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.ADMIN]}>
               <ManageUsers />
             </PrivateRoute>
           }
@@ -78,7 +81,7 @@ function App() {
         <Route
           path="/admin/houses"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.ADMIN]}>
               <ManageHouses />
             </PrivateRoute>
           }
@@ -87,14 +90,14 @@ function App() {
           path="/admin/dashboard"
           element={
             <PrivateRoute>
-              <DashboardAdmin />
+              <DashboardAdmin allowedRoles={[ROLES.ADMIN]} />
             </PrivateRoute>
           }
         />
         <Route
           path="/host"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <DashboardHost />
             </PrivateRoute>
           }
@@ -102,7 +105,7 @@ function App() {
         <Route
           path="/host/houses"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <ManageHostHouses />
             </PrivateRoute>
           }
@@ -110,7 +113,7 @@ function App() {
         <Route
           path="/host/houses/new"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <CreateNewHostHouse />
             </PrivateRoute>
           }
@@ -118,7 +121,7 @@ function App() {
         <Route
           path="/host/houses/edit/:houseId"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <EditHostHouse />
             </PrivateRoute>
           }
@@ -126,7 +129,7 @@ function App() {
         <Route
           path="/host/bookings"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <ManageBookings />
             </PrivateRoute>
           }
@@ -134,7 +137,7 @@ function App() {
         <Route
           path="/host/dashboard"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <DashboardHost />
             </PrivateRoute>
           }
