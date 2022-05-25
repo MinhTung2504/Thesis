@@ -34,7 +34,10 @@ export const getUserBooking = async (req, res) => {
       var totalUserBooking;
       totalUserBooking = myCache.get("totalUserBooking");
     } else {
-      totalUserBooking = await Booking.find({ user: req.user._id }).count();
+      totalUserBooking = await Booking.find({
+        user: req.user._id,
+        status: { $ne: "rejected" },
+      }).count();
       myCache.set("totalUserBooking", totalUserBooking);
     }
     const pages = Math.ceil(totalUserBooking / pageSize);
@@ -44,7 +47,10 @@ export const getUserBooking = async (req, res) => {
         message: "No Page Found",
       });
     }
-    const result = await Booking.find({ user: req.user._id })
+    const result = await Booking.find({
+      user: req.user._id,
+      status: { $ne: "rejected" },
+    })
       .populate("house", "title image -_id")
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -85,6 +91,7 @@ export const getBookingsOfHostHouses = async (req, res) => {
     } else {
       bookingsofHostHouses = await Booking.find({
         house: arrayHostHouse.map((h) => h),
+        status: { $ne: "rejected" },
       }).count();
       myCache.set("bookingsofHostHouses", bookingsofHostHouses);
     }
@@ -97,8 +104,10 @@ export const getBookingsOfHostHouses = async (req, res) => {
     }
     const result = await Booking.find({
       house: arrayHostHouse.map((h) => h),
+      status: { $ne: "rejected" },
     })
       .populate("user", "name -_id")
+      .populate("house", "title price -_id")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize);

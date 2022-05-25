@@ -1,6 +1,6 @@
 import React from "react";
 import { Rate } from "antd";
-import { formatCurrency } from "../../../utils";
+import { formatCurrency, formatDate } from "../../../utils";
 
 export default function BookingHistory({ booking }) {
   console.log(booking);
@@ -61,17 +61,17 @@ export default function BookingHistory({ booking }) {
               <p>
                 <b>Check-in Date: </b>
               </p>
-              <p>{new Date(booking.date_check_in).toLocaleDateString()}</p>
+              <p>{formatDate(new Date(booking.date_check_in))}</p>
               <p>
                 <b>Booked At: </b>
               </p>
-              <p>{new Date(booking.createdAt).toLocaleDateString()}</p>
+              <p>{formatDate(new Date(booking.createdAt))}</p>
             </div>
             <div className="form-group col-md-6">
               <p>
                 <b>Check-out Date: </b>{" "}
               </p>
-              <p>{new Date(booking.date_check_out).toLocaleDateString()}</p>
+              <p>{formatDate(new Date(booking.date_check_out))}</p>
               <p>
                 <b>Total: </b>
               </p>

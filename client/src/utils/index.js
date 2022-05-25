@@ -6,4 +6,18 @@ export const formatCurrency = (num) => {
   });
 };
 
+export const formatDate = (dateInput) => {
+  let date, month, year;
+
+  date = dateInput.getDate();
+  month = dateInput.getMonth() + 1;
+  year = dateInput.getFullYear();
+
+  date = date.toString().padStart(2, "0");
+
+  month = month.toString().padStart(2, "0");
+
+  return `${date}/${month}/${year}`;
+};
+
 export const ROLES = { HOST: "host", ADMIN: "admin", USER: "user" };
