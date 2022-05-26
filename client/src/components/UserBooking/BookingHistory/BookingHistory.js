@@ -41,6 +41,11 @@ export default function BookingHistory({ booking }) {
               <strong>Canceled</strong>
             </h5>
           )}
+          {booking.status === "rejected" && (
+            <h5 className="text-danger">
+              <strong>Rejected</strong>
+            </h5>
+          )}
           {booking.status === "in-progress" && (
             <h5 className="text-info">
               <strong>In Progress</strong>
@@ -48,10 +53,10 @@ export default function BookingHistory({ booking }) {
           )}
         </div>
         <div className="col-md-3 justify-content-center my-auto">
-          <h5>{booking.house.title}</h5>
+          <h5>{booking.house && booking.house.title}</h5>
           <img
             style={{ width: "90%", borderRadius: "5px" }}
-            src={booking.house.image}
+            src={booking.house && booking.house.image}
             alt="houseCheckBookingImg"
           />
         </div>
@@ -106,6 +111,15 @@ export default function BookingHistory({ booking }) {
               <div className="row mb-3 ">
                 <button className="btn btn-danger text-black" disabled>
                   Canceled
+                </button>
+              </div>
+            </div>
+          )}
+          {booking.status === "rejected" && (
+            <div>
+              <div className="row mb-3 ">
+                <button className="btn btn-danger text-black" disabled>
+                  Rejected
                 </button>
               </div>
             </div>

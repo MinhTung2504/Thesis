@@ -22,9 +22,23 @@ export const getBookingOfHostHouses = async (token, page) =>
     },
   });
 
-export const acceptBooking = async (token, bookingId) =>
+export const acceptBooking = async (token, data, bookingId) => {
+  // console.log(token);
   await axios.put(
-    `${process.env.REACT_APP_API}/host/bookings/${bookingId}/accepted`,
+    `${process.env.REACT_APP_API}/host/bookings/accept/${bookingId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+export const rejectBooking = async (token, data, bookingId) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/host/bookings/reject/${bookingId}`,
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,9 +46,10 @@ export const acceptBooking = async (token, bookingId) =>
     }
   );
 
-export const rejectBooking = async (token, bookingId) =>
+export const checkoutBooking = async (token, data, bookingId) =>
   await axios.put(
-    `${process.env.REACT_APP_API}/host/bookings/${bookingId}/rejected`,
+    `${process.env.REACT_APP_API}/host/bookings/checkout-success/${bookingId}`,
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,

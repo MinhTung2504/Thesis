@@ -3,6 +3,7 @@ import { Carousel } from "react-bootstrap";
 import image1 from "../../assets/images/carousel-1.jpg";
 import image2 from "../../assets/images/carousel-2.jpg";
 import image3 from "../../assets/images/carousel-3.jpg";
+import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import HouseList from "../HouseList/HouseList";
 
@@ -89,6 +90,7 @@ export default function Home() {
         <h2>Feature Properties</h2>
       </div>
       <HouseList />
+      <Footer />
     </>
   );
 }

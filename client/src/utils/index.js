@@ -21,3 +21,9 @@ export const formatDate = (dateInput) => {
 };
 
 export const ROLES = { HOST: "host", ADMIN: "admin", USER: "user" };
+export const BOOKING_STATUS = {
+  PAID: "paid",
+  NOT_PAID: "not-paid",
+  REJECTED: "rejected",
+  COMPLETED: "completed",
+};

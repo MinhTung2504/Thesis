@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getBookingOfHostHouses } from "../../../../actions/booking";
-import { formatCurrency, formatDate } from "../../../../utils";
+import { toast } from "react-toastify";
+import {
+  acceptBooking,
+  checkoutBooking,
+  getBookingOfHostHouses,
+  rejectBooking,
+} from "../../../../actions/booking";
+import { BOOKING_STATUS, formatCurrency, formatDate } from "../../../../utils";
 import Pagination from "../../../Pagination/Pagination";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -42,6 +48,34 @@ export default function ManageBookings() {
       setError("Some Error Occured");
     }
   };
+
+  const handleAcceptBooking = async (bookingId) => {
+    if (!window.confirm("Are you sure?")) return;
+    acceptBooking(token, { status: BOOKING_STATUS.NOT_PAID }, bookingId).then(
+      (res) => {
+        toast.success("Accept Booking Successfully!");
+      }
+    );
+  };
+  const handleRejectBooking = async (bookingId) => {
+    if (!window.confirm("Are you sure?")) return;
+    rejectBooking(token, { status: BOOKING_STATUS.REJECTED }, bookingId).then(
+      (res) => {
+        toast.success("Reject Booking Successfully!");
+      }
+    );
+  };
+  const handleCheckoutBooking = async (bookingId) => {
+    if (!window.confirm("Are you sure?")) return;
+    checkoutBooking(
+      token,
+      { status: BOOKING_STATUS.COMPLETED },
+      bookingId
+    ).then((res) => {
+      toast.success("Checkout Booking Successfully!");
+    });
+  };
+
   return (
     <>
       <div className="wrapper">
@@ -75,7 +109,7 @@ export default function ManageBookings() {
                             <th scope="col">Date Checkout</th>
                             <th scope="col">Total Payment</th>
                             <th scope="col">Status</th>
-                            <th scope="col" colspan="2">
+                            <th scope="col" colSpan="2">
                               Actions
                             </th>
                           </tr>
@@ -95,7 +129,9 @@ export default function ManageBookings() {
                               <td>{formatDate(new Date(b.date_check_in))}</td>
                               <td>{formatDate(new Date(b.date_check_out))}</td>
                               <td>{formatCurrency(b.payment)}</td>
-                              <td>{b.status}</td>
+                              <td>
+                                <strong>{b.status.toUpperCase()}</strong>
+                              </td>
                               {/* <td> */}
                               {b.status === "pending" && (
                                 <>
@@ -104,7 +140,13 @@ export default function ManageBookings() {
                                       className="text-primary"
                                       to={"accept-booking"}
                                     > */}
-                                    <button className="text-primary">
+                                    <button
+                                      className="btn btn-primary"
+                                      onClick={() => {
+                                        handleAcceptBooking(b._id);
+                                        loadBookingsOfHostHouses();
+                                      }}
+                                    >
                                       <i class="fa-solid fa-circle-check"></i>
                                     </button>
                                     {/* </Link> */}
@@ -114,32 +156,38 @@ export default function ManageBookings() {
                                       className="text-danger"
                                       to={"reject-booking"}
                                     > */}
-                                    <button className="text-danger">
+                                    <button
+                                      className="btn btn-danger"
+                                      onClick={() => {
+                                        handleRejectBooking(b._id);
+                                        loadBookingsOfHostHouses();
+                                      }}
+                                    >
                                       <i class="fa-solid fa-circle-xmark"></i>
                                     </button>
                                     {/* </Link> */}
                                   </td>
                                 </>
                               )}
-                              {b.status === "completed" && (
+                              {(b.status === "completed" ||
+                                b.status === "rejected") && (
                                 <>
-                                  <td colSpan="2">
-                                    <button disabled className="text-success">
-                                      Completed
-                                    </button>
-                                  </td>
+                                  <td colSpan="2"></td>
                                 </>
                               )}
                               {(b.status === "not-paid" ||
                                 b.status === "paid") && (
                                 <>
                                   <td colSpan="2">
-                                    <Link
-                                      className="text-primary"
-                                      to={"checkout-booking"}
+                                    <button
+                                      className="btn btn-primary"
+                                      onClick={() => {
+                                        handleCheckoutBooking(b._id);
+                                        loadBookingsOfHostHouses();
+                                      }}
                                     >
-                                      <button>Check out</button>
-                                    </Link>
+                                      <i class="fa-solid fa-right-from-bracket"></i>
+                                    </button>
                                   </td>
                                 </>
                               )}

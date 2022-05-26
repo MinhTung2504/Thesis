@@ -1,9 +1,9 @@
-import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getUserBooking } from "../../actions/booking";
 import Header from "../Header/Header";
+import Pagination from "../Pagination/Pagination";
 import BookingHistory from "./BookingHistory/BookingHistory";
 
 export default function UserBooking() {
@@ -51,7 +51,7 @@ export default function UserBooking() {
           </div>
           <div className="container text-center">
             {bookings.map((b) => (
-              <BookingHistory booking={b} />
+              <BookingHistory booking={b} key={b._id} />
             ))}
             <br />
             <Pagination page={page} pages={pages} changePage={setPage} />

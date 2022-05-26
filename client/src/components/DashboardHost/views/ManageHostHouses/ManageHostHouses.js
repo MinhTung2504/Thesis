@@ -70,9 +70,14 @@ export default function ManageHostHouses() {
                         </Card.Header>
                       </Col>
                       <Col md="2">
-                        <Link to="/host/houses/new" className="btn btn-primary">
-                          <i class="fa-solid fa-plus"></i>
-                        </Link>
+                        <Card.Header>
+                          <Link
+                            to="/host/houses/new"
+                            className="btn btn-primary"
+                          >
+                            <i class="fa-solid fa-plus"></i>
+                          </Link>
+                        </Card.Header>
                       </Col>
                     </Row>
                     {/* <Card.Body className="table-full-width table-responsive px-0"> */}
@@ -122,12 +127,12 @@ export default function ManageHostHouses() {
                               <td>{h.city}</td>
                               <td>{h.max_guests}</td>
                               <td>{h.num_bedrooms}</td>
-                              <td>{h.size} m2</td>
+                              <td>{h.size} (m2)</td>
                               <td>{h.num_beds}</td>
 
                               <td>
                                 <Link to={`/host/houses/edit/${h._id}`}>
-                                  <button>
+                                  <button className="btn btn-primary">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                   </button>
                                 </Link>
@@ -139,7 +144,7 @@ export default function ManageHostHouses() {
                                     handleHouseDelete(h._id);
                                     loadHostHouses();
                                   }}
-                                  className="text-danger"
+                                  className="btn btn-danger"
                                 >
                                   <i class="fa-solid fa-trash-can"></i>
                                 </button>

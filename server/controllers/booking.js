@@ -34,10 +34,7 @@ export const getUserBooking = async (req, res) => {
       var totalUserBooking;
       totalUserBooking = myCache.get("totalUserBooking");
     } else {
-      totalUserBooking = await Booking.find({
-        user: req.user._id,
-        status: { $ne: "rejected" },
-      }).count();
+      totalUserBooking = await Booking.find({ user: req.user._id }).count();
       myCache.set("totalUserBooking", totalUserBooking);
     }
     const pages = Math.ceil(totalUserBooking / pageSize);
@@ -49,7 +46,6 @@ export const getUserBooking = async (req, res) => {
     }
     const result = await Booking.find({
       user: req.user._id,
-      status: { $ne: "rejected" },
     })
       .populate("house", "title image -_id")
       .sort({ createdAt: -1 })
@@ -91,7 +87,6 @@ export const getBookingsOfHostHouses = async (req, res) => {
     } else {
       bookingsofHostHouses = await Booking.find({
         house: arrayHostHouse.map((h) => h),
-        status: { $ne: "rejected" },
       }).count();
       myCache.set("bookingsofHostHouses", bookingsofHostHouses);
     }
@@ -104,7 +99,6 @@ export const getBookingsOfHostHouses = async (req, res) => {
     }
     const result = await Booking.find({
       house: arrayHostHouse.map((h) => h),
-      status: { $ne: "rejected" },
     })
       .populate("user", "name -_id")
       .populate("house", "title price -_id")
@@ -135,7 +129,7 @@ export const getBookingsOfHostHouses = async (req, res) => {
 export const acceptBooking = async (req, res) => {
   try {
     await Booking.findByIdAndUpdate(req.params.bookingId, {
-      status: "not-paid",
+      status: req.body.status,
     });
 
     res
@@ -152,7 +146,7 @@ export const acceptBooking = async (req, res) => {
 export const rejectBooking = async (req, res) => {
   try {
     await Booking.findByIdAndUpdate(req.params.bookingId, {
-      status: "rejected",
+      status: req.body.status,
     });
 
     res
@@ -169,12 +163,12 @@ export const rejectBooking = async (req, res) => {
 export const checkoutBooking = async (req, res) => {
   try {
     await Booking.findByIdAndUpdate(req.params.bookingId, {
-      status: "completed",
+      status: req.body.status,
     });
 
     res
       .status(StatusCodes.OK)
-      .json({ status: "success", message: "Rejected Request" });
+      .json({ status: "success", message: "Checkout Request" });
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST);
     res.json({

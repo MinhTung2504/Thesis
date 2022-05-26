@@ -71,9 +71,9 @@ export default function ManageHouses() {
                             <th scope="col">Price</th>
                             <th scope="col">City</th>
                             <th scope="col">Max Guests</th>
-                            <th scope="col">Number of Bedrooms</th>
-                            <th scope="col">Property Size</th>
-                            <th scope="col">Number of Beds</th>
+                            <th scope="col">No. Bedrooms</th>
+                            <th scope="col">Area</th>
+                            <th scope="col">No. Beds</th>
                             <th scope="col">Host</th>
                             {/* <th scope="col">Hidden/Show</th> */}
                             <th scope="col">Actions</th>
@@ -104,14 +104,14 @@ export default function ManageHouses() {
                               <td>{h.city}</td>
                               <td>{h.max_guests}</td>
                               <td>{h.num_bedrooms}</td>
-                              <td>{h.size} m2</td>
+                              <td>{h.size} (m2)</td>
                               <td>{h.num_beds}</td>
                               <td>Name of Host</td>
 
                               {h.isBlocked === true ? (
                                 <td>
                                   <Link to={`/house/unlock/${h._id}`}>
-                                    <button className="text-primary">
+                                    <button className="btn btn-primary">
                                       <i class="fa-solid fa-lock-open"></i>
                                     </button>
                                   </Link>
@@ -119,7 +119,7 @@ export default function ManageHouses() {
                               ) : (
                                 <td>
                                   <Link to={`/house/lock/${h._id}`}>
-                                    <button className="text-danger">
+                                    <button className="btn btn-danger">
                                       <i class="fa-solid fa-lock"></i>
                                     </button>
                                   </Link>

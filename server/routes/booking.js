@@ -5,8 +5,8 @@ import {
   createBooking,
   getBookingsOfHostHouses,
   getUserBooking,
+  rejectBooking,
 } from "../controllers/booking";
-import { rejectRequest } from "../controllers/request";
 // import {
 //   acceptRequest,
 //   createRequest,
@@ -21,19 +21,19 @@ router.post("/booking/new", auth, createBooking);
 router.get("/user/booking", auth, getUserBooking);
 router.get("/host/bookings", auth, authPage(["host"]), getBookingsOfHostHouses);
 router.put(
-  "/host/bookings/:bookingId/accepted",
+  "/host/bookings/accept/:bookingId",
   auth,
   authPage(["host"]),
   acceptBooking
 );
 router.put(
-  "/host/bookings/:bookingId/rejected",
+  "/host/bookings/reject/:bookingId",
   auth,
   authPage(["host"]),
-  rejectRequest
+  rejectBooking
 );
 router.put(
-  "/host/bookings/:bookingId/checkout-success",
+  "/host/bookings/checkout-success/:bookingId",
   auth,
   authPage(["host"]),
   checkoutBooking
