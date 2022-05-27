@@ -23,6 +23,8 @@ import EditHostHouse from "./components/DashboardHost/views/ManageHostHouses/Edi
 import { ROLES } from "./utils";
 import Unauthorized from "./components/Unauthorized";
 import ManageBookings from "./components/DashboardHost/views/ManageBookings/ManageBookings";
+import SuccessPayment from "./components/Payment/SuccessPayment/SuccessPayment";
+import CancelPayment from "./components/Payment/CancelPayment/CancelPayment";
 
 function App() {
   return (
@@ -142,7 +144,24 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/success-payment/:bookingId"
+          element={
+            <PrivateRoute allowedRoles={[ROLES.USER, ROLES.HOST, ROLES.ADMIN]}>
+              <SuccessPayment />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/cancel-payment"
+          element={
+            <PrivateRoute allowedRoles={[ROLES.USER, ROLES.HOST, ROLES.ADMIN]}>
+              <CancelPayment />
+            </PrivateRoute>
+          }
+        />
       </Routes>
+
       {/* <Footer /> */}
     </BrowserRouter>
   );

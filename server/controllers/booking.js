@@ -176,3 +176,20 @@ export const checkoutBooking = async (req, res) => {
     });
   }
 };
+
+export const checkPaidBooking = async (req, res) => {
+  try {
+    await Booking.findByIdAndUpdate(req.params.bookingId, {
+      status: "paid",
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", message: "Booking is paid" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};

@@ -2,6 +2,7 @@ import express from "express";
 import {
   acceptBooking,
   checkoutBooking,
+  checkPaidBooking,
   createBooking,
   getBookingsOfHostHouses,
   getUserBooking,
@@ -37,6 +38,12 @@ router.put(
   auth,
   authPage(["host"]),
   checkoutBooking
+);
+router.put(
+  "/host/bookings/paid-success/:bookingId",
+  auth,
+  authPage(["host"]),
+  checkPaidBooking
 );
 
 // export default router;

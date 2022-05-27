@@ -1,9 +1,27 @@
 import React from "react";
 import { Rate } from "antd";
 import { formatCurrency, formatDate } from "../../../utils";
+import { payBooking } from "../../../actions/paypal";
+import { useNavigate } from "react-router-dom";
 
 export default function BookingHistory({ booking }) {
-  console.log(booking);
+  // console.log(booking);
+  const navigate = useNavigate();
+  const handlePayment = async (bookingId, bookingInfo) => {
+    // await payBooking(data)
+    //   .then((res) => {
+    //     if (res.status === 302) {
+    //       console.log(res.headers);
+    //       window.location = res.headers.location;
+    //     } else {
+    //       console.log("error");
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+    const res = await payBooking(bookingId, bookingInfo);
+    console.log(res.data);
+    window.location = res.data;
+  };
   return (
     <div className="container mb-2">
       <div
@@ -136,7 +154,27 @@ export default function BookingHistory({ booking }) {
           {booking.status === "not-paid" && (
             <div>
               <div className="row mb-3">
-                <button className="btn btn-primary text-black">Pay</button>
+                <button
+                  className="btn btn-primary text-black"
+                  onClick={() => {
+                    console.log({
+                      name: booking.house.title,
+                      price: (booking.payment / 23000).toFixed().toString(),
+                      currency: "USD",
+                      quantity: 1,
+                    });
+                    handlePayment(booking._id, {
+                      name: booking.house.title,
+                      sku: booking.house.title,
+                      price: (booking.payment / 23000).toFixed().toString(),
+                      currency: "USD",
+                      quantity: 1,
+                    });
+                    // handlePayment();
+                  }}
+                >
+                  Pay
+                </button>
               </div>
               <div className="row mb-3">
                 <button className="btn btn-cancel text-black">

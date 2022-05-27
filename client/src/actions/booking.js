@@ -56,3 +56,14 @@ export const checkoutBooking = async (token, data, bookingId) =>
       },
     }
   );
+
+export const checkPaidBooking = async (token, data, bookingId) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/host/bookings/paid-success/${bookingId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
