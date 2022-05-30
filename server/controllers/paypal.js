@@ -1,3 +1,4 @@
+import Payment from "../models/payment";
 var paypal = require("paypal-rest-sdk");
 
 paypal.configure({
@@ -64,6 +65,15 @@ export const successPayment = (req, res) => {
         res.send(error);
       } else {
         // console.log(JSON.stringify(payment));
+        let p = new Payment({
+          payment_method: payment.payer.payment_method,
+          status: payment.transactions[0].related_resources[0].sale.state,
+          name_payment: payment.transactions[0].item_list.items[0].name,
+          total: payment.transactions[0].related_resources[0].sale.amount.total,
+          house: payment.transactions[0].item_list.items[0].sku,
+        });
+        p.save();
+
         res.redirect(`http://localhost:3000/success-payment/${bookingId}`);
       }
     }

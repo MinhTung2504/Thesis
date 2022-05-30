@@ -165,7 +165,7 @@ export default function BookingHistory({ booking }) {
                     });
                     handlePayment(booking._id, {
                       name: booking.house.title,
-                      sku: booking.house.title,
+                      sku: booking._id,
                       price: (booking.payment / 23000).toFixed().toString(),
                       currency: "USD",
                       quantity: 1,
