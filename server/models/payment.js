@@ -17,7 +17,7 @@ const paymentSchema = new Schema(
     total: {
       type: String,
     },
-    house: {
+    bookingId: {
       type: ObjectId,
       ref: "House",
     },

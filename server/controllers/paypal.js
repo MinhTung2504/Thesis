@@ -70,7 +70,7 @@ export const successPayment = (req, res) => {
           status: payment.transactions[0].related_resources[0].sale.state,
           name_payment: payment.transactions[0].item_list.items[0].name,
           total: payment.transactions[0].related_resources[0].sale.amount.total,
-          house: payment.transactions[0].item_list.items[0].sku,
+          bookingId: payment.transactions[0].item_list.items[0].sku,
         });
         p.save();
 

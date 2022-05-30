@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Rate } from "antd";
 import { formatCurrency, formatDate } from "../../../utils";
 import { payBooking } from "../../../actions/paypal";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import PaymentModal from "./PaymentModal";
+import { getPayment } from "../../../actions/payment";
 
 export default function BookingHistory({ booking }) {
   // console.log(booking);
+  const { auth } = useSelector((state) => ({ ...state }));
+  const { token } = auth;
+  const [payment, setPayment] = useState();
   const navigate = useNavigate();
   const handlePayment = async (bookingId, bookingInfo) => {
-    // await payBooking(data)
-    //   .then((res) => {
-    //     if (res.status === 302) {
-    //       console.log(res.headers);
-    //       window.location = res.headers.location;
-    //     } else {
-    //       console.log("error");
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
     const res = await payBooking(bookingId, bookingInfo);
     console.log(res.data);
     window.location = res.data;
+  };
+  const getPaymentByBooking = async (bookingId) => {
+    const res = await getPayment(bookingId, token);
+    console.log(res.data);
+    setPayment(res.data);
   };
   return (
     <div className="container mb-2">
@@ -184,18 +185,26 @@ export default function BookingHistory({ booking }) {
             </div>
           )}
           {booking.status === "paid" && (
-            <div>
-              <div className="row mb-3">
-                <button className="btn btn-secondary text-black" disabled>
-                  Paid
-                </button>
+            <>
+              <div>
+                <div className="row mb-3">
+                  <button
+                    className="btn btn-info"
+                    data-bs-toggle="modal"
+                    data-bs-target="#paymentModalDetail"
+                    onClick={() => getPaymentByBooking(booking._id)}
+                  >
+                    View Payment
+                  </button>
+                </div>
+                <div className="row mb-3">
+                  <button className="btn btn-cancel text-black">
+                    Cancel Booking
+                  </button>
+                </div>
               </div>
-              <div className="row mb-3">
-                <button className="btn btn-cancel text-black">
-                  Cancel Booking
-                </button>
-              </div>
-            </div>
+              {payment && <PaymentModal payment={payment} />}
+            </>
           )}
         </div>
       </div>
