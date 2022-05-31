@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { formatCurrency } from "../../utils";
-import "./HouseItem.css";
+import { formatCurrency, smallerTitleHouse } from "../../utils";
 
 export default function HouseItem({ h }) {
   return (
-    <Link className="listItem__room-list" to={`/house/${h._id}`}>
+    <Link to={`/house/${h._id}`}>
       <div className="col">
-        <div key={h.id} className="card" style={{ height: "600px" }}>
+        <div key={h.id} className="card" style={{ height: "500px" }}>
           <img
             src={h.image}
             alt="card-img-top"
@@ -16,7 +15,8 @@ export default function HouseItem({ h }) {
           />
           <div className="card-body text-dark">
             <h3 className="card-title" style={{ fontSize: "1.5rem" }}>
-              {h.title}
+              {h.title && smallerTitleHouse(h.title)}
+              {/* {h.title} */}
             </h3>
             <p className="card-text">Price: {formatCurrency(h.price)}</p>
             <p className="card-text">City: {h.city}</p>{" "}

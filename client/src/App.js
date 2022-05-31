@@ -7,7 +7,6 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import HouseDetail from "./components/HouseDetail/HouseDetail";
 import PrivateRoute from "./components/PrivateRoute";
-import SearchHouse from "./components/SearchHouse/SearchHouse";
 import NotFound from "./components/NotFound";
 import UserProfile from "./components/UserProfile/UserProfile";
 import FilterHouses from "./components/FilterHouses/FilterHouses";
@@ -35,7 +34,6 @@ function App() {
         {/* <Route path="/page/:pageNumber" element={<Home />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/search-house" element={<SearchHouse />} />
         <Route path="/houses-filter" element={<FilterHouses />} />
         <Route path="/house/:houseId" element={<HouseDetail />} />
         <Route path="*" element={<NotFound />} />

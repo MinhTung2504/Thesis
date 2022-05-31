@@ -5,6 +5,7 @@ import {
   getAllBannedUsers,
   getAllUsers,
   getUser,
+  getUserByMonth,
   unbanUser,
 } from "../controllers/user";
 import { auth, authPage } from "../middlewares";
@@ -17,6 +18,8 @@ router.get("/users/:userId", auth, getUser);
 router.put("/users/:userId/banned", auth, authPage(["admin"]), banUser);
 router.put("/users/:userId/unbanned", auth, authPage(["admin"]), unbanUser);
 router.put("/users/editRole/:userId", auth, authPage(["admin"]), editRoleUser);
+
+router.get("/usersstatistics", auth, authPage(["admin"]), getUserByMonth);
 
 // export default router;
 module.exports = router;

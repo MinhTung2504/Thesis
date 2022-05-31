@@ -13,6 +13,9 @@ export default function HouseList() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
+  const [sort, setSort] = useState("");
+  const [numGuests, setNumGuests] = useState(1);
+  const [city, setCity] = useState("");
   // console.log(page);
   useEffect(() => {
     loadAllHouses();
@@ -22,7 +25,8 @@ export default function HouseList() {
   const loadAllHouses = async () => {
     setLoading(true);
     try {
-      const res = await getAllHouses(page);
+      // const res = await getAllHouses(page);
+      const res = await getAllHouses(page, city, sort, numGuests);
       // console.log(res);
       // const { data, pages: totalPages } = await res.json();
 
@@ -36,12 +40,6 @@ export default function HouseList() {
   };
 
   return (
-    // <div class="card-group">
-    //   {houses.map((h) => (
-    //     <HouseItem key={h._id} h={h} />
-    //   ))}
-    // </div>
-
     <div className="container listItem">
       {loading ? (
         <h3 className="loading-text">Loading...</h3>
@@ -49,19 +47,10 @@ export default function HouseList() {
         <h3 className="error-text">{error}</h3>
       ) : (
         <>
-          {/* <div className="listItem__title">
-            <h2>Gợi ý khám phá</h2>
-            <p>
-              Để mỗi chuyến đi là một hành trình truyền cảm hứng, mỗi căn phòng
-              là một khoảng trời an yên
-            </p>
-          </div> */}
-          <div className="listItem__room">
-            <div className="row row-cols-1 row-cols-md-3 g-4">
-              {houses.map((h) => (
-                <HouseItem key={h._id} h={h} />
-              ))}
-            </div>
+          <div className="row row-cols-1 row-cols-lg-3 g-4">
+            {houses.map((h) => (
+              <HouseItem key={h._id} h={h} />
+            ))}
           </div>
           <Pagination page={page} pages={pages} changePage={setPage} />
         </>

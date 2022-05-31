@@ -7,6 +7,7 @@ import {
   PAGE_LIST_HOUSE,
   PAGESIZE_LIST_HOUSE,
 } from "../utils/constants";
+import FilteringHouses from "../utils/filterHouse";
 const cloudinary = require("../utils/cloudinary");
 
 const myCache = new NodeCache({ stdTTL: 3600 });
@@ -54,6 +55,24 @@ export const createHouse = async (req, res) => {
   }
 };
 
+export const getAllHouseTest = async (req, res) => {
+  try {
+    const features = new APIfeatures(House.find(), req.query)
+      .filtering()
+      .sorting()
+      .paginating();
+
+    const houses = await features.query;
+
+    res.json({
+      status: "Success",
+      result: houses.length,
+      data: houses,
+    });
+  } catch (error) {}
+  return res.status(500).json({ msg: error.message });
+};
+
 export const getAllHouses = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || PAGE_LIST_HOUSE;
@@ -73,7 +92,14 @@ export const getAllHouses = async (req, res) => {
         message: "No Page Found",
       });
     }
-    const result = await House.find().skip(skip).limit(pageSize);
+    // const result = await House.find().skip(skip).limit(pageSize);
+    const features = new FilteringHouses(House.find(), req.query)
+      .filtering()
+      .sorting()
+      .paginating();
+
+    const result = await features.query;
+
     // const result = await House.find()
     //   .populate("user", "name -_id")
     //   .skip(skip)

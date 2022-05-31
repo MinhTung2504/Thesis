@@ -50,7 +50,7 @@ export default function Header(typeofHeader) {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
 
             <div className="d-flex">
-              <Link className="nav-link" to="/search-house">
+              <Link className="nav-link" to="/houses-filter">
                 HomeStay
               </Link>
             </div>

@@ -3,6 +3,7 @@ import {
   createHouse,
   deleteHouse,
   getAllHouses,
+  getAllHouseTest,
   getHostHouses,
   getHouseById,
   updateHouse,
@@ -37,6 +38,8 @@ router.get("/house/:houseId", getHouseById);
 router.put("/house/update/:houseId", auth, authPage(["host"]), updateHouse);
 // router.delete("/house/delete/:houseId", requireSignin, deleteHouse);
 router.delete("/house/delete/:houseId", auth, authPage(["host"]), deleteHouse);
+
+router.get("/houses-test", getAllHouseTest);
 
 // export default router;
 module.exports = router;
