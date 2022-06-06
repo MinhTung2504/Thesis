@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
-import HouseList from "../HouseList/HouseList";
 import { Slider, TextField } from "@material-ui/core";
 import "./FilterHouses.css";
 import { destinations } from "../../utils";
 import { getAllHouses } from "../../actions/house";
 import { useParams } from "react-router-dom";
 import HouseItem from "../HouseItem/HouseItem";
-import Pagination from "../Pagination/Pagination";
 
 export default function FilterHouses() {
-  const [sliderMax, setSliderMax] = useState(1000);
-  const [filter, setFilter] = useState();
-  const [priceRange, setPriceRange] = useState([200, 500]);
   const pageNumber = useParams().pageNumber || 1;
   // console.log(pageNumber);
   const [houses, setHouses] = useState([]);
@@ -23,23 +18,20 @@ export default function FilterHouses() {
   const [sort, setSort] = useState("");
   const [numGuests, setNumGuests] = useState(1);
   const [city, setCity] = useState("");
+  const [sliderMax, setSliderMax] = useState(20000000);
+  const [filter, setFilter] = useState("");
+  const [priceRange, setPriceRange] = useState([0, 20000000]);
 
   useEffect(() => {
     loadAllHouses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, city, sort, numGuests]);
+  }, [page, city, sort, numGuests, priceRange]);
 
   const loadAllHouses = async () => {
     setLoading(true);
     try {
-      const res = await getAllHouses(page, city, sort, numGuests);
-      // console.log(res);
-      // const { data, pages: totalPages } = await res.json();
-
+      const res = await getAllHouses(page, city, sort, numGuests, filter);
       setPages(res.data.pages);
-      // const finalData = res.data.data.filter((h) => (h.title = "Hello"));
-
-      // setHouses(res.data.data);
       setHouses(res.data.data);
       setLoading(false);
     } catch (error) {
@@ -52,16 +44,15 @@ export default function FilterHouses() {
   };
 
   const onSliderCommitHandler = (e, newValue) => {
-    buildRangeFilter();
+    buildRangeFilter(newValue);
   };
 
   const buildRangeFilter = (newValue) => {
-    const urlFilter = `?price[gte]=${newValue[0]}&price[lte]=${newValue[1]}`;
+    const urlFilter = `price[gte]=${newValue[0]}&price[lte]=${newValue[1]}`;
 
     setFilter(urlFilter);
   };
 
-  console.log(city);
   return (
     <>
       <Header type="" />
@@ -92,23 +83,22 @@ export default function FilterHouses() {
               min={0}
               max={sliderMax}
               value={priceRange}
-              valueLabelDisplay="auto"
-              // disabled={loading}
+              disabled={loading}
               onChange={(e, newValue) => setPriceRange(newValue)}
               onChangeCommitted={onSliderCommitHandler}
+              step={100000}
             />
 
-            <div className="">
+            <div className="form-group">
               <TextField
                 size="small"
                 id="lower"
                 label="Min Price"
                 variant="outlined"
+                disabled
                 type="number"
-                disabled={loading}
-                value={0}
-                // onChange={(e) => handlePriceInputChange(e, "lower")}
-                // onBlur={onTextfieldCommitHandler}
+                value={priceRange[0]}
+                className="form-control"
               />
 
               <TextField
@@ -117,10 +107,9 @@ export default function FilterHouses() {
                 label="Max Price"
                 variant="outlined"
                 type="number"
-                disabled={loading}
-                value={20}
-                // onChange={(e) => handlePriceInputChange(e, "upper")}
-                // onBlur={onTextfieldCommitHandler}
+                disabled
+                value={priceRange[1]}
+                className="form-control mt-3"
               />
             </div>
           </div>
@@ -129,16 +118,22 @@ export default function FilterHouses() {
             <div id="orange">
               <span class="fa fa-minus"></span>
             </div>
-            {destinations.map((des) => (
-              <div class="form-group" key={des.id}>
-                <input
-                  type="checkbox"
-                  // checked={checked.includes(des.id)}
-                  // onChange={() => handleCheck(des.id)}
-                />
-                <label>{des.city}</label>
-              </div>
-            ))}
+            <div class="form-group">
+              <label for="cities">Choose a destination:</label>
+
+              <select
+                id="cities"
+                name="cities"
+                value={city}
+                onChange={handleCity}
+                className="form-control"
+              >
+                <option>All Cities</option>
+                {destinations.map((des) => (
+                  <option value={"city=" + des.city}>{des.city}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -158,23 +153,22 @@ export default function FilterHouses() {
               min={0}
               max={sliderMax}
               value={priceRange}
-              valueLabelDisplay="auto"
-              // disabled={loading}
+              disabled={loading}
               onChange={(e, newValue) => setPriceRange(newValue)}
               onChangeCommitted={onSliderCommitHandler}
+              step={100000}
             />
 
-            <div className="">
+            <div className="form-group">
               <TextField
                 size="small"
                 id="lower"
                 label="Min Price"
                 variant="outlined"
+                disabled
                 type="number"
-                disabled={loading}
-                value={0}
-                // onChange={(e) => handlePriceInputChange(e, "lower")}
-                // onBlur={onTextfieldCommitHandler}
+                value={priceRange[0]}
+                className="form-control"
               />
 
               <TextField
@@ -183,10 +177,9 @@ export default function FilterHouses() {
                 label="Max Price"
                 variant="outlined"
                 type="number"
-                disabled={loading}
-                value={20}
-                // onChange={(e) => handlePriceInputChange(e, "upper")}
-                // onBlur={onTextfieldCommitHandler}
+                disabled
+                value={priceRange[1]}
+                className="form-control mt-3"
               />
             </div>
           </div>
@@ -197,12 +190,6 @@ export default function FilterHouses() {
             </div>
 
             <div class="form-group">
-              {/* <input
-                  type="radio"
-                  checked={checked.includes(des.city)}
-                  onChange={() => handleCheck(des.city)}
-                />
-                <label>{des.city}</label> */}
               <label for="cities">Choose a destination:</label>
 
               <select
@@ -210,6 +197,7 @@ export default function FilterHouses() {
                 name="cities"
                 value={city}
                 onChange={handleCity}
+                className="form-control"
               >
                 <option>All Cities</option>
                 {destinations.map((des) => (
@@ -226,12 +214,6 @@ export default function FilterHouses() {
             </div>
 
             <div class="form-group">
-              {/* <input
-                  type="radio"
-                  checked={checked.includes(des.city)}
-                  onChange={() => handleCheck(des.city)}
-                />
-                <label>{des.city}</label> */}
               <label for="max_guests">Choose a num guests:</label>
               <select
                 name="numGuest"
@@ -263,7 +245,7 @@ export default function FilterHouses() {
                     value={sort}
                     onChange={(e) => setSort(e.target.value)}
                   >
-                    <option value="popularity">Newest</option>
+                    <option value="">Newest</option>
                     <option value="sort=oldest">Oldest</option>
                     <option value="sort=-price">Price: Hight-Low</option>
                     <option value="sort=price">Price: Low-Hight</option>
@@ -272,9 +254,6 @@ export default function FilterHouses() {
               </div>
             </div>
             <div class="row">
-              {/* <div class="row row-cols-1 row-cols-md-3 g-4"> */}
-              {/* <HouseList checked={checked} /> */}
-              {/* </div> */}
               <div className="container listItem">
                 {loading ? (
                   <h3 className="loading-text">Loading...</h3>
@@ -287,11 +266,6 @@ export default function FilterHouses() {
                         <HouseItem key={h._id} h={h} />
                       ))}
                     </div>
-                    {/* <Pagination
-                      page={page}
-                      pages={pages}
-                      changePage={setPage}
-                    /> */}
 
                     <div>
                       {houses.length < 9 ? (

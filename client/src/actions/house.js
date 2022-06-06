@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getAllHouses = async (page, city, sort, numGuests) =>
+export const getAllHouses = async (page, city, sort, numGuests, priceRange) =>
   await axios.get(
-    `${process.env.REACT_APP_API}/houses?page=${page}&${city}&${sort}&${numGuests}`
+    `${process.env.REACT_APP_API}/houses?page=${page}&${city}&${sort}&${numGuests}&${priceRange}`
   );
 
 export const getHouseById = async (houseId) =>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUsers } from "../../../actions/user";
@@ -39,27 +39,6 @@ export default function ManageUsers() {
       setError("Some Error Occured");
     }
   };
-
-  function count(array) {
-    return array.reduce((total, elem) => {
-      let temp = elem.createdAt.split("-");
-      // console.log(temp);
-      let groupKey = temp[0] + "-" + temp[1];
-      // console.log(groupKey);
-
-      total[groupKey] ? (total[groupKey] += 1) : (total[groupKey] = 1);
-      // total[groupKey] += 1;
-      console.log(total[groupKey]);
-      return total;
-    }, {});
-  }
-  function convertToArray(json_data) {
-    let result = [];
-    for (var i in json_data) result.push({ period: i, count: json_data[i] });
-    return result;
-  }
-
-  console.log(convertToArray(count(users)));
 
   return (
     <>
