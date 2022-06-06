@@ -1,39 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUsers } from "../../../actions/user";
+import Pagination from "../../Pagination/Pagination";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 export default function ManageUsers() {
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
+  const pageNumber = useParams().pageNumber || 1;
   // console.log(pageNumber);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  //   const [page, setPage] = useState(pageNumber);
-  //   const [pages, setPages] = useState(1);
+  const [page, setPage] = useState(pageNumber);
+  const [pages, setPages] = useState(1);
   // console.log(page);
 
   useEffect(() => {
     loadAllUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   const loadAllUsers = async () => {
     setLoading(true);
     try {
-      const res = await getUsers(token);
+      const res = await getUsers(token, page);
       console.log(res);
       // const { data, pages: totalPages } = await res.json();
 
       //   setPages(res.data.pages);
       // setHouses(res.data);
       //   setHouses(res.data.data);
-      setUsers(res.data);
+      setUsers(res.data.data);
       setLoading(false);
+      setPages(res.data.pages);
     } catch (error) {
       setLoading(false);
       setError("Some Error Occured");
@@ -119,6 +122,7 @@ export default function ManageUsers() {
                 </Col>
               </Row>
             </Container>
+            <Pagination page={page} pages={pages} changePage={setPage} />
           </div>
         </div>
       </div>

@@ -1,6 +1,10 @@
 import User from "../models/user";
 import { StatusCodes } from "http-status-codes";
+import NodeCache from "node-cache";
+import { PAGESIZE_LIST, PAGE_LIST } from "../utils/constants";
+import FilteringFeature from "../utils/filterFeature";
 
+const myCache = new NodeCache({ stdTTL: 3600 });
 export const getUser = async (req, res) => {
   let user = await User.findById(req.params.userId);
 
@@ -9,19 +13,54 @@ export const getUser = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
-  let allUsers = await User.find({}, { password: 0 });
-  res.json(allUsers);
-  //   const filters = req.query;
-  //   let allUsers = await User.find({}, { password: 0 });
-  //   const filteredUsers = allUsers.filter((user) => {
-  //     let isValid = true;
-  //     for (let key in filters) {
-  //       console.log(key, user[key], filters[key]);
-  //       isValid = isValid && user[key] == filters[key];
-  //     }
-  //     return isValid;
-  //   });
-  //   res.json(filteredUsers);
+  // let allUsers = await User.find({}, { password: 0 });
+  // res.json(allUsers);
+
+  try {
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
+    const skip = (page - 1) * pageSize;
+    if (myCache.has("totalUsers")) {
+      var total;
+      total = myCache.get("totalUsers");
+    } else {
+      total = await User.countDocuments();
+      myCache.set("totalUsers", total);
+    }
+    const pages = Math.ceil(total / pageSize);
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    // const result = await House.find().skip(skip).limit(pageSize);
+    const features = new FilteringFeature(User.find({}), req.query)
+      .filtering()
+      .sorting()
+      .paginating();
+
+    const result = await features.query;
+
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      count: result.length,
+      page,
+      pages,
+      data: result,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      message: "Server Error",
+    });
+  }
 };
 
 export const getAllBannedUsers = async (req, res) => {

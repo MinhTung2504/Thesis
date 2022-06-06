@@ -1,11 +1,14 @@
 import axios from "axios";
 
-export const getUserBooking = async (token, page) =>
-  await axios.get(`${process.env.REACT_APP_API}/user/booking?page=${page}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const getUserBooking = async (token, page, status) =>
+  await axios.get(
+    `${process.env.REACT_APP_API}/user/booking?page=${page}&${status}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
 export const createNewBooking = async (token, data) =>
   await axios.post(`${process.env.REACT_APP_API}/booking/new`, data, {

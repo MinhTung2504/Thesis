@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const getUsers = async (token) =>
-  await axios.get(`${process.env.REACT_APP_API}/users`, {
+export const getUsers = async (token, page) =>
+  await axios.get(`${process.env.REACT_APP_API}/users?page=${page}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

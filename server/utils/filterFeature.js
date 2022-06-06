@@ -1,4 +1,4 @@
-export default class FilteringHouses {
+export default class FilteringFeature {
   constructor(query, queryString) {
     this.query = query;
     this.queryString = queryString;

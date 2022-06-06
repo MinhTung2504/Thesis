@@ -5,5 +5,5 @@ export const EXPIRESIN_TOKEN = "7d";
 export const SALT_HASH = 12;
 export const WIDTH_IMAGE = 1920;
 export const HEIGHT_IMAGE = 1080;
-export const PAGE_LIST_HOUSE = 1;
-export const PAGESIZE_LIST_HOUSE = 9;
+export const PAGE_LIST = 1;
+export const PAGESIZE_LIST = 9;

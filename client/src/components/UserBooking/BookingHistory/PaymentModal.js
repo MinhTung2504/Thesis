@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate } from "../../../utils";
+import { formatCurrency, formatDate } from "../../../utils";
 
 export default function PaymentModal({ payment }) {
   return (
@@ -13,7 +13,16 @@ export default function PaymentModal({ payment }) {
       <div class="modal-dialog">
         <div class="modal-content text-center">
           <div class="modal-header">
-            <h5 class=" text-center" id="paymentModalDetail">
+            <h5
+              class="text-center"
+              id="paymentModalDetail"
+              style={{
+                textAlign: "center",
+                justifyItems: "center",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               Payment Detail
             </h5>
             <button
@@ -24,31 +33,41 @@ export default function PaymentModal({ payment }) {
             ></button>
           </div>
           <div class="modal-body">
-            <ul class="list-group list-group-flush">
+            <div class="list-group list-group-flush">
               <li class="list-group-item">
                 <strong>
                   {`Payment for ${payment.name_payment}`.toUpperCase()}
                 </strong>
               </li>
-              <li class="list-group-item">
-                <strong>Total Payment:</strong> {payment.total}
-              </li>
-              <li class="list-group-item">
-                <strong>Payment Method:</strong> {payment.payment_method}
-              </li>
-              <li class="list-group-item">
-                <strong>Payment Status:</strong> {payment.status}
-              </li>
-              <li class="list-group-item">
-                <strong>Payment Created At:</strong>{" "}
-                {formatDate(new Date(payment.createdAt))}
-              </li>
-            </ul>
+              <hr />
+            </div>
+            <div className="row">
+              <div className="col-sm-6">
+                <h5>
+                  <strong>Total:</strong>
+                </h5>
+                <h5>
+                  <strong>Method:</strong>
+                </h5>
+                <h5>
+                  <strong>Status:</strong>
+                </h5>
+                <h5>
+                  <strong>Created At:</strong>
+                </h5>
+              </div>
+              <div className="col-sm-6">
+                <h5>{formatCurrency(payment.total * 23000)}</h5>
+                <h5>{payment.payment_method}</h5>
+                <h5>{payment.status}</h5>
+                <h5>{formatDate(new Date(payment.createdAt))}</h5>
+              </div>
+            </div>
           </div>
           <div class="modal-footer text-center">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-warning"
               data-bs-dismiss="modal"
             >
               Close

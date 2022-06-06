@@ -1,8 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import Booking from "../models/booking";
 import NodeCache from "node-cache";
-import { PAGESIZE_LIST_HOUSE, PAGE_LIST_HOUSE } from "../utils/constants";
 import House from "../models/house";
+import FilteringFeature from "../utils/filterFeature";
+import { PAGESIZE_LIST, PAGE_LIST } from "../utils/constants";
 
 const myCache = new NodeCache({ stdTTL: 3600 });
 export const createBooking = async (req, res) => {
@@ -26,8 +27,8 @@ export const createBooking = async (req, res) => {
 
 export const getUserBooking = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || PAGE_LIST_HOUSE;
-    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST_HOUSE;
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
     // const pageSize = parseInt(req.query.limit) || 2;
     const skip = (page - 1) * pageSize;
     if (myCache.has("totalUserBooking")) {
@@ -44,13 +45,26 @@ export const getUserBooking = async (req, res) => {
         message: "No Page Found",
       });
     }
-    const result = await Booking.find({
-      user: req.user._id,
-    })
-      .populate("house", "title image -_id")
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(pageSize);
+    // const result = await Booking.find({
+    //   user: req.user._id,
+    // })
+    //   .populate("house", "title image -_id")
+    //   .sort({ createdAt: -1 })
+    //   .skip(skip)
+    //   .limit(pageSize);
+
+    const features = new FilteringFeature(
+      Booking.find({ user: req.user._id })
+        .populate("house", "title image -_id")
+        .sort({ createdAt: -1 }),
+      req.query
+    )
+      .filtering()
+      .sorting()
+      .paginating();
+
+    const result = await features.query;
+
     if (page > pages) {
       res.status(StatusCodes.BAD_REQUEST).json({
         status: "Fail",
@@ -77,8 +91,8 @@ export const getBookingsOfHostHouses = async (req, res) => {
     const hostHouses = await House.find({ host: req.user._id });
     const arrayHostHouse = [];
     hostHouses.map((h) => arrayHostHouse.push(h._id));
-    const page = parseInt(req.query.page) || PAGE_LIST_HOUSE;
-    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST_HOUSE;
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
     // const pageSize = parseInt(req.query.limit) || 2;
     const skip = (page - 1) * pageSize;
     if (myCache.has("bookingsofHostHouses")) {

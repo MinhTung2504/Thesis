@@ -4,10 +4,10 @@ import NodeCache from "node-cache";
 import {
   WIDTH_IMAGE,
   HEIGHT_IMAGE,
-  PAGE_LIST_HOUSE,
-  PAGESIZE_LIST_HOUSE,
+  PAGE_LIST,
+  PAGESIZE_LIST,
 } from "../utils/constants";
-import FilteringHouses from "../utils/filterHouse";
+import FilteringFeature from "../utils/filterFeature";
 const cloudinary = require("../utils/cloudinary");
 
 const myCache = new NodeCache({ stdTTL: 3600 });
@@ -55,28 +55,10 @@ export const createHouse = async (req, res) => {
   }
 };
 
-export const getAllHouseTest = async (req, res) => {
-  try {
-    const features = new APIfeatures(House.find(), req.query)
-      .filtering()
-      .sorting()
-      .paginating();
-
-    const houses = await features.query;
-
-    res.json({
-      status: "Success",
-      result: houses.length,
-      data: houses,
-    });
-  } catch (error) {}
-  return res.status(500).json({ msg: error.message });
-};
-
 export const getAllHouses = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || PAGE_LIST_HOUSE;
-    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST_HOUSE;
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
     const skip = (page - 1) * pageSize;
     if (myCache.has("totalHouses")) {
       var total;
@@ -93,7 +75,7 @@ export const getAllHouses = async (req, res) => {
       });
     }
     // const result = await House.find().skip(skip).limit(pageSize);
-    const features = new FilteringHouses(House.find(), req.query)
+    const features = new FilteringFeature(House.find(), req.query)
       .filtering()
       .sorting()
       .paginating();
@@ -158,8 +140,8 @@ export const getHostHouses = async (req, res) => {
   // .exec();
   // res.json(hostHouses);
   try {
-    const page = parseInt(req.query.page) || PAGE_LIST_HOUSE;
-    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST_HOUSE;
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
     // const pageSize = parseInt(req.query.limit) || 2;
     const skip = (page - 1) * pageSize;
     if (myCache.has("totalHostHouse")) {
