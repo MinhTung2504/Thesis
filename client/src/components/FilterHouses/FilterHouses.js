@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import { Slider, TextField } from "@material-ui/core";
 import "./FilterHouses.css";
-import { destinations } from "../../utils";
+// import { destinations } from "../../utils";
 import { getAllHouses } from "../../actions/house";
 import { useParams } from "react-router-dom";
 import HouseItem from "../HouseItem/HouseItem";
+import { getAllDestinations } from "../../actions/destination";
 
 export default function FilterHouses() {
   const pageNumber = useParams().pageNumber || 1;
@@ -21,11 +22,22 @@ export default function FilterHouses() {
   const [sliderMax, setSliderMax] = useState(20000000);
   const [filter, setFilter] = useState("");
   const [priceRange, setPriceRange] = useState([0, 20000000]);
+  const [destinations, setDestinations] = useState([]);
 
   useEffect(() => {
     loadAllHouses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, city, sort, numGuests, priceRange]);
+
+  useEffect(() => {
+    loadAllDes();
+  }, []);
+
+  const loadAllDes = async () => {
+    const des = await getAllDestinations();
+
+    setDestinations(des.data);
+  };
 
   const loadAllHouses = async () => {
     setLoading(true);
@@ -56,10 +68,10 @@ export default function FilterHouses() {
   return (
     <>
       <Header type="" />
-      <div class="container-fluid">
-        <div class="filter">
+      <div className="container-fluid">
+        <div className="filter">
           <button
-            class="btnFilter btnFilter-default"
+            className="btnFilter btnFilter-default"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#mobile-filter"
@@ -67,17 +79,17 @@ export default function FilterHouses() {
             aria-controls="mobile-filter"
             aria-label="Toggle navigation"
           >
-            Filters<span class="fa fa-filter pl-1"></span>
+            Filters<span className="fa fa-filter pl-1"></span>
           </button>
         </div>
         <div id="mobile-filter">
-          <div class="border-bottom pb-2 ml-2">
+          <div className="border-bottom pb-2 ml-2">
             <h4 id="burgundy">Filters</h4>
           </div>
-          <div class="py-2 border-bottom ml-3">
-            <h6 class="font-weight-bold">Price</h6>
+          <div className="py-2 border-bottom ml-3">
+            <h6 className="font-weight-bold">Price</h6>
             <div id="orange">
-              <span class="fa fa-minus"></span>
+              <span className="fa fa-minus"></span>
             </div>
             <Slider
               min={0}
@@ -113,13 +125,13 @@ export default function FilterHouses() {
               />
             </div>
           </div>
-          <div class="py-2 ml-3">
-            <h6 class="font-weight-bold">Destinations</h6>
+          <div className="py-2 ml-3">
+            <h6 className="font-weight-bold">Destinations</h6>
             <div id="orange">
-              <span class="fa fa-minus"></span>
+              <span className="fa fa-minus"></span>
             </div>
-            <div class="form-group">
-              <label for="cities">Choose a destination:</label>
+            <div className="form-group">
+              <label htmlFor="cities">Choose a destination:</label>
 
               <select
                 id="cities"
@@ -128,10 +140,38 @@ export default function FilterHouses() {
                 onChange={handleCity}
                 className="form-control"
               >
-                <option>All Cities</option>
+                <option>All Destinations</option>
                 {destinations.map((des) => (
-                  <option value={"city=" + des.city}>{des.city}</option>
+                  <option key={des._id} value={"city=" + des.city}>
+                    {des.city}
+                  </option>
                 ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="py-2 ml-3">
+            <h6 className="font-weight-bold">Others</h6>
+            <div id="orange">
+              <span className="fa fa-minus"></span>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="max_guests">Choose a num guests:</label>
+              <select
+                name="numGuest"
+                id="numGuest"
+                value={numGuests}
+                onChange={(e) => setNumGuests(e.target.value)}
+                className="form-control"
+              >
+                <option value="">All</option>
+                <option value="max_guests=1">1</option>
+                <option value="max_guests=2">2</option>
+                <option value="max_guests=3">3</option>
+                <option value="max_guests=4">4</option>
+                <option value="max_guests=5">5</option>
+                <option value="max_guests=6">6</option>
               </select>
             </div>
           </div>
@@ -141,13 +181,13 @@ export default function FilterHouses() {
           id="sidebar"
           style={{ position: "sticky", height: "max-content" }}
         >
-          <div class="border-bottom pb-2 ml-2">
+          <div className="border-bottom pb-2 ml-2">
             <h4 id="burgundy">Filters</h4>
           </div>
-          <div class="py-2 border-bottom ml-3">
-            <h6 class="font-weight-bold">Price</h6>
+          <div className="py-2 border-bottom ml-3">
+            <h6 className="font-weight-bold">Price</h6>
             <div id="orange">
-              <span class="fa fa-minus"></span>
+              <span className="fa fa-minus"></span>
             </div>
             <Slider
               min={0}
@@ -183,14 +223,14 @@ export default function FilterHouses() {
               />
             </div>
           </div>
-          <div class="py-2 ml-3">
-            <h6 class="font-weight-bold">Destinations</h6>
+          <div className="py-2 ml-3">
+            <h6 className="font-weight-bold">Destinations</h6>
             <div id="orange">
-              <span class="fa fa-minus"></span>
+              <span className="fa fa-minus"></span>
             </div>
 
-            <div class="form-group">
-              <label for="cities">Choose a destination:</label>
+            <div className="form-group">
+              <label htmlFor="cities">Choose a destination:</label>
 
               <select
                 id="cities"
@@ -199,22 +239,24 @@ export default function FilterHouses() {
                 onChange={handleCity}
                 className="form-control"
               >
-                <option>All Cities</option>
+                <option>All Destinations</option>
                 {destinations.map((des) => (
-                  <option value={"city=" + des.city}>{des.city}</option>
+                  <option key={des._id} value={"city=" + des.city}>
+                    {des.city}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
 
-          <div class="py-2 ml-3">
-            <h6 class="font-weight-bold">Others</h6>
+          <div className="py-2 ml-3">
+            <h6 className="font-weight-bold">Others</h6>
             <div id="orange">
-              <span class="fa fa-minus"></span>
+              <span className="fa fa-minus"></span>
             </div>
 
-            <div class="form-group">
-              <label for="max_guests">Choose a num guests:</label>
+            <div className="form-group">
+              <label htmlFor="max_guests">Choose a num guests:</label>
               <select
                 name="numGuest"
                 id="numGuest"
@@ -222,7 +264,7 @@ export default function FilterHouses() {
                 onChange={(e) => setNumGuests(e.target.value)}
                 className="form-control"
               >
-                <option value="">Number of Guests</option>
+                <option value="">All</option>
                 <option value="max_guests=1">1</option>
                 <option value="max_guests=2">2</option>
                 <option value="max_guests=3">3</option>
@@ -234,11 +276,11 @@ export default function FilterHouses() {
           </div>
         </section>
         <section id="products">
-          <div class="container">
-            <div class="d-flex flex-row">
-              <div class="ml-auto mr-lg-4">
-                <div id="sorting" class="border rounded p-1 m-1">
-                  <span class="text-muted">Sort by</span>
+          <div className="container">
+            <div className="d-flex flex-row">
+              <div className="ml-auto mr-lg-4">
+                <div id="sorting" className="border rounded p-1 m-1">
+                  <span className="text-muted">Sort by</span>
                   <select
                     name="sort"
                     id="sort"
@@ -253,7 +295,7 @@ export default function FilterHouses() {
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div className="row">
               <div className="container listItem">
                 {loading ? (
                   <h3 className="loading-text">Loading...</h3>

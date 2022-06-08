@@ -131,7 +131,7 @@ export default function HouseCreateForm(props) {
         </div>
         <div className="form-group col-md-3">
           <label className="m-2" htmlFor="inputPrice">
-            Maximum of Guests:
+            Max No. Guests:
           </label>
           <input
             type="number"
@@ -144,7 +144,7 @@ export default function HouseCreateForm(props) {
         </div>
         <div className="form-group col-md-3">
           <label className="m-2" htmlFor="inputPrice">
-            Number of Bedrooms:
+            No. Bedrooms:
           </label>
           <input
             type="number"
@@ -157,7 +157,7 @@ export default function HouseCreateForm(props) {
         </div>
         <div className="form-group col-md-3">
           <label className="m-2" htmlFor="inputPrice">
-            Number of Bathrooms:
+            No. Bathrooms:
           </label>
           <input
             type="number"

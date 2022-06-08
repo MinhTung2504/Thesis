@@ -8,9 +8,20 @@ import {
   PAGESIZE_LIST,
 } from "../utils/constants";
 import FilteringFeature from "../utils/filterFeature";
+import Destination from "../models/destination";
 const cloudinary = require("../utils/cloudinary");
 
 const myCache = new NodeCache({ stdTTL: 3600 });
+
+const getCitiesArray = async (req, res) => {
+  const des = await Destination.find({});
+  const arrayCities = [];
+
+  des.map((d) => arrayCities.push(d.city));
+
+  return arrayCities;
+};
+
 export const createHouse = async (req, res) => {
   try {
     const imageUrls = [];
@@ -26,7 +37,13 @@ export const createHouse = async (req, res) => {
     // console.log(imageResponses);
     imageResponses.map((imageUrl) => imageUrls.push(imageUrl.url));
     // console.log(imageUrls);
-
+    const cities = await getCitiesArray();
+    if (cities.includes(req.body.city) === false) {
+      let des = new Destination({
+        city: req.body.city,
+      });
+      await des.save();
+    }
     let house = new House({
       title: req.body.title,
       content: req.body.content,
@@ -187,9 +204,13 @@ export const updateHouse = async (req, res) => {
   try {
     let data = req.body;
 
-    // console.log(data);
-    // console.log(req.params.houseId);
-
+    const cities = await getCitiesArray();
+    if (cities.includes(data.city) === false) {
+      let des = new Destination({
+        city: data.city,
+      });
+      await des.save();
+    }
     let updated = await House.findByIdAndUpdate(req.params.houseId, data, {
       new: true,
     });
