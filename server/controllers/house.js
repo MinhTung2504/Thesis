@@ -72,6 +72,51 @@ export const createHouse = async (req, res) => {
   }
 };
 
+export const getAllHousesByAdmin = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
+    const skip = (page - 1) * pageSize;
+    if (myCache.has("totalHouses")) {
+      var total;
+      total = myCache.get("totalHouses");
+    } else {
+      total = await House.countDocuments();
+      myCache.set("totalHouses", total);
+    }
+    const pages = Math.ceil(total / pageSize);
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    const result = await House.find()
+      .populate("host", "name -_id")
+      .skip(skip)
+      .limit(pageSize);
+
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      count: result.length,
+      page,
+      pages,
+      data: result,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      message: "Server Error",
+    });
+  }
+};
+
 export const getAllHouses = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || PAGE_LIST;
@@ -91,18 +136,16 @@ export const getAllHouses = async (req, res) => {
         message: "No Page Found",
       });
     }
-    // const result = await House.find().skip(skip).limit(pageSize);
-    const features = new FilteringFeature(House.find(), req.query)
+    const features = new FilteringFeature(
+      House.find({ isBlocked: false }),
+      req.query
+    )
       .filtering()
       .sorting()
       .paginating();
 
     const result = await features.query;
 
-    // const result = await House.find()
-    //   .populate("user", "name -_id")
-    //   .skip(skip)
-    //   .limit(pageSize);
     if (page > pages) {
       res.status(StatusCodes.BAD_REQUEST).json({
         status: "Fail",
@@ -220,5 +263,39 @@ export const updateHouse = async (req, res) => {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .send("House update failed. Try again!");
+  }
+};
+
+export const blockHouse = async (req, res) => {
+  try {
+    await House.findByIdAndUpdate(req.params.houseId, {
+      isBlocked: req.body.isBlocked,
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", message: " Block House Successfully!" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};
+
+export const unlockHouse = async (req, res) => {
+  try {
+    await House.findByIdAndUpdate(req.params.houseId, {
+      isBlocked: req.body.isBlocked,
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", message: " Unlock House Successfully!" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
   }
 };

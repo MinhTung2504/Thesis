@@ -37,21 +37,7 @@ export const BOOKING_STATUS = {
   COMPLETED: "completed",
 };
 
-export const destinations = [
-  { id: 1, city: "Da Nang" },
-  { id: 2, city: "Ho Chi Minh" },
-  { id: 3, city: "Ha Noi" },
-  { id: 4, city: "Hoi An" },
-  { id: 5, city: "Da Lat" },
-  { id: 6, city: "Nha Trang" },
-  { id: 7, city: "Vung Tau" },
-  { id: 8, city: "Quang Ninh" },
-  { id: 9, city: "Sa Pa" },
-  { id: 10, city: "Quy Nhon" },
-  { id: 11, city: "Phu Yen" },
-  { id: 12, city: "Can Tho" },
-  { id: 13, city: "Phu Quoc" },
-  { id: 14, city: "Ba Vi" },
-  { id: 15, city: "Thua Thien Hue" },
-  { id: 16, city: "Quang Binh" },
-];
+export const HOUSE_ISBLOCKED = {
+  TRUE: true,
+  FALSE: false,
+};

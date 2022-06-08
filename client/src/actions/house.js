@@ -5,6 +5,13 @@ export const getAllHouses = async (page, city, sort, numGuests, priceRange) =>
     `${process.env.REACT_APP_API}/houses?page=${page}&${city}&${sort}&${numGuests}&${priceRange}`
   );
 
+export const getAllHousesByAdmin = async (token, page) =>
+  await axios.get(`${process.env.REACT_APP_API}/admin/houses?page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
 export const getHouseById = async (houseId) =>
   await axios.get(`${process.env.REACT_APP_API}/house/${houseId}`);
 
@@ -41,3 +48,23 @@ export const deleteHouse = async (token, hotelId) =>
       Authorization: `Bearer ${token}`,
     },
   });
+
+export const blockHouse = async (token, data, houseId) => {
+  await axios.put(`${process.env.REACT_APP_API}/house/block/${houseId}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const unlockHouse = async (token, data, houseId) => {
+  await axios.put(
+    `${process.env.REACT_APP_API}/house/unlock/${houseId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

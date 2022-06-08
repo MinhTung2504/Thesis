@@ -24,10 +24,9 @@ const houseSchema = new Schema(
       type: String,
       required: true,
     },
-    // country: {
-    //   type: String,
-    //   required: true,
-    // },
+    country: {
+      type: String,
+    },
     price: {
       type: Number,
       required: "Price is required",

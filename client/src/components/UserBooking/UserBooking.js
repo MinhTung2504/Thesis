@@ -36,6 +36,7 @@ export default function UserBooking() {
     } catch (error) {
       setLoading(false);
       setError("Some Error Occured");
+      // setError(true);
     }
   };
   return (

@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { getAllHouses } from "../../../actions/house";
-import { formatCurrency } from "../../../utils";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  blockHouse,
+  getAllHousesByAdmin,
+  unlockHouse,
+} from "../../../actions/house";
+import { formatCurrency, HOUSE_ISBLOCKED } from "../../../utils";
 import Pagination from "../../Pagination/Pagination";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -28,9 +33,8 @@ export default function ManageHouses() {
   const loadAllHouses = async () => {
     setLoading(true);
     try {
-      const res = await getAllHouses(page);
+      const res = await getAllHousesByAdmin(token, page);
       console.log(res);
-      // const { data, pages: totalPages } = await res.json();
 
       setPages(res.data.pages);
       // setHouses(res.data);
@@ -42,6 +46,27 @@ export default function ManageHouses() {
       setError("Some Error Occured");
     }
   };
+
+  const handleBlockHouse = async (houseId) => {
+    if (!window.confirm("Are you sure?")) return;
+    blockHouse(token, { isBlocked: HOUSE_ISBLOCKED.TRUE }, houseId).then(
+      (res) => {
+        toast.success("House Blocked!");
+        loadAllHouses();
+      }
+    );
+  };
+
+  const handleUnlockHouse = async (houseId) => {
+    if (!window.confirm("Are you sure?")) return;
+    unlockHouse(token, { isBlocked: HOUSE_ISBLOCKED.FALSE }, houseId).then(
+      (res) => {
+        toast.success("House Unlocked!");
+        loadAllHouses();
+      }
+    );
+  };
+
   return (
     <>
       <div className="wrapper">
@@ -106,23 +131,30 @@ export default function ManageHouses() {
                               <td>{h.num_bedrooms}</td>
                               <td>{h.size} (m2)</td>
                               <td>{h.num_beds}</td>
-                              <td>Name of Host</td>
+                              <td>{h.host.name}</td>
 
                               {h.isBlocked === true ? (
                                 <td>
-                                  <Link to={`/house/unlock/${h._id}`}>
-                                    <button className="btn btn-primary">
-                                      <i class="fa-solid fa-lock-open"></i>
-                                    </button>
-                                  </Link>
+                                  <button
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                      handleUnlockHouse(h._id);
+                                      loadAllHouses();
+                                    }}
+                                  >
+                                    <i class="fa-solid fa-lock-open"></i>
+                                  </button>
                                 </td>
                               ) : (
                                 <td>
-                                  <Link to={`/house/lock/${h._id}`}>
-                                    <button className="btn btn-danger">
-                                      <i class="fa-solid fa-lock"></i>
-                                    </button>
-                                  </Link>
+                                  <button
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                      handleBlockHouse(h._id);
+                                    }}
+                                  >
+                                    <i class="fa-solid fa-lock"></i>
+                                  </button>
                                 </td>
                               )}
                             </tr>
