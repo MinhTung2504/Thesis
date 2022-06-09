@@ -8,7 +8,7 @@ import {
   getAllHousesByAdmin,
   unlockHouse,
 } from "../../../actions/house";
-import { formatCurrency, HOUSE_ISBLOCKED } from "../../../utils";
+import { BOOLEAN_STATUS, formatCurrency } from "../../../utils";
 import Pagination from "../../Pagination/Pagination";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -49,7 +49,7 @@ export default function ManageHouses() {
 
   const handleBlockHouse = async (houseId) => {
     if (!window.confirm("Are you sure?")) return;
-    blockHouse(token, { isBlocked: HOUSE_ISBLOCKED.TRUE }, houseId).then(
+    blockHouse(token, { isBlocked: BOOLEAN_STATUS.TRUE }, houseId).then(
       (res) => {
         toast.success("House Blocked!");
         loadAllHouses();
@@ -59,7 +59,7 @@ export default function ManageHouses() {
 
   const handleUnlockHouse = async (houseId) => {
     if (!window.confirm("Are you sure?")) return;
-    unlockHouse(token, { isBlocked: HOUSE_ISBLOCKED.FALSE }, houseId).then(
+    unlockHouse(token, { isBlocked: BOOLEAN_STATUS.FALSE }, houseId).then(
       (res) => {
         toast.success("House Unlocked!");
         loadAllHouses();
@@ -139,7 +139,6 @@ export default function ManageHouses() {
                                     className="btn btn-primary"
                                     onClick={() => {
                                       handleUnlockHouse(h._id);
-                                      loadAllHouses();
                                     }}
                                   >
                                     <i class="fa-solid fa-lock-open"></i>

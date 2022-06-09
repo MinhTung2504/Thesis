@@ -17,17 +17,19 @@ export default function FilterHouses() {
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
   const [sort, setSort] = useState("");
-  const [numGuests, setNumGuests] = useState(1);
+  const [numGuests, setNumGuests] = useState("");
   const [city, setCity] = useState("");
   const [sliderMax, setSliderMax] = useState(20000000);
   const [filter, setFilter] = useState("");
   const [priceRange, setPriceRange] = useState([0, 20000000]);
   const [destinations, setDestinations] = useState([]);
+  const [numBedrooms, setNumBedrooms] = useState("")
+  const [numBathrooms, setNumBathrooms] = useState("")
 
   useEffect(() => {
     loadAllHouses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, city, sort, numGuests, priceRange]);
+  }, [page, city, sort, numGuests, priceRange, numBedrooms, numBathrooms]);
 
   useEffect(() => {
     loadAllDes();
@@ -42,7 +44,7 @@ export default function FilterHouses() {
   const loadAllHouses = async () => {
     setLoading(true);
     try {
-      const res = await getAllHouses(page, city, sort, numGuests, filter);
+      const res = await getAllHouses(page, city, sort, numGuests, filter, numBedrooms, numBathrooms);
       setPages(res.data.pages);
       setHouses(res.data.data);
       setLoading(false);
@@ -131,7 +133,7 @@ export default function FilterHouses() {
               <span className="fa fa-minus"></span>
             </div>
             <div className="form-group">
-              <label htmlFor="cities">Choose a destination:</label>
+              <label htmlFor="cities">Choose A Destination:</label>
 
               <select
                 id="cities"
@@ -157,7 +159,7 @@ export default function FilterHouses() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="max_guests">Choose a num guests:</label>
+              <label htmlFor="max_guests">Choose No. Max Guests:</label>
               <select
                 name="numGuest"
                 id="numGuest"
@@ -172,6 +174,54 @@ export default function FilterHouses() {
                 <option value="max_guests=4">4</option>
                 <option value="max_guests=5">5</option>
                 <option value="max_guests=6">6</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="numBedrooms">Choose No. Bedrooms:</label>
+              <select
+                name="numBedrooms"
+                id="numBedrooms"
+                value={numBedrooms}
+                onChange={(e) => setNumBedrooms(e.target.value)}
+                className="form-control"
+              >
+                <option value="">All</option>
+                <option value="num_bedrooms=1">1</option>
+                <option value="num_bedrooms=2">2</option>
+                <option value="num_bedrooms=3">3</option>
+                <option value="num_bedrooms=4">4</option>
+                <option value="num_bedrooms=5">5</option>
+                <option value="num_bedrooms=6">6</option>
+                <option value="num_bedrooms=7">7</option>
+                <option value="num_bedrooms=8">8</option>
+                <option value="num_bedrooms=9">9</option>
+                <option value="num_bedrooms=10">10</option>
+                <option value="num_bedrooms=11">11</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="numBathrooms">Choose No. Bathrooms:</label>
+              <select
+                name="numBathrooms"
+                id="numBathrooms"
+                value={numBathrooms}
+                onChange={(e) => setNumBathrooms(e.target.value)}
+                className="form-control"
+              >
+                <option value="">All</option>
+                <option value="num_bathrooms=1">1</option>
+                <option value="num_bathrooms=2">2</option>
+                <option value="num_bathrooms=3">3</option>
+                <option value="num_bathrooms=4">4</option>
+                <option value="num_bathrooms=5">5</option>
+                <option value="num_bathrooms=6">6</option>
+                <option value="num_bathrooms=7">7</option>
+                <option value="num_bathrooms=8">8</option>
+                <option value="num_bathrooms=9">9</option>
+                <option value="num_bathrooms=10">10</option>
+                <option value="num_bathrooms=11">11</option>
               </select>
             </div>
           </div>
@@ -230,7 +280,7 @@ export default function FilterHouses() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="cities">Choose a destination:</label>
+              <label htmlFor="cities">Choose A Destination:</label>
 
               <select
                 id="cities"
@@ -256,7 +306,7 @@ export default function FilterHouses() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="max_guests">Choose a num guests:</label>
+              <label htmlFor="max_guests">Choose No. Max Guests:</label>
               <select
                 name="numGuest"
                 id="numGuest"
@@ -271,6 +321,54 @@ export default function FilterHouses() {
                 <option value="max_guests=4">4</option>
                 <option value="max_guests=5">5</option>
                 <option value="max_guests=6">6</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="numBedrooms">Choose No. Bedrooms:</label>
+              <select
+                name="numBedrooms"
+                id="numBedrooms"
+                value={numBedrooms}
+                onChange={(e) => setNumBedrooms(e.target.value)}
+                className="form-control"
+              >
+                <option value="">All</option>
+                <option value="num_bedrooms=1">1</option>
+                <option value="num_bedrooms=2">2</option>
+                <option value="num_bedrooms=3">3</option>
+                <option value="num_bedrooms=4">4</option>
+                <option value="num_bedrooms=5">5</option>
+                <option value="num_bedrooms=6">6</option>
+                <option value="num_bedrooms=7">7</option>
+                <option value="num_bedrooms=8">8</option>
+                <option value="num_bedrooms=9">9</option>
+                <option value="num_bedrooms=10">10</option>
+                <option value="num_bedrooms=11">11</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="numBathrooms">Choose No. Bathrooms:</label>
+              <select
+                name="numBathrooms"
+                id="numBathrooms"
+                value={numBathrooms}
+                onChange={(e) => setNumBathrooms(e.target.value)}
+                className="form-control"
+              >
+                <option value="">All</option>
+                <option value="num_bathrooms=1">1</option>
+                <option value="num_bathrooms=2">2</option>
+                <option value="num_bathrooms=3">3</option>
+                <option value="num_bathrooms=4">4</option>
+                <option value="num_bathrooms=5">5</option>
+                <option value="num_bathrooms=6">6</option>
+                <option value="num_bathrooms=7">7</option>
+                <option value="num_bathrooms=8">8</option>
+                <option value="num_bathrooms=9">9</option>
+                <option value="num_bathrooms=10">10</option>
+                <option value="num_bathrooms=11">11</option>
               </select>
             </div>
           </div>

@@ -80,26 +80,60 @@ export const editRoleUser = async (req, res) => {
   });
 };
 
-export const banUser = async (req, res) => {
-  await User.findByIdAndUpdate(req.params.userId, {
-    isBanned: "true",
-  });
+// export const banUser = async (req, res) => {
+//   await User.findByIdAndUpdate(req.params.userId, {
+//     isBanned: "true",
+//   });
 
-  res.status(StatusCodes.OK).json({
-    status: "Success",
-    message: "Ban User Successfully!",
-  });
+//   res.status(StatusCodes.OK).json({
+//     status: "Success",
+//     message: "Ban User Successfully!",
+//   });
+// };
+
+// export const unbanUser = async (req, res) => {
+//   await User.findByIdAndUpdate(req.params.userId, {
+//     isBanned: "false",
+//   });
+
+//   res.status(StatusCodes.OK).json({
+//     status: "Success",
+//     message: "Unban User Successfully!",
+//   });
+// };
+
+export const banUser = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.params.userId, {
+      isBanned: req.body.isBanned,
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", message: " Ban User Successfully!" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
 };
 
 export const unbanUser = async (req, res) => {
-  await User.findByIdAndUpdate(req.params.userId, {
-    isBanned: "false",
-  });
+  try {
+    await User.findByIdAndUpdate(req.params.userId, {
+      isBanned: req.body.isBanned,
+    });
 
-  res.status(StatusCodes.OK).json({
-    status: "Success",
-    message: "Unban User Successfully!",
-  });
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", message: " Unban User Successfully!" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
 };
 
 function count(array) {

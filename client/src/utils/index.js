@@ -38,7 +38,7 @@ export const BOOKING_STATUS = {
   CANCELED: "canceled",
 };
 
-export const HOUSE_ISBLOCKED = {
+export const BOOLEAN_STATUS = {
   TRUE: true,
   FALSE: false,
 };

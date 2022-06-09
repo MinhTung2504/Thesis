@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getUsers } from "../../../actions/user";
+import { toast } from "react-toastify";
+import { banUser, getUsers, unbanUser } from "../../../actions/user";
+import { BOOLEAN_STATUS } from "../../../utils";
 import Pagination from "../../Pagination/Pagination";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -28,12 +30,7 @@ export default function ManageUsers() {
     setLoading(true);
     try {
       const res = await getUsers(token, page);
-      console.log(res);
-      // const { data, pages: totalPages } = await res.json();
-
-      //   setPages(res.data.pages);
-      // setHouses(res.data);
-      //   setHouses(res.data.data);
+      // console.log(res);
       setUsers(res.data.data);
       setLoading(false);
       setPages(res.data.pages);
@@ -41,6 +38,26 @@ export default function ManageUsers() {
       setLoading(false);
       setError("Some Error Occured");
     }
+  };
+
+  const handleBanUser = async (userId) => {
+    if (!window.confirm("Are you sure?")) return;
+    banUser(token, { isBanned: BOOLEAN_STATUS.TRUE }, userId).then(
+      (res) => {
+        toast.success("User Banned!");
+        loadAllUsers();
+      }
+    );
+  };
+
+  const handleUnbanUser = async (userId) => {
+    if (!window.confirm("Are you sure?")) return;
+    unbanUser(token, { isBanned: BOOLEAN_STATUS.FALSE }, userId).then(
+      (res) => {
+        toast.success("User Unbanned!");
+        loadAllUsers();
+      }
+    );
   };
 
   return (
@@ -95,20 +112,24 @@ export default function ManageUsers() {
                               <td>{user.birthday}</td>
                               <td>
                                 {user.isBanned === true ? (
-                                  <Link
-                                    className="text-primary"
-                                    to="unban-user"
+                                  <button
+                                    className="btn btn-primary"
+                                    onClick={() => {
+                                      handleUnbanUser(user._id);
+                                    }}
                                   >
-                                    <button>
-                                      <i class="fa-solid fa-user"></i>
-                                    </button>
-                                  </Link>
+                                    <i class="fa-solid fa-user"></i>
+                                  </button>
+
                                 ) : (
-                                  <Link className="text-danger" to="ban-user">
-                                    <button>
-                                      <i class="fa-solid fa-user-slash"></i>
-                                    </button>
-                                  </Link>
+                                  <button
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                      handleBanUser(user._id);
+                                    }}
+                                  >
+                                    <i class="fa-solid fa-user-slash"></i>
+                                  </button>
                                 )}
                               </td>
                             </tr>

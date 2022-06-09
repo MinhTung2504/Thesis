@@ -7,10 +7,22 @@ export const getUsers = async (token, page) =>
     },
   });
 
-// export const createNewBooking = async (token, data) =>
-//   await axios.post(`${process.env.REACT_APP_API}/booking/new`, data, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       "Content-Type": "application/json",
-//     },
-//   });
+export const banUser = async (token, data, userId) => {
+  await axios.put(`${process.env.REACT_APP_API}/users/${userId}/banned`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const unbanUser = async (token, data, userId) => {
+  await axios.put(
+    `${process.env.REACT_APP_API}/users/${userId}/unbanned`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
