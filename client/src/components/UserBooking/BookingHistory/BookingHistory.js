@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Rate } from "antd";
 import { formatCurrency, formatDate } from "../../../utils";
 import { payBooking } from "../../../actions/paypal";
@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import PaymentModal from "./PaymentModal";
 import { getPayment } from "../../../actions/payment";
 
-export default function BookingHistory({ booking }) {
+export default function BookingHistory({ booking, handleCancelBooking = (f) => f }) {
   // console.log(booking);
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
@@ -23,6 +23,7 @@ export default function BookingHistory({ booking }) {
     console.log(res.data);
     setPayment(res.data);
   };
+
   return (
     <div className="container mb-2">
       <div
@@ -158,12 +159,6 @@ export default function BookingHistory({ booking }) {
                 <button
                   className="btn btn-primary text-black"
                   onClick={() => {
-                    console.log({
-                      name: booking.house.title,
-                      price: (booking.payment / 23000).toFixed().toString(),
-                      currency: "USD",
-                      quantity: 1,
-                    });
                     handlePayment(booking._id, {
                       name: booking.house.title,
                       sku: booking._id,
@@ -171,14 +166,22 @@ export default function BookingHistory({ booking }) {
                       currency: "USD",
                       quantity: 1,
                     });
-                    // handlePayment();
                   }}
                 >
                   Pay
                 </button>
               </div>
               <div className="row mb-3">
-                <button className="btn btn-cancel text-black">
+                <button
+                  className="btn btn-cancel text-black"
+                  onClick={() => {
+                    handleCancelBooking(booking._id, {
+                      email: booking.house.host.email,
+                      subject: `User ${booking.user.name} CANCELED BOOKING OF YOUR HOMESTAY NAMED ${booking.house.title}`,
+                      content: `You can check it following this link: ${process.env.REACT_APP_URL}/host/bookings. Thank you!`,
+                    });
+                  }}
+                >
                   Cancel Booking
                 </button>
               </div>
@@ -198,7 +201,16 @@ export default function BookingHistory({ booking }) {
                   </button>
                 </div>
                 <div className="row mb-3">
-                  <button className="btn btn-cancel text-black">
+                  <button
+                    className="btn btn-cancel text-black"
+                    onClick={() => {
+                      handleCancelBooking(booking._id, {
+                        email: booking.house.host.email,
+                        subject: `User ${booking.user.name} CANCELED BOOKING OF YOUR HOMESTAY NAMED ${booking.house.title}`,
+                        content: `You can check it following this link: ${process.env.REACT_APP_URL}/host/bookings. Thank you!`,
+                      });
+                    }}
+                  >
                     Cancel Booking
                   </button>
                 </div>

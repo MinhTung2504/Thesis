@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   acceptBooking,
@@ -9,6 +9,7 @@ import {
   getBookingOfHostHouses,
   rejectBooking,
 } from "../../../../actions/booking";
+import { sendEmail } from "../../../../actions/email";
 import { BOOKING_STATUS, formatCurrency, formatDate } from "../../../../utils";
 import Pagination from "../../../Pagination/Pagination";
 import Header from "../../components/Header/Header";
@@ -35,12 +36,7 @@ export default function ManageBookings() {
     setLoading(true);
     try {
       const res = await getBookingOfHostHouses(token, page);
-      console.log(res);
-      // const { data, pages: totalPages } = await res.json();
 
-      //   setPages(res.data.pages);
-      // setHouses(res.data);
-      //   setHouses(res.data.data);
       setBookings(res.data.data);
       setLoading(false);
     } catch (error) {
@@ -49,23 +45,29 @@ export default function ManageBookings() {
     }
   };
 
-  const handleAcceptBooking = async (bookingId) => {
+  const sendEmailToNotify = async (data) => {
+    await sendEmail(token, data);
+  };
+
+  const handleAcceptBooking = async (bookingId, data) => {
     if (!window.confirm("Are you sure?")) return;
     acceptBooking(token, { status: BOOKING_STATUS.NOT_PAID }, bookingId).then(
       (res) => {
         toast.success("Accept Booking Successfully!");
+        sendEmailToNotify(data);
       }
     );
   };
-  const handleRejectBooking = async (bookingId) => {
+  const handleRejectBooking = async (bookingId, data) => {
     if (!window.confirm("Are you sure?")) return;
     rejectBooking(token, { status: BOOKING_STATUS.REJECTED }, bookingId).then(
       (res) => {
         toast.success("Reject Booking Successfully!");
+        sendEmailToNotify(data);
       }
     );
   };
-  const handleCheckoutBooking = async (bookingId) => {
+  const handleCheckoutBooking = async (bookingId, data) => {
     if (!window.confirm("Are you sure?")) return;
     checkoutBooking(
       token,
@@ -73,6 +75,7 @@ export default function ManageBookings() {
       bookingId
     ).then((res) => {
       toast.success("Checkout Booking Successfully!");
+      sendEmailToNotify(data);
     });
   };
 
@@ -132,77 +135,75 @@ export default function ManageBookings() {
                               <td>
                                 <strong>{b.status.toUpperCase()}</strong>
                               </td>
-                              {/* <td> */}
                               {b.status === "pending" && (
                                 <>
                                   <td>
-                                    {/* <Link
-                                      className="text-primary"
-                                      to={"accept-booking"}
-                                    > */}
                                     <button
                                       className="btn btn-primary"
                                       onClick={() => {
-                                        handleAcceptBooking(b._id);
+                                        handleAcceptBooking(b._id, {
+                                          email: b.user.email,
+                                          subject: `ACCEPTED YOUR BOOKING FOR ${b.house.title}`,
+                                          content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                        });
                                         loadBookingsOfHostHouses();
                                       }}
                                     >
                                       <i class="fa-solid fa-circle-check"></i>
                                     </button>
-                                    {/* </Link> */}
                                   </td>
                                   <td>
-                                    {/* <Link
-                                      className="text-danger"
-                                      to={"reject-booking"}
-                                    > */}
                                     <button
                                       className="btn btn-danger"
                                       onClick={() => {
-                                        handleRejectBooking(b._id);
+                                        handleRejectBooking(b._id, {
+                                          email: b.user.email,
+                                          subject: `REJECTED YOUR BOOKING FOR ${b.house.title}`,
+                                          content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                        });
                                         loadBookingsOfHostHouses();
                                       }}
                                     >
                                       <i class="fa-solid fa-circle-xmark"></i>
                                     </button>
-                                    {/* </Link> */}
                                   </td>
                                 </>
                               )}
                               {(b.status === "completed" ||
                                 b.status === "rejected") && (
-                                <>
-                                  <td colSpan="2"></td>
-                                </>
-                              )}
+                                  <>
+                                    <td colSpan="2"></td>
+                                  </>
+                                )}
                               {(b.status === "not-paid" ||
                                 b.status === "paid") && (
-                                <>
-                                  <td colSpan="2">
-                                    <button
-                                      className="btn btn-primary"
-                                      onClick={() => {
-                                        handleCheckoutBooking(b._id);
-                                        loadBookingsOfHostHouses();
-                                      }}
-                                    >
-                                      <i class="fa-solid fa-right-from-bracket"></i>
-                                    </button>
-                                  </td>
-                                </>
-                              )}
-                              {/* </td> */}
+                                  <>
+                                    <td colSpan="2">
+                                      <button
+                                        className="btn btn-primary"
+                                        onClick={() => {
+                                          handleCheckoutBooking(b._id, {
+                                            email: b.user.email,
+                                            subject: `CHECKOUT SUCCESSFULLY YOUR BOOKING FOR ${b.house.title}`,
+                                            content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                          });
+                                          loadBookingsOfHostHouses();
+                                        }}
+                                      >
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                      </button>
+                                    </td>
+                                  </>
+                                )}
                             </tr>
                           </tbody>
                         ))}
-                        {/* </Table> */}
                       </table>
                       <Pagination
                         page={page}
                         pages={pages}
                         changePage={setPage}
                       />
-                      {/* </Card.Body> */}
                     </div>
                   </Card>
                 </Col>

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   acceptBooking,
+  cancelBooking,
   checkoutBooking,
   checkPaidBooking,
   createBooking,
@@ -45,6 +46,7 @@ router.put(
   authPage(["host"]),
   checkPaidBooking
 );
+router.put("/user/bookings/cancel/:bookingId", auth, cancelBooking);
 
 // export default router;
 module.exports = router;

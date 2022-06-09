@@ -70,3 +70,14 @@ export const checkPaidBooking = async (token, data, bookingId) =>
       },
     }
   );
+
+export const cancelBooking = async (token, data, bookingId) =>
+  await axios.put(
+    `${process.env.REACT_APP_API}/user/bookings/cancel/${bookingId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );

@@ -10,6 +10,7 @@ import { formatCurrency } from "../../utils";
 import { createNewBooking } from "../../actions/booking";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { sendEmail } from "../../actions/email";
 
 export default function CheckBooking() {
   const [loading, setLoading] = useState();
@@ -65,6 +66,10 @@ export default function CheckBooking() {
   };
   console.log(bookingInformation);
 
+  const sendEmailToNotify = async (data) => {
+    await sendEmail(token, data);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -73,6 +78,11 @@ export default function CheckBooking() {
       console.log(res);
       toast.success("New Booking is created");
       navigate("/user-booking");
+      sendEmailToNotify({
+        email: res.data.house.host.email,
+        subject: `You have a booking of your ${res.data.house.title} !`,
+        content: `You can check it following this link: ${process.env.REACT_APP_URL}/host/bookings`,
+      });
     } catch (error) {
       console.log(error);
       toast.error(error.response.data);

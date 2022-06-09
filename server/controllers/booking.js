@@ -16,7 +16,14 @@ export const createBooking = async (req, res) => {
       date_check_out: req.body.date_check_out,
     });
     await booking.save();
-    res.json(booking);
+    // console.log(JSON.stringify(booking._id));
+    const resBooking = await Booking.findById(booking._id).populate({
+      path: "house",
+      populate: { path: "host", select: "email -_id" },
+      select: "host title -_id",
+    });
+    // console.log(resBooking);
+    res.json(resBooking);
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST);
     res.json({
@@ -55,7 +62,12 @@ export const getUserBooking = async (req, res) => {
 
     const features = new FilteringFeature(
       Booking.find({ user: req.user._id })
-        .populate("house", "title image -_id")
+        .populate({
+          path: "house",
+          populate: { path: "host", select: "email -_id" },
+          select: "host image title -_id",
+        })
+        .populate("user", "name -_id")
         .sort({ createdAt: -1 }),
       req.query
     )
@@ -114,7 +126,7 @@ export const getBookingsOfHostHouses = async (req, res) => {
     const result = await Booking.find({
       house: arrayHostHouse.map((h) => h),
     })
-      .populate("user", "name -_id")
+      .populate("user", "name email -_id")
       .populate("house", "title price -_id")
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -200,6 +212,23 @@ export const checkPaidBooking = async (req, res) => {
     res
       .status(StatusCodes.OK)
       .json({ status: "success", message: "Booking is paid" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};
+
+export const cancelBooking = async (req, res) => {
+  try {
+    await Booking.findByIdAndUpdate(req.params.bookingId, {
+      status: req.body.status,
+    });
+
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", message: "Cancel Successfully" });
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST);
     res.json({

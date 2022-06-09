@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUserBooking } from "../../actions/booking";
+import { toast } from "react-toastify";
+import { cancelBooking, getUserBooking } from "../../actions/booking";
+import { sendEmail } from "../../actions/email";
+import { BOOKING_STATUS } from "../../utils";
 import Header from "../Header/Header";
 import Pagination from "../Pagination/Pagination";
 import BookingHistory from "./BookingHistory/BookingHistory";
@@ -39,6 +42,20 @@ export default function UserBooking() {
       // setError(true);
     }
   };
+  const sendEmailToNotify = async (data) => {
+    await sendEmail(token, data);
+  };
+
+  const handleCancelBooking = async (bookingId, data) => {
+    if (!window.confirm("Are you sure?")) return;
+    cancelBooking(token, { status: BOOKING_STATUS.CANCELED }, bookingId).then(
+      (res) => {
+        toast.success("Cancel Booking Successfully!");
+        sendEmailToNotify(data);
+        loadUserBooking();
+      }
+    );
+  };
   return (
     <>
       {loading ? (
@@ -69,7 +86,7 @@ export default function UserBooking() {
           </div>
           <div className="container text-center">
             {bookings.map((b) => (
-              <BookingHistory booking={b} key={b._id} />
+              <BookingHistory booking={b} key={b._id} handleCancelBooking={handleCancelBooking} />
             ))}
             <br />
             <Pagination page={page} pages={pages} changePage={setPage} />

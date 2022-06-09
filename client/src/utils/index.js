@@ -35,6 +35,7 @@ export const BOOKING_STATUS = {
   NOT_PAID: "not-paid",
   REJECTED: "rejected",
   COMPLETED: "completed",
+  CANCELED: "canceled",
 };
 
 export const HOUSE_ISBLOCKED = {
