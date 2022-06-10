@@ -7,6 +7,7 @@ import { getAllHouses } from "../../actions/house";
 import { useParams } from "react-router-dom";
 import HouseItem from "../HouseItem/HouseItem";
 import { getAllDestinations } from "../../actions/destination";
+import Footer from "../Footer/Footer";
 
 export default function FilterHouses() {
   const pageNumber = useParams().pageNumber || 1;
@@ -428,8 +429,10 @@ export default function FilterHouses() {
               </div>
             </div>
           </div>
+          <Footer />
         </section>
       </div>
+
     </>
   );
 }

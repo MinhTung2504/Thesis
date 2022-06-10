@@ -62,10 +62,7 @@ export default function Login() {
                 className="mb-4 opacity-70"
                 style={{ color: "hsl(218, 81%, 85%)" }}
               >
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Temporibus, expedita iusto veniam atque, magni tempora mollitia
-                dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-                ab ipsum nisi dolorem modi. Quos?
+                We provide affordable rental homestay services for your travel, helping you to have a great vacation experience.
               </p>
             </div>
 

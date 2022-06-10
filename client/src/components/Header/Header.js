@@ -54,6 +54,16 @@ export default function Header(typeofHeader) {
                 HomeStay
               </Link>
             </div>
+            <div className="d-flex">
+              <Link className="nav-link" to="/about-us">
+                About Us
+              </Link>
+            </div>
+            <div className="d-flex">
+              <Link className="nav-link" to="/privacy-policy">
+                Privacy Policy
+              </Link>
+            </div>
 
             {auth !== null && auth.user.role === ROLES.HOST && (
               <>

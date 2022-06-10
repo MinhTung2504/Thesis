@@ -24,6 +24,9 @@ import Unauthorized from "./components/Unauthorized";
 import ManageBookings from "./components/DashboardHost/views/ManageBookings/ManageBookings";
 import SuccessPayment from "./components/Payment/SuccessPayment/SuccessPayment";
 import CancelPayment from "./components/Payment/CancelPayment/CancelPayment";
+import PrivacyPolicy from "./components/InfoPages/PrivacyPolicy";
+import AboutUs from "./components/InfoPages/AboutUs";
+
 
 function App() {
   return (
@@ -36,6 +39,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/houses-filter" element={<FilterHouses />} />
         <Route path="/house/:houseId" element={<HouseDetail />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route

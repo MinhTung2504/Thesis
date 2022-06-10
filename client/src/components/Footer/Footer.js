@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
@@ -15,59 +16,30 @@ export default function Footer() {
                 <i className="fas fa-gem me-3"></i>Nice HomeStay
               </h6>
               <p>
-                Here you can use rows and columns to organize your footer
-                content. Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit.
+                We provide affordable rental homestay services for your travel, helping you to have a great vacation experience.
               </p>
             </div>
 
             <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Houses</h6>
+              <h6 className="text-uppercase fw-bold mb-4">Information</h6>
               <p>
-                <a href="#!" className="text-reset">
-                  Angular
-                </a>
+                <Link to="/about-us" className="text-reset">
+                  About us
+                </Link>
               </p>
               <p>
-                <a href="#!" className="text-reset">
-                  React
-                </a>
+                <Link to="/privacy-policy" className="text-reset">
+                  Privacy Policy
+                </Link>
               </p>
               <p>
-                <a href="#!" className="text-reset">
-                  Vue
-                </a>
+                <Link to="/houses-filter" className="text-reset">
+                  Our HomeStay
+                </Link>
               </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Laravel
-                </a>
-              </p>
+              <p></p>
             </div>
 
-            <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
-              <p>
-                <a href="#!" className="text-reset">
-                  Pricing
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Settings
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Orders
-                </a>
-              </p>
-              <p>
-                <a href="#!" className="text-reset">
-                  Help
-                </a>
-              </p>
-            </div>
 
             <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
               <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
@@ -94,9 +66,9 @@ export default function Footer() {
         style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
       >
         © 2022 Copyright:
-        <a className="text-reset fw-bold" href="https://mdbootstrap.com/">
+        <Link className="text-reset fw-bold" to="/">
           <span> </span>Nice HomeStay
-        </a>
+        </Link>
       </div>
     </footer>
   );
