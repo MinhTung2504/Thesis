@@ -14,6 +14,7 @@ import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ChartistGraph from "react-chartist";
 import "../DashboardAdmin/Dashboard.css";
+import { formatCurrency } from "../../utils";
 
 export default function DashboardHost() {
   return (
@@ -25,7 +26,7 @@ export default function DashboardHost() {
           <div className="content">
             <Container fluid>
               <Row>
-                <Col lg="3" sm="6">
+                {/* <Col lg="3" sm="6">
                   <Card className="card-stats">
                     <Card.Body>
                       <Row>
@@ -50,8 +51,8 @@ export default function DashboardHost() {
                       </div>
                     </Card.Footer>
                   </Card>
-                </Col>
-                <Col lg="3" sm="6">
+                </Col> */}
+                <Col lg="4" sm="6">
                   <Card className="card-stats">
                     <Card.Body>
                       <Row>
@@ -64,7 +65,7 @@ export default function DashboardHost() {
                         <Col xs="7">
                           <div className="numbers">
                             <p className="card-category">Revenue</p>
-                            <Card.Title as="h4">$ 1,345</Card.Title>
+                            <Card.Title as="h4">{formatCurrency(5500000)}</Card.Title>
                           </div>
                         </Col>
                       </Row>
@@ -78,7 +79,7 @@ export default function DashboardHost() {
                     </Card.Footer>
                   </Card>
                 </Col>
-                <Col lg="3" sm="6">
+                <Col lg="4" sm="6">
                   <Card className="card-stats">
                     <Card.Body>
                       <Row>
@@ -90,7 +91,7 @@ export default function DashboardHost() {
                         </Col>
                         <Col xs="7">
                           <div className="numbers">
-                            <p className="card-category">Errors</p>
+                            <p className="card-category">Total Houses</p>
                             <Card.Title as="h4">23</Card.Title>
                           </div>
                         </Col>
@@ -105,7 +106,7 @@ export default function DashboardHost() {
                     </Card.Footer>
                   </Card>
                 </Col>
-                <Col lg="3" sm="6">
+                <Col lg="4" sm="6">
                   <Card className="card-stats">
                     <Card.Body>
                       <Row>
@@ -117,7 +118,7 @@ export default function DashboardHost() {
                         </Col>
                         <Col xs="7">
                           <div className="numbers">
-                            <p className="card-category">Followers</p>
+                            <p className="card-category">Total Bookings</p>
                             <Card.Title as="h4">+45K</Card.Title>
                           </div>
                         </Col>

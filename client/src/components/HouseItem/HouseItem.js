@@ -4,7 +4,7 @@ import { formatCurrency, smallerTitleHouse } from "../../utils";
 
 export default function HouseItem({ h }) {
   return (
-    <Link to={`/house/${h._id}`}>
+    <Link to={`/house/${h._id}`} target="_blank">
       <div className="col">
         <div key={h.id} className="card" style={{ height: "500px" }}>
           <img

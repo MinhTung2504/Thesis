@@ -6,6 +6,7 @@ import {
   HEIGHT_IMAGE,
   PAGE_LIST,
   PAGESIZE_LIST,
+  GREATER_THAN_PRICE,
 } from "../utils/constants";
 import FilteringFeature from "../utils/filterFeature";
 import Destination from "../models/destination";
@@ -292,6 +293,24 @@ export const unlockHouse = async (req, res) => {
     res
       .status(StatusCodes.OK)
       .json({ status: "success", message: " Unlock House Successfully!" });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};
+
+export const getSimilarHouses = async (req, res) => {
+  try {
+    const h = await House.findById(req.params.houseId);
+    const result = await House.find({
+      isBlocked: false,
+      city: h.city,
+      price: { $gte: h.price, $lte: h.price + GREATER_THAN_PRICE },
+    }).limit(PAGESIZE_LIST);
+
+    res.status(StatusCodes.OK).json(result);
   } catch (error) {
     res.status(StatusCodes.BAD_REQUEST);
     res.json({

@@ -7,3 +7,4 @@ export const WIDTH_IMAGE = 1920;
 export const HEIGHT_IMAGE = 1080;
 export const PAGE_LIST = 1;
 export const PAGESIZE_LIST = 9;
+export const GREATER_THAN_PRICE = 100000;

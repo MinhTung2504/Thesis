@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getHouseById } from "../../actions/house";
+import { getHouseById, getSimilarHouses } from "../../actions/house";
 import { GoLocation } from "react-icons/go";
 import { CgDetailsMore, CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -17,33 +17,19 @@ import DetailCarousel from "./DetailCarousel";
 import { formatCurrency } from "../../utils";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import RecommendHouses from "./RecommendHouses";
 
 export default function HouseDetail() {
   // const [isScroll, setIsScroll] = useState(false);
   const [house, setHouse] = useState({});
+  const [similarHouse, setSimilarHouse] = useState([])
 
-  // const formatCurrenryVND = (number) => {
-  //   number.toLocaleString("vi-VN", {
-  //     style: "currency",
-  //     currency: "VND",
-  //   });
-  // };
-  // const setFixHeader = () => {
-  //   // console.log(window.scrollY);
-  //   if (window.scrollY >= 700) {
-  //     setIsScroll(true);
-  //   } else {
-  //     setIsScroll(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   setFixHeader();
-  //   window.addEventListener("scroll", setFixHeader);
-  // }, []);
   let param = useParams();
+  // console.log(typeof param.houseId);
 
   useEffect(() => {
     loadHouseById();
+    loadSimilarHouses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -55,6 +41,16 @@ export default function HouseDetail() {
     setHouse(h.data);
   };
 
+  const loadSimilarHouses = async () => {
+    // console.log(house.price);
+    // let res = await getSimilarHouses(house.city, `price[gte]=${house.price}`)
+    let res = await getSimilarHouses(param.houseId)
+    console.log(res);
+    setSimilarHouse(res.data);
+  }
+
+
+
   // console.log(house);
   // const dirty = `I love to do evil <img src="http://unsplash.it/100/100?random" onload="alert('you got hacked');" />`;
   // console.log(param);
@@ -62,19 +58,8 @@ export default function HouseDetail() {
   return (
     <>
       <Header type="position-fixed opacity-75" />
-      {/* <div className="container-fluid p-5 text-center">
-        <h1>House Detail {param.houseId}</h1>
-        <pre>{JSON.stringify(house)}</pre>
-        <h1>{house.title}</h1>
-      </div> */}
-
       <div className="detail">
         <div className="detail__slide">
-          {/* {house.images} */}
-          {/* {console.log(JSON.parse(house.images))} */}
-          {/*{console.log(typeof house.images)}
-          {console.log(JSON.parse('["a", "b", "c"]'))} */}
-          {/* {house} */}
           <DetailCarousel data={house.images} />
         </div>
 
@@ -165,20 +150,6 @@ export default function HouseDetail() {
                   non-refundable.
                 </span>
                 <div className="detail__left-cancel_rule">
-                  {/* <div className="cancel__rule-title">
-                    <div>
-                      <p>Reservation Submit</p>
-                    </div>
-                    <div>
-                      <p>48 hours later</p>
-                    </div>
-                    <div>
-                      <p>a day before check-in</p>
-                    </div>
-                    <div>
-                      <p>Check-in</p>
-                    </div>
-                  </div> */}
                   <div className="cancel__rule-content">
                     <div className="rule-process">
                       <div className="rule-process__symbol is-first">
@@ -259,15 +230,11 @@ export default function HouseDetail() {
 
           <div className="detail__info-right">
             <div
-              // className={
-              //   isScroll ? "detail__right-price active" : "detail__right-price"
-              // }
               className={"detail__right-price"}
             >
               <p className="detail__price-info">
                 <strong>{house.price && formatCurrency(house.price)}</strong>/
                 night
-                {/* <strong>{house.price}</strong>/1 đêm */}
               </p>
               <Link to={`/check-booking/${param.houseId}`}>
                 <button className="detail__price-book text-black">
@@ -278,6 +245,7 @@ export default function HouseDetail() {
           </div>
         </div>
       </div>
+      {house && <RecommendHouses similarHouse={similarHouse} />}
       <Footer />
     </>
   );

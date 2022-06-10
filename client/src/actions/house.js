@@ -5,6 +5,12 @@ export const getAllHouses = async (page, city, sort, numGuests, priceRange, numB
     `${process.env.REACT_APP_API}/houses?page=${page}&${city}&${sort}&${numGuests}&${priceRange}&${numBedrooms}&${numBathrooms}`
   );
 
+export const getSimilarHouses = async (houseId) =>
+  await axios.get(
+    `${process.env.REACT_APP_API}/houses/similar/${houseId}`
+  );
+
+
 export const getAllHousesByAdmin = async (token, page) =>
   await axios.get(`${process.env.REACT_APP_API}/admin/houses?page=${page}`, {
     headers: {
