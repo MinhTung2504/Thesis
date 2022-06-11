@@ -151,12 +151,13 @@ export default function Header(typeofHeader) {
                   </Dropdown.Menu>
                 </Dropdown>
                 <div className="d-flex">
-                  <FaRegBell
-                    style={{
-                      fontSize: "1rem",
-                      color: "white",
-                    }}
-                  />
+                  <li className="nav-link">
+                    <FaRegBell
+                      style={{
+                        fontSize: "1rem",
+                        color: "white",
+                      }} />
+                  </li>
                 </div>
               </>
             )}

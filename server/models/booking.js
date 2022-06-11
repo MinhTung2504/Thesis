@@ -36,6 +36,10 @@ const bookingSchema = new Schema(
       type: ObjectId,
       ref: "House",
     },
+    isFeedback: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

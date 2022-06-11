@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { cancelBooking, getUserBooking } from "../../actions/booking";
 import { sendEmail } from "../../actions/email";
+import { createFeedback } from "../../actions/feedback";
 import { BOOKING_STATUS } from "../../utils";
 import Header from "../Header/Header";
 import Pagination from "../Pagination/Pagination";
@@ -20,6 +21,7 @@ export default function UserBooking() {
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
   const [status, setStatus] = useState("");
+  const navigate = useNavigate();
   // console.log(page);
   useEffect(() => {
     loadUserBooking();
@@ -56,6 +58,19 @@ export default function UserBooking() {
       }
     );
   };
+
+  const handleSendFeedback = async (data) => {
+    try {
+      let res = await createFeedback(token, data);
+      console.log(res);
+      toast.success("Your feedback is sent");
+      loadUserBooking();
+      setTimeout(() => window.location.reload(), 0)
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data);
+    }
+  }
   return (
     <>
       {loading ? (
@@ -86,7 +101,7 @@ export default function UserBooking() {
           </div>
           <div className="container text-center">
             {bookings.map((b) => (
-              <BookingHistory booking={b} key={b._id} handleCancelBooking={handleCancelBooking} />
+              <BookingHistory booking={b} key={b._id} handleCancelBooking={handleCancelBooking} handleSendFeedback={handleSendFeedback} />
             ))}
             <br />
             <Pagination page={page} pages={pages} changePage={setPage} />

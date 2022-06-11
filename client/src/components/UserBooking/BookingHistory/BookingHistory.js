@@ -4,14 +4,24 @@ import { formatCurrency, formatDate } from "../../../utils";
 import { payBooking } from "../../../actions/paypal";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import PaymentModal from "./PaymentModal";
+import PaymentModal from "../Modals/PaymentModal";
 import { getPayment } from "../../../actions/payment";
+import { getFeedbackById } from "../../../actions/feedback";
+import FeedbackModal from "../Modals/FeedbackModal";
+import ViewFeedbackModal from "../Modals/ViewFeedbackModal";
 
-export default function BookingHistory({ booking, handleCancelBooking = (f) => f }) {
+export default function BookingHistory({
+  booking,
+  handleCancelBooking = (f) => f,
+  handleSendFeedback = (f) => f,
+}) {
   // console.log(booking);
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
   const [payment, setPayment] = useState();
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState({})
+  const [contentFeedback, setContentFeedback] = useState("");
   const navigate = useNavigate();
   const handlePayment = async (bookingId, bookingInfo) => {
     const res = await payBooking(bookingId, bookingInfo);
@@ -23,6 +33,19 @@ export default function BookingHistory({ booking, handleCancelBooking = (f) => f
     console.log(res.data);
     setPayment(res.data);
   };
+
+  const handleGetFeedbackById = async (bookingId) => {
+    const res = await getFeedbackById(token, bookingId)
+    // console.log(res);
+    setFeedback(res.data)
+  }
+
+  const handleChange = (e) => {
+    setContentFeedback(e.target.value);
+  };
+
+  console.log(rating);
+  console.log(contentFeedback);
 
   return (
     <div className="container mb-2">
@@ -111,9 +134,35 @@ export default function BookingHistory({ booking, handleCancelBooking = (f) => f
                 <button className="btn btn-success">Book again</button>
               </div>
               <div className="row">
-                <div>
-                  <Rate />
-                </div>
+                {booking.isFeedback === true ? (
+                  <button
+                    className="btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#viewFeedback"
+                    onClick={() => handleGetFeedbackById(booking._id)}
+                  >
+                    <Rate value={feedback.star} />
+                  </button>
+                ) : (
+                  <button
+                    className="btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#feedbackModal"
+                  >
+                    Feedback
+                  </button>
+                )}
+                {/* <Rate /> */}
+
+                <FeedbackModal
+                  setRating={setRating}
+                  rating={rating}
+                  handleChange={handleChange}
+                  contentFeedback={contentFeedback}
+                  handleSendFeedback={handleSendFeedback}
+                  booking={booking}
+                />
+                <ViewFeedbackModal feedback={feedback} />
               </div>
             </div>
           )}
