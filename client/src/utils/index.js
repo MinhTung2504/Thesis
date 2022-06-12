@@ -93,3 +93,15 @@ export const settingsReactSlick = {
     }
   ]
 };
+
+export const randomBackgroundColorChart = (houseByCities) => {
+  const backgroundColor = [];
+  for (let i = 0; i < houseByCities.length; i++) {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+
+    backgroundColor.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.2)');
+  }
+  return backgroundColor
+}

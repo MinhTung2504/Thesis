@@ -135,35 +135,3 @@ export const unbanUser = async (req, res) => {
     });
   }
 };
-
-function count(array) {
-  return array.reduce((total, elem) => {
-    let temp = JSON.stringify(elem.createdAt).split("-");
-    // let temp = JSON.parse(elem.createdAt);
-    console.log(elem.createdAt.getFullYear());
-    console.log(elem.createdAt.getMonth());
-    // console.log(temp);
-    // let tempp = temp.split("-");
-    // console.log(tempp);
-    // console.log(temp[0]);
-    // console.log(temp[1]);
-    [year, month] = temp;
-
-    let groupKey = temp[0].replace('"', "") + "-" + temp[1];
-    console.log(groupKey);
-
-    total[groupKey] ? (total[groupKey] += 1) : (total[groupKey] = 1);
-    // total[groupKey] += 1;
-    console.log(total[groupKey]);
-    return total;
-  }, {});
-}
-export const getUserByMonth = async (req, res) => {
-  const users = await User.find({});
-  console.log(JSON.stringify(users));
-  console.log(typeof users);
-
-  const data = count(users);
-
-  res.json(data);
-};

@@ -13,13 +13,6 @@ export const createFeedback = async (req, res) => {
         await feedback.save();
 
         await booking.findByIdAndUpdate(req.body.booking, { isFeedback: true })
-        // console.log(JSON.stringify(booking._id));
-        // const resBooking = await Booking.findById(booking._id).populate({
-        //     path: "house",
-        //     populate: { path: "host", select: "email -_id" },
-        //     select: "host title -_id",
-        // });
-        // console.log(resBooking);
         res.json(feedback);
     } catch (error) {
         res.status(StatusCodes.BAD_REQUEST);
@@ -32,16 +25,6 @@ export const createFeedback = async (req, res) => {
 export const getFeedbackById = async (req, res) => {
     try {
         const feedback = await Feedback.findOne({ booking: req.params.bookingId })
-        // await feedback.save();
-
-        // await booking.findByIdAndUpdate(req.body.booking, { isFeedback: true })
-        // console.log(JSON.stringify(booking._id));
-        // const resBooking = await Booking.findById(booking._id).populate({
-        //     path: "house",
-        //     populate: { path: "host", select: "email -_id" },
-        //     select: "host title -_id",
-        // });
-        // console.log(resBooking);
         res.json(feedback);
     } catch (error) {
         res.status(StatusCodes.BAD_REQUEST);
