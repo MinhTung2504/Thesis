@@ -4,7 +4,7 @@ import {
     countHouseFollowingCities,
     getHouseDataByYear,
     getUserDataByYear,
-} from "../controllers/statistic";
+} from "../controllers/statisticByAdmin";
 import { auth, authPage } from "../middlewares";
 
 const router = express.Router();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -14,8 +14,45 @@ import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import "../DashboardAdmin/Dashboard.css";
 import { formatCurrency } from "../../utils";
+import { useSelector } from "react-redux";
+import { countCompletedBookingYearByHost, countRevenueYearByHost, getAllFeatureByHost } from "../../actions/statisticByHost";
+import ChartBooking from "./components/Charts/ChartBooking";
+import ChartRevenue from "./components/Charts/ChartRevenue";
 
 export default function DashboardHost() {
+  const { auth } = useSelector((state) => ({ ...state }));
+  const { token } = auth;
+  const [bookingStat, setBookingStat] = useState([]);
+  const [revenueStat, setRevenueStat] = useState([]);
+  const [allFeatures, setAllFeatures] = useState();
+  const [yearArray, setYearArray] = useState([]);
+  const [yearBooking, setYearBooking] = useState("2022");
+  const [yearRevenue, setYearRevenue] = useState("2022");
+
+  useEffect(() => {
+    loadBookingsStat();
+    loadRevenueByHost();
+    loadAllFeatures();
+  }, [yearBooking, yearRevenue]);
+
+
+  const loadBookingsStat = async () => {
+    const res = await countCompletedBookingYearByHost(token, yearBooking);
+    setBookingStat(res.data.data);
+    console.log(res.data.data);
+  };
+
+  const loadRevenueByHost = async () => {
+    const res = await countRevenueYearByHost(token, yearRevenue);
+    console.log(res.data.data);
+    setRevenueStat(res.data.data);
+    setYearArray(res.data.yearArray)
+  };
+
+  const loadAllFeatures = async () => {
+    const res = await getAllFeatureByHost(token);
+    setAllFeatures(res.data);
+  };
   return (
     <>
       <div className="wrapper">
@@ -25,33 +62,7 @@ export default function DashboardHost() {
           <div className="content">
             <Container fluid>
               <Row>
-                {/* <Col lg="3" sm="6">
-                  <Card className="card-stats">
-                    <Card.Body>
-                      <Row>
-                        <Col xs="5">
-                          <div className="icon-big text-center icon-warning">
-                            <i className="fa-solid fa-user text-warning"></i>
-                          </div>
-                        </Col>
-                        <Col xs="7">
-                          <div className="numbers">
-                            <p className="card-category">Number</p>
-                            <Card.Title as="h4">150GB</Card.Title>
-                          </div>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                    <Card.Footer>
-                      <hr></hr>
-                      <div className="stats">
-                        <i className="fas fa-redo mr-1"></i>
-                        Update Now
-                      </div>
-                    </Card.Footer>
-                  </Card>
-                </Col> */}
-                <Col lg="4" sm="6">
+                <Col lg="3" sm="6">
                   <Card className="card-stats">
                     <Card.Body>
                       <Row>
@@ -64,34 +75,12 @@ export default function DashboardHost() {
                         <Col xs="7">
                           <div className="numbers">
                             <p className="card-category">Revenue</p>
-                            <Card.Title as="h4">{formatCurrency(5500000)}</Card.Title>
-                          </div>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                    <Card.Footer>
-                      <hr></hr>
-                      <div className="stats">
-                        <i className="far fa-calendar-alt mr-1"></i>
-                        Last day
-                      </div>
-                    </Card.Footer>
-                  </Card>
-                </Col>
-                <Col lg="4" sm="6">
-                  <Card className="card-stats">
-                    <Card.Body>
-                      <Row>
-                        <Col xs="5">
-                          <div className="icon-big text-center icon-warning">
-                            {/* <i className="nc-icon nc-vector text-danger"></i> */}
-                            <i class="fa-solid fa-house text-danger"></i>
-                          </div>
-                        </Col>
-                        <Col xs="7">
-                          <div className="numbers">
-                            <p className="card-category">Total Houses</p>
-                            <Card.Title as="h4">23</Card.Title>
+                            {allFeatures && (
+                              <Card.Title as="h4">
+                                {allFeatures &&
+                                  formatCurrency(allFeatures.totalRevenue)}
+                              </Card.Title>
+                            )}
                           </div>
                         </Col>
                       </Row>
@@ -100,25 +89,29 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In the last hour
+                        In the current month
                       </div>
                     </Card.Footer>
                   </Card>
                 </Col>
-                <Col lg="4" sm="6">
+                <Col lg="3" sm="6">
                   <Card className="card-stats">
                     <Card.Body>
                       <Row>
                         <Col xs="5">
                           <div className="icon-big text-center icon-warning">
-                            {/* <i className="nc-icon nc-favourite-28 text-primary"></i> */}
-                            <i class="fa-solid fa-clipboard-check text-primary"></i>
+                            {/* <i className="nc-icon nc-vector text-danger"></i> */}
+                            <i class="fa-brands fa-paypal text-primary"></i>
                           </div>
                         </Col>
                         <Col xs="7">
                           <div className="numbers">
-                            <p className="card-category">Total Bookings</p>
-                            <Card.Title as="h4">+45K</Card.Title>
+                            <p className="card-category">Paid Booking</p>
+                            {allFeatures && (
+                              <Card.Title as="h4">
+                                {allFeatures && allFeatures.paidBookings}
+                              </Card.Title>
+                            )}
                           </div>
                         </Col>
                       </Row>
@@ -126,118 +119,133 @@ export default function DashboardHost() {
                     <Card.Footer>
                       <hr></hr>
                       <div className="stats">
-                        <i className="fas fa-redo mr-1"></i>
-                        Update now
+                        <i className="far fa-clock-o mr-1"></i>
+                        In the current month
+                      </div>
+                    </Card.Footer>
+                  </Card>
+                </Col>
+                <Col lg="3" sm="6">
+                  <Card className="card-stats">
+                    <Card.Body>
+                      <Row>
+                        <Col xs="5">
+                          <div className="icon-big text-center icon-warning">
+                            <i class="fa-solid fa-house text-danger"></i>
+                          </div>
+                        </Col>
+                        <Col xs="7">
+                          <div className="numbers">
+                            <p className="card-category">Houses</p>
+                            {allFeatures && (
+                              <Card.Title as="h4">
+                                {allFeatures.totalHouse[0].count}
+                              </Card.Title>
+                            )}
+                          </div>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                    <Card.Footer>
+                      <hr></hr>
+                      <div className="stats">
+                        {/* <i className="fas fa-redo mr-1"></i>
+                        Update Now */}
+                      </div>
+                    </Card.Footer>
+                  </Card>
+                </Col>
+                <Col lg="3" sm="6">
+                  <Card className="card-stats">
+                    <Card.Body>
+                      <Row>
+                        <Col xs="5">
+                          <div className="icon-big text-center icon-warning">
+                            <i class="fa-solid fa-clipboard-check text-info"></i>
+                          </div>
+                        </Col>
+                        <Col xs="7">
+                          <div className="numbers">
+                            <p className="card-category">Completed Bookings</p>
+                            {allFeatures && (
+                              <Card.Title as="h4">
+                                {allFeatures && allFeatures.completedBookings}
+                              </Card.Title>
+                            )}
+                          </div>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                    <Card.Footer>
+                      <hr></hr>
+                      <div className="stats">
+                        <i className="far fa-clock-o mr-1"></i>
+                        All Times
                       </div>
                     </Card.Footer>
                   </Card>
                 </Col>
               </Row>
               <Row>
-                <Col md="8">
+                <Col md="12">
                   <Card>
                     <Card.Header>
-                      <Card.Title as="h4">Users Behavior</Card.Title>
-                      <p className="card-category">24 Hours performance</p>
+                      <Card.Title as="h4">Revenue</Card.Title>
+                      {/* <p className="card-category">24 Hours performance</p> */}
+                      <div className="">
+                        <label htmlFor="cities">Choose Year:</label>
+
+                        <select
+                          id="cities"
+                          name="cities"
+                          value={yearRevenue}
+                          onChange={(e) => setYearRevenue(e.target.value)}
+                          className="btn btn-secondary"
+                        >
+                          {yearArray.map((y) => (
+                            <option key={y} value={y}>
+                              {y}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </Card.Header>
                     <Card.Body>
-                      <div className="ct-chart" id="chartHours">
-                        {/* <ChartistGraph
-                          data={{
-                            labels: [
-                              "9:00AM",
-                              "12:00AM",
-                              "3:00PM",
-                              "6:00PM",
-                              "9:00PM",
-                              "12:00PM",
-                              "3:00AM",
-                              "6:00AM",
-                            ],
-                            series: [
-                              [287, 385, 490, 492, 554, 586, 698, 695],
-                              [67, 152, 143, 240, 287, 335, 435, 437],
-                              [23, 113, 67, 108, 190, 239, 307, 308],
-                            ],
-                          }}
-                          type="Line"
-                          options={{
-                            low: 0,
-                            high: 800,
-                            showArea: false,
-                            height: "245px",
-                            axisX: {
-                              showGrid: false,
-                            },
-                            lineSmooth: true,
-                            showLine: true,
-                            showPoint: true,
-                            fullWidth: true,
-                            chartPadding: {
-                              right: 50,
-                            },
-                          }}
-                          responsiveOptions={[
-                            [
-                              "screen and (max-width: 640px)",
-                              {
-                                axisX: {
-                                  labelInterpolationFnc: function (value) {
-                                    return value[0];
-                                  },
-                                },
-                              },
-                            ],
-                          ]}
-                        /> */}
+                      <div className="" id="chartHours">
+                        <ChartBooking bookingStat={bookingStat} />
                       </div>
                     </Card.Body>
-                    <Card.Footer>
-                      <div className="legend">
-                        <i className="fas fa-circle text-info"></i>
-                        Open <i className="fas fa-circle text-danger"></i>
-                        Click <i className="fas fa-circle text-warning"></i>
-                        Click Second Time
-                      </div>
-                      <hr></hr>
-                      <div className="stats">
-                        <i className="fas fa-history"></i>
-                        Updated 3 minutes ago
-                      </div>
-                    </Card.Footer>
                   </Card>
                 </Col>
-                <Col md="4">
+                <Col md="12">
                   <Card>
                     <Card.Header>
-                      <Card.Title as="h4">Email Statistics</Card.Title>
-                      <p className="card-category">Last Campaign Performance</p>
+                      <Card.Title as="h4">Revenue</Card.Title>
+                      {/* <p className="card-category">24 Hours performance</p> */}
+                      <div className="">
+                        <label htmlFor="cities">Choose Year:</label>
+
+                        <select
+                          id="cities"
+                          name="cities"
+                          value={yearRevenue}
+                          onChange={(e) => setYearRevenue(e.target.value)}
+                          className="btn btn-secondary"
+                        >
+                          {yearArray.map((y) => (
+                            <option key={y} value={y}>
+                              {y}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </Card.Header>
                     <Card.Body>
-                      <div
-                        className="ct-chart ct-perfect-fourth"
-                        id="chartPreferences"
-                      >
-                        {/* <ChartistGraph
-                          data={{
-                            labels: ["40%", "20%", "40%"],
-                            series: [40, 20, 40],
-                          }}
-                          type="Pie"
-                        /> */}
-                      </div>
-                      <div className="legend">
-                        <i className="fas fa-circle text-info"></i>
-                        Open <i className="fas fa-circle text-danger"></i>
-                        Bounce <i className="fas fa-circle text-warning"></i>
-                        Unsubscribe
-                      </div>
-                      <hr></hr>
-                      <div className="stats">
-                        <i className="far fa-clock"></i>
-                        Campaign sent 2 days ago
+                      <div className="" id="chartHours">
+                        <ChartRevenue revenueStat={revenueStat} />
                       </div>
                     </Card.Body>
+
                   </Card>
                 </Col>
               </Row>

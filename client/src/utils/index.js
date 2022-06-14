@@ -94,9 +94,9 @@ export const settingsReactSlick = {
   ]
 };
 
-export const randomBackgroundColorChart = (houseByCities) => {
+export const randomBackgroundColorChart = (arrayData) => {
   const backgroundColor = [];
-  for (let i = 0; i < houseByCities.length; i++) {
+  for (let i = 0; i < arrayData.length; i++) {
     const r = Math.floor(Math.random() * 255);
     const g = Math.floor(Math.random() * 255);
     const b = Math.floor(Math.random() * 255);
@@ -104,4 +104,15 @@ export const randomBackgroundColorChart = (houseByCities) => {
     backgroundColor.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.2)');
   }
   return backgroundColor
+}
+
+export const formatNewData = (arrayData) => {
+  let newData = [];
+
+  for (let i = 0; i < arrayData.length; i++) {
+    let newDate = arrayData[i]._id.month.toString() + "-" + arrayData[i]._id.year.toString();
+    newData.push({ period: newDate, total: arrayData[i].total })
+  }
+
+  return newData;
 }

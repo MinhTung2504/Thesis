@@ -414,11 +414,11 @@ export default function FilterHouses() {
                       ) : (
                         <>
                           {page > 1 && (
-                            <button onClick={() => setPage(page - 1)}>
+                            <button className="btn btn-secondary p-2" style={{ marginRight: "5px" }} onClick={() => setPage(page - 1)}>
                               Previous
                             </button>
                           )}
-                          <button onClick={() => setPage(page + 1)}>
+                          <button className="btn btn-secondary" onClick={() => setPage(page + 1)}>
                             Next
                           </button>
                         </>

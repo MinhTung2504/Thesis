@@ -42,12 +42,12 @@ export const login = async (req, res) => {
     if (!user)
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .send("User with that email not found");
+        .send("User or Password is Incorrect");
     // compare password
     user.comparePassword(password, (err, match) => {
       // console.log("COMPARE PASSWORD IN LOGIN ERR ", err);
       if (!match || err)
-        return res.status(StatusCodes.BAD_REQUEST).send("Wrong password");
+        return res.status(StatusCodes.BAD_REQUEST).send("User or Password is Incorrect");
       // GENERATE A TOKEN THEN SEND AS RESPONSE TO CLIENT
       let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: EXPIRESIN_TOKEN,

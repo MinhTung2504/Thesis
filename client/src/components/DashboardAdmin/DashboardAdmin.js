@@ -10,7 +10,7 @@ import {
   getHouseByCities,
   getHouseStatistic,
   getUserStatistic,
-} from "../../actions/statistic";
+} from "../../actions/statisticByAdmin";
 import ChartHouse from "./components/Charts/ChartHouse";
 import HouseByCitiesChart from "./components/Charts/HouseByCitiesChart";
 import { formatCurrency } from "../../utils";
@@ -219,7 +219,7 @@ export default function DashboardAdmin() {
                 <Col md="12">
                   <Card>
                     <Card.Header>
-                      <Card.Title as="h4">System Users</Card.Title>
+                      <Card.Title as="h4">Users</Card.Title>
                       {/* <p className="card-category">24 Hours performance</p> */}
                       <div className="">
                         <label htmlFor="cities">Choose Year:</label>
@@ -262,7 +262,7 @@ export default function DashboardAdmin() {
                 <Col md="8">
                   <Card>
                     <Card.Header>
-                      <Card.Title as="h4">System Houses</Card.Title>
+                      <Card.Title as="h4">Houses</Card.Title>
                       {/* <p className="card-category">24 Hours performance</p> */}
                       <div className="">
                         <label htmlFor="cities">Choose Year:</label>
@@ -305,7 +305,7 @@ export default function DashboardAdmin() {
                 <Col md="4">
                   <Card>
                     <Card.Header>
-                      <Card.Title as="h4">System Houses By Cities</Card.Title>
+                      <Card.Title as="h4">Houses By Cities</Card.Title>
                       {/* <p className="card-category">24 Hours performance</p> */}
                     </Card.Header>
                     <Card.Body>
