@@ -39,7 +39,6 @@ export default function DashboardHost() {
   const loadBookingsStat = async () => {
     const res = await countCompletedBookingYearByHost(token, yearBooking);
     setBookingStat(res.data.data);
-    console.log(res.data.data);
   };
 
   const loadRevenueByHost = async () => {
@@ -89,7 +88,7 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In the current month
+                        In {revenueStat[0]._id.month.toString() + '-' + revenueStat[0]._id.year.toString()}
                       </div>
                     </Card.Footer>
                   </Card>
@@ -120,7 +119,7 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In the current month
+                        In {revenueStat[0]._id.month.toString() + '-' + revenueStat[0]._id.year.toString()}
                       </div>
                     </Card.Footer>
                   </Card>
@@ -190,7 +189,7 @@ export default function DashboardHost() {
                 <Col md="12">
                   <Card>
                     <Card.Header>
-                      <Card.Title as="h4">Revenue</Card.Title>
+                      <Card.Title as="h4">Completed Bookings</Card.Title>
                       {/* <p className="card-category">24 Hours performance</p> */}
                       <div className="">
                         <label htmlFor="cities">Choose Year:</label>

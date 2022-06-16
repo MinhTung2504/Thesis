@@ -55,7 +55,12 @@ export default function ChartUser({ userStat }) {
                     padding: { top: 30, left: 0, right: 0, bottom: 0 }
                 }
             }
-        }
+        },
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
     }
 
     const data = {
