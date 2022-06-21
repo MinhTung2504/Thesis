@@ -163,7 +163,7 @@ export default function CheckBooking() {
                           setValues({ ...values, date_check_out: dateString })
                         }
                         disabledDate={(current) =>
-                          current && current.valueOf() < date_check_inObj
+                          current && current.valueOf() < moment(date_check_in).add(1, 'd')
                         }
                       />
                     </div>
@@ -213,7 +213,8 @@ export default function CheckBooking() {
               <div>
                 <button
                   style={{ textAlign: "right" }}
-                  className="btn btn-primary mt-5"
+                  disabled={!totalAmout || !date_check_in || !date_check_out}
+                  className="btn btn-warning mt-5"
                   onClick={handleSubmit}
                 >
                   Book Now
