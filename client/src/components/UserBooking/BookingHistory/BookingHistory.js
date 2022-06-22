@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Rate } from "antd";
 import { formatCurrency, formatDate } from "../../../utils";
 import { payBooking } from "../../../actions/paypal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PaymentModal from "../Modals/PaymentModal";
 import { getPayment } from "../../../actions/payment";
@@ -20,9 +20,10 @@ export default function BookingHistory({
   const { token } = auth;
   const [payment, setPayment] = useState();
   const [rating, setRating] = useState(0);
-  const [feedback, setFeedback] = useState({})
+  const [feedback, setFeedback] = useState({});
   const [contentFeedback, setContentFeedback] = useState("");
   const navigate = useNavigate();
+  // console.log(booking);
   const handlePayment = async (bookingId, bookingInfo) => {
     const res = await payBooking(bookingId, bookingInfo);
     console.log(res.data);
@@ -35,10 +36,10 @@ export default function BookingHistory({
   };
 
   const handleGetFeedbackById = async (bookingId) => {
-    const res = await getFeedbackById(token, bookingId)
+    const res = await getFeedbackById(token, bookingId);
     // console.log(res);
-    setFeedback(res.data)
-  }
+    setFeedback(res.data);
+  };
 
   const handleChange = (e) => {
     setContentFeedback(e.target.value);
@@ -131,7 +132,14 @@ export default function BookingHistory({
           {booking.status === "completed" && (
             <div>
               <div className="row mb-3">
-                <button className="btn btn-success">Book again</button>
+                <button className="btn btn-success">
+                  <Link
+                    to={`/house/${booking.house._id}`}
+                    className="text-dark"
+                  >
+                    Book again
+                  </Link>
+                </button>
               </div>
               <div className="row">
                 {booking.isFeedback === true ? (

@@ -65,7 +65,7 @@ export const getUserBooking = async (req, res) => {
         .populate({
           path: "house",
           populate: { path: "host", select: "email -_id" },
-          select: "host image title -_id",
+          select: "host image title",
         })
         .populate("user", "name -_id")
         .sort({ createdAt: -1 }),
