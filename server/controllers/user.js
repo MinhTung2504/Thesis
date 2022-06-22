@@ -135,3 +135,31 @@ export const unbanUser = async (req, res) => {
     });
   }
 };
+
+export const getProfileUser = async (req, res) => {
+  try {
+    const profile = await User.findById(req.user._id);
+    res.status(StatusCodes.OK).json(profile);
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};
+
+export const editProfileUser = async (req, res) => {
+  try {
+    let data = req.body;
+    console.log(req.body);
+    let updated = await User.findByIdAndUpdate(req.user._id, data, {
+      new: true,
+    });
+    res.json(updated);
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+}

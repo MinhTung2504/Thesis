@@ -26,3 +26,18 @@ export const unbanUser = async (token, data, userId) => {
     }
   );
 };
+
+export const getUserProfile = async (token) =>
+  await axios.get(`${process.env.REACT_APP_API}/my-profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+export const editUserProfile = async (token, data) =>
+  await axios.put(`${process.env.REACT_APP_API}/my-profile/edit`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
