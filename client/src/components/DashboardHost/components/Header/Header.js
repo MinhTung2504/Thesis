@@ -31,6 +31,11 @@ export default function Header() {
       name: "All Bookings",
       layout: "/host",
     },
+    {
+      path: "/reports",
+      name: "Reports",
+      layout: "/host",
+    },
   ];
   const location = useLocation();
   const mobileSidebarToggle = (e) => {

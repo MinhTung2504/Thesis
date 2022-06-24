@@ -26,6 +26,7 @@ import SuccessPayment from "./components/Payment/SuccessPayment/SuccessPayment";
 import CancelPayment from "./components/Payment/CancelPayment/CancelPayment";
 import PrivacyPolicy from "./components/InfoPages/PrivacyPolicy";
 import AboutUs from "./components/InfoPages/AboutUs";
+import Reports from "./components/DashboardHost/views/Reports/Reports";
 
 
 function App() {
@@ -136,6 +137,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={[ROLES.HOST]}>
               <ManageBookings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/host/reports"
+          element={
+            <PrivateRoute allowedRoles={[ROLES.HOST]}>
+              <Reports />
             </PrivateRoute>
           }
         />

@@ -31,35 +31,38 @@ export default function ChartHouse({ houseStat }) {
                 display: true,
                 title: {
                     display: true,
-                    text: 'Month',
-                    color: '#A9A9A9',
+                    text: "Month",
+                    color: "#A9A9A9",
                     font: {
                         size: 20,
-                        weight: 'bold',
+                        weight: "bold",
                         lineHeight: 1.2,
                     },
-                    padding: { top: 20, left: 0, right: 0, bottom: 0 }
-                }
+                    padding: { top: 20, left: 0, right: 0, bottom: 0 },
+                },
             },
             y: {
                 display: true,
                 title: {
                     display: true,
-                    text: 'Quantity',
-                    color: '#A9A9A2',
+                    text: "Quantity",
+                    color: "#A9A9A2",
                     font: {
                         size: 20,
-                        weight: 'bold',
-                        lineHeight: 1.2
+                        weight: "bold",
+                        lineHeight: 1.2,
                     },
-                    padding: { top: 30, left: 0, right: 0, bottom: 0 }
-                }
-            }
+                    padding: { top: 30, left: 0, right: 0, bottom: 0 },
+                },
+            },
         },
         plugins: {
             legend: {
                 display: false,
             },
+        },
+        ticks: {
+            stepSize: 1,
         },
     };
 

@@ -132,14 +132,12 @@ export default function BookingHistory({
           {booking.status === "completed" && (
             <div>
               <div className="row mb-3">
-                <button className="btn btn-success">
-                  <Link
-                    to={`/house/${booking.house._id}`}
-                    className="text-dark"
-                  >
-                    Book again
-                  </Link>
-                </button>
+                <Link
+                  to={`/house/${booking.house._id}`}
+                  className="text-dark btn btn-success"
+                >
+                  Book again
+                </Link>
               </div>
               <div className="row">
                 {booking.isFeedback === true ? (

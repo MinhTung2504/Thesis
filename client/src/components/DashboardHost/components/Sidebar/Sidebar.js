@@ -7,9 +7,9 @@ export default function Sidebar() {
     <div className="sidebar">
       <div
         className="sidebar-background "
-        // style={{
-        //   backgroundImage: "url(" + image + ")",
-        // }}
+      // style={{
+      //   backgroundImage: "url(" + image + ")",
+      // }}
       />
       <div className="sidebar-wrapper bg-secondary">
         <div className="logo d-flex align-items-center justify-content-center">
@@ -31,6 +31,11 @@ export default function Sidebar() {
           <Nav.Link>
             <Link className="text-white" to="/host/bookings">
               Bookings
+            </Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link className="text-white" to="/host/reports">
+              Reports
             </Link>
           </Nav.Link>
         </Nav>

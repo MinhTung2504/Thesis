@@ -39,7 +39,7 @@ export default function ChartBooking({ bookingStat }) {
                         lineHeight: 1.2,
                     },
                     padding: { top: 20, left: 0, right: 0, bottom: 0 }
-                }
+                },
             },
             y: {
                 display: true,
@@ -60,6 +60,9 @@ export default function ChartBooking({ bookingStat }) {
             legend: {
                 display: false
             }
+        },
+        ticks: {
+            stepSize: 1
         }
     }
 

@@ -43,7 +43,6 @@ router.put(
 router.put(
   "/host/bookings/paid-success/:bookingId",
   auth,
-  authPage(["host"]),
   checkPaidBooking
 );
 router.put("/user/bookings/cancel/:bookingId", auth, cancelBooking);

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Bar } from 'react-chartjs-2'
+import React from "react";
+import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -8,8 +8,8 @@ import {
     Title,
     Tooltip,
     Legend,
-} from 'chart.js';
-import { randomBackgroundColorChart } from '../../../../utils';
+} from "chart.js";
+import { randomBackgroundColorChart } from "../../../../utils";
 
 ChartJS.register(
     CategoryScale,
@@ -31,37 +31,40 @@ export default function ChartUser({ userStat }) {
                 display: true,
                 title: {
                     display: true,
-                    text: 'Month',
-                    color: '#A9A9A9',
+                    text: "Month",
+                    color: "#A9A9A9",
                     font: {
                         size: 20,
-                        weight: 'bold',
+                        weight: "bold",
                         lineHeight: 1.2,
                     },
-                    padding: { top: 20, left: 0, right: 0, bottom: 0 }
-                }
+                    padding: { top: 20, left: 0, right: 0, bottom: 0 },
+                },
             },
             y: {
                 display: true,
                 title: {
                     display: true,
-                    text: 'Quantity',
-                    color: '#A9A9A2',
+                    text: "Quantity",
+                    color: "#A9A9A2",
                     font: {
                         size: 20,
-                        weight: 'bold',
-                        lineHeight: 1.2
+                        weight: "bold",
+                        lineHeight: 1.2,
                     },
-                    padding: { top: 30, left: 0, right: 0, bottom: 0 }
-                }
-            }
+                    padding: { top: 30, left: 0, right: 0, bottom: 0 },
+                },
+            },
         },
         plugins: {
             legend: {
                 display: false,
             },
         },
-    }
+        ticks: {
+            stepSize: 1,
+        },
+    };
 
     const data = {
         datasets: [
@@ -69,9 +72,8 @@ export default function ChartUser({ userStat }) {
                 data: userStat,
                 backgroundColor: randomBackgroundColorChart(userStat),
             },
-        ], labels: userStat.map(h => h.period)
-    }
-    return (
-        <Bar options={options} data={data} />
-    )
+        ],
+        labels: userStat.map((h) => h.period),
+    };
+    return <Bar options={options} data={data} />;
 }
