@@ -4,7 +4,6 @@ import User from "../models/user";
 import Booking from "../models/booking";
 import Payment from "../models/payment";
 import {
-    compareNew,
     comparePeriod,
     convertToArray,
     countStatistic,
@@ -30,9 +29,9 @@ export const hostCountCompletedBookingsByYear = async (req, res) => {
         const dataArray = convertToArray(data);
 
         const dataByYear = getDataByYear(
-            dataArray.sort(comparePeriod),
+            dataArray,
             req.query.year
-        );
+        ).sort(comparePeriod);
 
         const yearArray = deduplicate(getYearArray(dataArray));
         res
@@ -87,9 +86,9 @@ export const hostCountRevenuesByYear = async (req, res) => {
         ]);
 
         const dataByYear = getDataByYearNew(
-            result.sort(compareNew),
+            result,
             req.query.year
-        );
+        ).sort(comparePeriod);
 
         const yearArray = deduplicate(getYearArrayNew(result));
         res

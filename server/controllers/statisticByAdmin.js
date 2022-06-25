@@ -21,9 +21,9 @@ export const getUserDataByYear = async (req, res) => {
         const dataArray = convertToArray(data);
 
         const dataByYear = getDataByYear(
-            dataArray.sort(comparePeriod),
+            dataArray,
             req.query.year
-        );
+        ).sort(comparePeriod);
 
         const yearArray = deduplicate(getYearArray(dataArray));
 
@@ -47,9 +47,9 @@ export const getHouseDataByYear = async (req, res) => {
         const dataArray = convertToArray(data);
 
         const dataByYear = getDataByYear(
-            dataArray.sort(comparePeriod),
+            dataArray,
             req.query.year
-        );
+        ).sort(comparePeriod);
 
         const yearArray = deduplicate(getYearArray(dataArray));
         res

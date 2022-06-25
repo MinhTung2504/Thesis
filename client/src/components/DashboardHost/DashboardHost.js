@@ -88,7 +88,7 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In {revenueStat[0] && revenueStat[0]._id.month.toString() + '-' + revenueStat[0]._id.year.toString()}
+                        In {revenueStat[0] && revenueStat[0].period}
                       </div>
                     </Card.Footer>
                   </Card>
@@ -119,7 +119,7 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In {revenueStat[0] && revenueStat[0]._id.month.toString() + '-' + revenueStat[0]._id.year.toString()}
+                        In {revenueStat[0] && revenueStat[0].period}
                       </div>
                     </Card.Footer>
                   </Card>

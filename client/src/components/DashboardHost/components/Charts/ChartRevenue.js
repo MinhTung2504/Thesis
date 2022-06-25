@@ -21,7 +21,7 @@ ChartJS.register(
 );
 
 export default function ChartRevenue({ revenueStat }) {
-    const dataRevenue = formatNewData(revenueStat);
+    // const dataRevenue = formatNewData(revenueStat);
     const options = {
         parsing: {
             xAxisKey: "period",
@@ -67,8 +67,8 @@ export default function ChartRevenue({ revenueStat }) {
     const data = {
         datasets: [
             {
-                data: dataRevenue,
-                backgroundColor: randomBackgroundColorChart(dataRevenue),
+                data: revenueStat,
+                backgroundColor: randomBackgroundColorChart(revenueStat),
             },
         ],
     };

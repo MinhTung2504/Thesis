@@ -8,3 +8,4 @@ export const HEIGHT_IMAGE = 1080;
 export const PAGE_LIST = 1;
 export const PAGESIZE_LIST = 9;
 export const GREATER_THAN_PRICE = 100000;
+export const TWELVEMONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
