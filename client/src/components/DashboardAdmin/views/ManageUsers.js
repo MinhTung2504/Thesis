@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { banUser, getUsers, unbanUser } from "../../../actions/user";
-import { BOOLEAN_STATUS } from "../../../utils";
+import { BOOLEAN_STATUS, formatDate } from "../../../utils";
+import DialogConfirm from "../../DialogConfirm";
 import Pagination from "../../Pagination/Pagination";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -19,7 +20,11 @@ export default function ManageUsers() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
-  // console.log(page);
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     loadAllUsers();
@@ -30,7 +35,7 @@ export default function ManageUsers() {
     setLoading(true);
     try {
       const res = await getUsers(token, page);
-      // console.log(res);
+      console.log(res.data.data);
       setUsers(res.data.data);
       setLoading(false);
       setPages(res.data.pages);
@@ -41,24 +46,28 @@ export default function ManageUsers() {
   };
 
   const handleBanUser = async (userId) => {
-    if (!window.confirm("Are you sure?")) return;
-    banUser(token, { isBanned: BOOLEAN_STATUS.TRUE }, userId).then(
-      (res) => {
-        toast.success("User Banned!");
-        loadAllUsers();
-      }
-    );
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    banUser(token, { isBanned: BOOLEAN_STATUS.TRUE }, userId).then((res) => {
+      toast.success("User Banned!");
+      loadAllUsers();
+    });
   };
 
   const handleUnbanUser = async (userId) => {
-    if (!window.confirm("Are you sure?")) return;
-    unbanUser(token, { isBanned: BOOLEAN_STATUS.FALSE }, userId).then(
-      (res) => {
-        toast.success("User Unbanned!");
-        loadAllUsers();
-      }
-    );
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+    unbanUser(token, { isBanned: BOOLEAN_STATUS.FALSE }, userId).then((res) => {
+      toast.success("User Unbanned!");
+      loadAllUsers();
+    });
   };
+
+  console.log(confirmDialog.isOpen);
 
   return (
     <>
@@ -109,23 +118,42 @@ export default function ManageUsers() {
                               <td>{user.country}</td>
                               <td>{user.city}</td>
                               <td>{user.role}</td>
-                              <td>{user.birthday}</td>
+                              <td>
+                                {user.birthday !== null &&
+                                  formatDate(new Date(user.birthday))}
+                              </td>
                               <td>
                                 {user.isBanned === true ? (
                                   <button
                                     className="btn btn-primary"
                                     onClick={() => {
-                                      handleUnbanUser(user._id);
+                                      setConfirmDialog({
+                                        isOpen: true,
+                                        title:
+                                          "Are you sure to unban this user?",
+                                        subTitle:
+                                          "You can't undo this operation",
+                                        onConfirm: () => {
+                                          handleUnbanUser(user._id);
+                                        },
+                                      });
                                     }}
                                   >
                                     <i class="fa-solid fa-user"></i>
                                   </button>
-
                                 ) : (
                                   <button
                                     className="btn btn-danger"
                                     onClick={() => {
-                                      handleBanUser(user._id);
+                                      setConfirmDialog({
+                                        isOpen: true,
+                                        title: "Are you sure to ban this user?",
+                                        subTitle:
+                                          "You can't undo this operation",
+                                        onConfirm: () => {
+                                          handleBanUser(user._id);
+                                        },
+                                      });
                                     }}
                                   >
                                     <i class="fa-solid fa-user-slash"></i>
@@ -147,6 +175,10 @@ export default function ManageUsers() {
           </div>
         </div>
       </div>
+      <DialogConfirm
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }

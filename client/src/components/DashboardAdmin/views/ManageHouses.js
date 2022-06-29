@@ -9,6 +9,7 @@ import {
   unlockHouse,
 } from "../../../actions/house";
 import { BOOLEAN_STATUS, formatCurrency } from "../../../utils";
+import DialogConfirm from "../../DialogConfirm";
 import Pagination from "../../Pagination/Pagination";
 import Header from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -23,7 +24,11 @@ export default function ManageHouses() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
-  //   console.log(page);
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     loadAllHouses();
@@ -48,7 +53,10 @@ export default function ManageHouses() {
   };
 
   const handleBlockHouse = async (houseId) => {
-    if (!window.confirm("Are you sure?")) return;
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     blockHouse(token, { isBlocked: BOOLEAN_STATUS.TRUE }, houseId).then(
       (res) => {
         toast.success("House Blocked!");
@@ -58,7 +66,10 @@ export default function ManageHouses() {
   };
 
   const handleUnlockHouse = async (houseId) => {
-    if (!window.confirm("Are you sure?")) return;
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     unlockHouse(token, { isBlocked: BOOLEAN_STATUS.FALSE }, houseId).then(
       (res) => {
         toast.success("House Unlocked!");
@@ -137,8 +148,20 @@ export default function ManageHouses() {
                                 <td>
                                   <button
                                     className="btn btn-primary"
+                                    // onClick={() => {
+                                    //   handleUnlockHouse(h._id);
+                                    // }}
                                     onClick={() => {
-                                      handleUnlockHouse(h._id);
+                                      setConfirmDialog({
+                                        isOpen: true,
+                                        title:
+                                          "Are you sure to unlock this house?",
+                                        subTitle:
+                                          "You can't undo this operation",
+                                        onConfirm: () => {
+                                          handleUnlockHouse(h._id);
+                                        },
+                                      });
                                     }}
                                   >
                                     <i class="fa-solid fa-lock-open"></i>
@@ -148,8 +171,20 @@ export default function ManageHouses() {
                                 <td>
                                   <button
                                     className="btn btn-danger"
+                                    // onClick={() => {
+                                    //   handleBlockHouse(h._id);
+                                    // }}
                                     onClick={() => {
-                                      handleBlockHouse(h._id);
+                                      setConfirmDialog({
+                                        isOpen: true,
+                                        title:
+                                          "Are you sure to block this house?",
+                                        subTitle:
+                                          "You can't undo this operation",
+                                        onConfirm: () => {
+                                          handleBlockHouse(h._id);
+                                        },
+                                      });
                                     }}
                                   >
                                     <i class="fa-solid fa-lock"></i>
@@ -177,6 +212,10 @@ export default function ManageHouses() {
           </div>
         </div>
       </div>
+      <DialogConfirm
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }

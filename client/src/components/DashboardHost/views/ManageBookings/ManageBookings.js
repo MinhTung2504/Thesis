@@ -11,6 +11,7 @@ import {
 } from "../../../../actions/booking";
 import { sendEmail } from "../../../../actions/email";
 import { BOOKING_STATUS, formatCurrency, formatDate } from "../../../../utils";
+import DialogConfirm from "../../../DialogConfirm";
 import Pagination from "../../../Pagination/Pagination";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -25,7 +26,11 @@ export default function ManageBookings() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
-  // console.log(page);
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     loadBookingsOfHostHouses();
@@ -50,31 +55,43 @@ export default function ManageBookings() {
   };
 
   const handleAcceptBooking = async (bookingId, data) => {
-    if (!window.confirm("Are you sure?")) return;
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     acceptBooking(token, { status: BOOKING_STATUS.NOT_PAID }, bookingId).then(
       (res) => {
         toast.success("Accept Booking Successfully!");
+        loadBookingsOfHostHouses();
         sendEmailToNotify(data);
       }
     );
   };
   const handleRejectBooking = async (bookingId, data) => {
-    if (!window.confirm("Are you sure?")) return;
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     rejectBooking(token, { status: BOOKING_STATUS.REJECTED }, bookingId).then(
       (res) => {
         toast.success("Reject Booking Successfully!");
+        loadBookingsOfHostHouses();
         sendEmailToNotify(data);
       }
     );
   };
   const handleCheckoutBooking = async (bookingId, data) => {
-    if (!window.confirm("Are you sure?")) return;
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     checkoutBooking(
       token,
       { status: BOOKING_STATUS.COMPLETED },
       bookingId
     ).then((res) => {
       toast.success("Checkout Booking Successfully!");
+      loadBookingsOfHostHouses();
       sendEmailToNotify(data);
     });
   };
@@ -147,12 +164,20 @@ export default function ManageBookings() {
                                         <button
                                           className="btn btn-primary"
                                           onClick={() => {
-                                            handleAcceptBooking(b._id, {
-                                              email: b.user.email,
-                                              subject: `ACCEPTED YOUR BOOKING FOR ${b.house.title}`,
-                                              content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                            setConfirmDialog({
+                                              isOpen: true,
+                                              title:
+                                                "Are you sure to accept this booking?",
+                                              subTitle:
+                                                "You can't undo this operation",
+                                              onConfirm: () => {
+                                                handleAcceptBooking(b._id, {
+                                                  email: b.user.email,
+                                                  subject: `ACCEPTED YOUR BOOKING FOR ${b.house.title}`,
+                                                  content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                                });
+                                              },
                                             });
-                                            loadBookingsOfHostHouses();
                                           }}
                                         >
                                           <i class="fa-solid fa-circle-check"></i>
@@ -162,12 +187,20 @@ export default function ManageBookings() {
                                         <button
                                           className="btn btn-danger"
                                           onClick={() => {
-                                            handleRejectBooking(b._id, {
-                                              email: b.user.email,
-                                              subject: `REJECTED YOUR BOOKING FOR ${b.house.title}`,
-                                              content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                            setConfirmDialog({
+                                              isOpen: true,
+                                              title:
+                                                "Are you sure to reject this booking?",
+                                              subTitle:
+                                                "You can't undo this operation",
+                                              onConfirm: () => {
+                                                handleRejectBooking(b._id, {
+                                                  email: b.user.email,
+                                                  subject: `REJECTED YOUR BOOKING FOR ${b.house.title}`,
+                                                  content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                                });
+                                              },
                                             });
-                                            loadBookingsOfHostHouses();
                                           }}
                                         >
                                           <i class="fa-solid fa-circle-xmark"></i>
@@ -177,30 +210,38 @@ export default function ManageBookings() {
                                   )}
                                   {(b.status === "completed" ||
                                     b.status === "rejected") && (
-                                      <>
-                                        <td colSpan="2"></td>
-                                      </>
-                                    )}
+                                    <>
+                                      <td colSpan="2"></td>
+                                    </>
+                                  )}
                                   {(b.status === "not-paid" ||
                                     b.status === "paid") && (
-                                      <>
-                                        <td colSpan="2">
-                                          <button
-                                            className="btn btn-primary"
-                                            onClick={() => {
-                                              handleCheckoutBooking(b._id, {
-                                                email: b.user.email,
-                                                subject: `CHECKOUT SUCCESSFULLY YOUR BOOKING FOR ${b.house.title}`,
-                                                content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
-                                              });
-                                              loadBookingsOfHostHouses();
-                                            }}
-                                          >
-                                            <i class="fa-solid fa-right-from-bracket"></i>
-                                          </button>
-                                        </td>
-                                      </>
-                                    )}
+                                    <>
+                                      <td colSpan="2">
+                                        <button
+                                          className="btn btn-primary"
+                                          onClick={() => {
+                                            setConfirmDialog({
+                                              isOpen: true,
+                                              title:
+                                                "Are you sure to checkout this booking?",
+                                              subTitle:
+                                                "You can't undo this operation",
+                                              onConfirm: () => {
+                                                handleCheckoutBooking(b._id, {
+                                                  email: b.user.email,
+                                                  subject: `CHECKOUT SUCCESSFULLY YOUR BOOKING FOR ${b.house.title}`,
+                                                  content: `You can check it following this link: ${process.env.REACT_APP_URL}/user-booking. Thank you!`,
+                                                });
+                                              },
+                                            });
+                                          }}
+                                        >
+                                          <i class="fa-solid fa-right-from-bracket"></i>
+                                        </button>
+                                      </td>
+                                    </>
+                                  )}
                                 </tr>
                               </tbody>
                             ))}
@@ -269,6 +310,10 @@ export default function ManageBookings() {
           </div>
         </>
       )}
+      <DialogConfirm
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteHouse, getHostHouses } from "../../../../actions/house";
 import { formatCurrency } from "../../../../utils";
+import DialogConfirm from "../../../DialogConfirm";
 import Pagination from "../../../Pagination/Pagination";
 import Header from "../../components/Header/Header";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -19,7 +20,11 @@ export default function ManageHostHouses() {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(pageNumber);
   const [pages, setPages] = useState(1);
-  // console.log(page);
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     loadHostHouses();
@@ -44,9 +49,13 @@ export default function ManageHostHouses() {
   };
 
   const handleHouseDelete = async (houseId) => {
-    if (!window.confirm("Are you sure?")) return;
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     deleteHouse(token, houseId).then((res) => {
       toast.success("House Deleted!");
+      loadHostHouses();
     });
   };
   return (
@@ -141,8 +150,15 @@ export default function ManageHostHouses() {
                               <td>
                                 <button
                                   onClick={() => {
-                                    handleHouseDelete(h._id);
-                                    loadHostHouses();
+                                    setConfirmDialog({
+                                      isOpen: true,
+                                      title:
+                                        "Are you sure to delete this house?",
+                                      subTitle: "You can't undo this operation",
+                                      onConfirm: () => {
+                                        handleHouseDelete(h._id);
+                                      },
+                                    });
                                   }}
                                   className="btn btn-danger"
                                 >
@@ -168,6 +184,10 @@ export default function ManageHostHouses() {
           </div>
         </div>
       </div>
+      <DialogConfirm
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }
