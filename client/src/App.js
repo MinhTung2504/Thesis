@@ -27,7 +27,7 @@ import CancelPayment from "./components/Payment/CancelPayment/CancelPayment";
 import PrivacyPolicy from "./components/InfoPages/PrivacyPolicy";
 import AboutUs from "./components/InfoPages/AboutUs";
 import Reports from "./components/DashboardHost/views/Reports/Reports";
-
+import RequestToBecomeHost from "./components/RequestToBecomeHost/RequestToBecomeHost";
 
 function App() {
   return (
@@ -49,6 +49,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={[ROLES.USER, ROLES.HOST, ROLES.ADMIN]}>
               <UserProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/user-request-become-host"
+          element={
+            <PrivateRoute allowedRoles={[ROLES.USER]}>
+              <RequestToBecomeHost />
             </PrivateRoute>
           }
         />

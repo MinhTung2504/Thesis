@@ -45,9 +45,6 @@ export default function BookingHistory({
     setContentFeedback(e.target.value);
   };
 
-  console.log(rating);
-  console.log(contentFeedback);
-
   return (
     <div className="container mb-2">
       <div

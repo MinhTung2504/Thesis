@@ -65,50 +65,46 @@ export default function UserBooking() {
       console.log(res);
       toast.success("Your feedback is sent");
       loadUserBooking();
-      setTimeout(() => window.location.reload(), 0)
+      setTimeout(() => window.location.reload(), 0);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data);
     }
-  }
+  };
   return (
     <>
-      {loading ? (
-        <h1> Loading...</h1>
-      ) : error ? (
-        <h1>Error...</h1>
-      ) : (
-        <>
-          <Header />
-          <div className="container-fluid bg-secondary p-5 mb-5">
-            <h1 className="text-center">Your Booking History</h1>
-          </div>
-          <div className="container mb-5">
-            <label class="text-muted">Sort by Status</label>
-            <select
-              name="filter"
-              id="sort"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="status=pending">Pending</option>
-              <option value="status=not-paid">Not-Paid</option>
-              <option value="status=paid">Paid</option>
-              <option value="status=rejected">Rejected</option>
-              <option value="status=completed">Completed</option>
-            </select>
-          </div>
-          <div className="container text-center">
-            {bookings.map((b) => (
-              <BookingHistory booking={b} key={b._id} handleCancelBooking={handleCancelBooking} handleSendFeedback={handleSendFeedback} />
-            ))}
-            <br />
-            <Pagination page={page} pages={pages} changePage={setPage} />
-          </div>
-        </>
-      )}
-      ;
+      <Header />
+      <div className="container-fluid bg-secondary p-5 mb-5">
+        <h1 className="text-center">Your Booking History</h1>
+      </div>
+      <div className="container mb-5">
+        <label class="text-muted">Sort by Status</label>
+        <select
+          name="filter"
+          id="sort"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="status=pending">Pending</option>
+          <option value="status=not-paid">Not-Paid</option>
+          <option value="status=paid">Paid</option>
+          <option value="status=rejected">Rejected</option>
+          <option value="status=completed">Completed</option>
+        </select>
+      </div>
+      <div className="container text-center">
+        {bookings.map((b) => (
+          <BookingHistory
+            booking={b}
+            key={b._id}
+            handleCancelBooking={handleCancelBooking}
+            handleSendFeedback={handleSendFeedback}
+          />
+        ))}
+        <br />
+        <Pagination page={page} pages={pages} changePage={setPage} />
+      </div>
     </>
   );
 }

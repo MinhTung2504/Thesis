@@ -2,16 +2,19 @@ import { DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { createRequest } from "../../actions/requestToBecomeHost";
 
 import { editUserProfile, getUserProfile } from "../../actions/user";
+import { ROLES } from "../../utils";
 import Footer from "../Footer/Footer";
 import FormProfile from "../Forms/Profile/FormProfile";
 import Header from "../Header/Header";
+import RequestModal from "./Modal/RequestModal";
 
 export default function UserProfile() {
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
-  const [profile, setProfile] = useState({});
+  console.log(token);
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -21,6 +24,8 @@ export default function UserProfile() {
     address: "",
     birthday: "",
   });
+
+  const [contentRequest, setContentRequest] = useState("");
 
   const { name, email, phone, city, country, address, birthday } = values;
 
@@ -35,7 +40,17 @@ export default function UserProfile() {
     const newValues = { ...values, ...res.data };
     // console.log(newValues);
     setValues(newValues);
-    // console.log(values);
+  };
+
+  const handleSendRequest = async (data) => {
+    try {
+      let res = await createRequest(token, data);
+      console.log(res);
+      toast.success("Your request is sent");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.data);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -50,6 +65,10 @@ export default function UserProfile() {
   };
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleContentRequest = (e) => {
+    setContentRequest(e.target.value);
   };
 
   return (
@@ -126,9 +145,33 @@ export default function UserProfile() {
                 </button>
               </div>
             </div>
+            {auth.user.role === ROLES.USER && (
+              <div className="p-3 border border-warning">
+                <div className="text-center">
+                  <h4 className="text-danger bold">
+                    Create Request To Become Host
+                  </h4>
+                </div>
+                <div className="text-center">
+                  <button
+                    className="btn btn-primary profile-button"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#requestModal"
+                  >
+                    Create Request
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+      <RequestModal
+        handleSendRequest={handleSendRequest}
+        handleContentRequest={handleContentRequest}
+        contentRequest={contentRequest}
+      />
       <Footer />
     </>
   );

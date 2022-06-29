@@ -142,6 +142,16 @@ export default function Header(typeofHeader) {
                         Booking History
                       </Link>
                     </Dropdown.Item>
+                    {auth.user.role === ROLES.USER && (
+                      <Dropdown.Item>
+                        <Link
+                          className="text-black"
+                          to="/user-request-become-host"
+                        >
+                          Request Become Host
+                        </Link>
+                      </Dropdown.Item>
+                    )}
                     <hr className="dropdown-divider" />
                     <Dropdown.Item>
                       <a className="text-black" onClick={logout}>
@@ -156,7 +166,8 @@ export default function Header(typeofHeader) {
                       style={{
                         fontSize: "1rem",
                         color: "white",
-                      }} />
+                      }}
+                    />
                   </li>
                 </div>
               </>

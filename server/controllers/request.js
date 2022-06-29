@@ -56,3 +56,32 @@ export const rejectRequest = async (req, res) => {
     });
   }
 };
+
+export const allRequests = async (req, res) => {
+  try {
+    const requests = await Request.find().populate("user", "name email -_id");
+
+    res.status(StatusCodes.OK).json({ data: requests });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};
+
+export const getUserRequest = async (req, res) => {
+  try {
+    const userRequests = await Request.find({ user: req.user._id }).populate(
+      "user",
+      "name email -_id"
+    );
+
+    res.status(StatusCodes.OK).json({ data: userRequests });
+  } catch (error) {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({
+      error: error.message,
+    });
+  }
+};
