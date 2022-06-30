@@ -43,6 +43,10 @@ export const BOOLEAN_STATUS = {
   FALSE: false,
 };
 
+export const REQUEST_STATUS = {
+  ACCEPTED: "accepted",
+  REJECTED: "rejected",
+};
 
 function SampleArrow(props) {
   const { className, style, onClick } = props;
@@ -73,25 +77,25 @@ export const settingsReactSlick = {
         slidesToShow: 3,
         slidesToScroll: 3,
         infinite: true,
-        dots: true
-      }
+        dots: true,
+      },
     },
     {
       breakpoint: 600,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 2,
-        initialSlide: 2
-      }
+        initialSlide: 2,
+      },
     },
     {
       breakpoint: 480,
       settings: {
         slidesToShow: 1,
-        slidesToScroll: 1
-      }
-    }
-  ]
+        slidesToScroll: 1,
+      },
+    },
+  ],
 };
 
 export const randomBackgroundColorChart = (arrayData) => {
@@ -101,18 +105,21 @@ export const randomBackgroundColorChart = (arrayData) => {
     const g = Math.floor(Math.random() * 255);
     const b = Math.floor(Math.random() * 255);
 
-    backgroundColor.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.2)');
+    backgroundColor.push("rgba(" + r + ", " + g + ", " + b + ", 0.2)");
   }
-  return backgroundColor
-}
+  return backgroundColor;
+};
 
 export const formatNewData = (arrayData) => {
   let newData = [];
 
   for (let i = 0; i < arrayData.length; i++) {
-    let newDate = arrayData[i]._id.month.toString() + "-" + arrayData[i]._id.year.toString();
-    newData.push({ period: newDate, total: arrayData[i].total })
+    let newDate =
+      arrayData[i]._id.month.toString() +
+      "-" +
+      arrayData[i]._id.year.toString();
+    newData.push({ period: newDate, total: arrayData[i].total });
   }
 
   return newData;
-}
+};

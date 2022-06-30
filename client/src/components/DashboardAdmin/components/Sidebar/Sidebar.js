@@ -33,6 +33,11 @@ export default function Sidebar() {
               Houses
             </Link>
           </Nav.Link>
+          <Nav.Link>
+            <Link className="text-white" to="/admin/requests">
+              Requests
+            </Link>
+          </Nav.Link>
         </Nav>
       </div>
     </div>

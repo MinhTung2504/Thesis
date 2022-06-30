@@ -1,7 +1,10 @@
 import { StatusCodes } from "http-status-codes";
+import NodeCache from "node-cache";
 import Request from "../models/request";
 import User from "../models/user";
+import { PAGESIZE_LIST, PAGE_LIST } from "../utils/constants";
 
+const myCache = new NodeCache({ stdTTL: 3600 });
 export const createRequest = async (req, res) => {
   try {
     let request = new Request({
@@ -26,7 +29,6 @@ export const acceptRequest = async (req, res) => {
 
     let userId = req.body.user;
 
-    // console.log(userId);
     await User.findByIdAndUpdate(userId, { role: "host" });
 
     res
@@ -59,29 +61,96 @@ export const rejectRequest = async (req, res) => {
 
 export const allRequests = async (req, res) => {
   try {
-    const requests = await Request.find().populate("user", "name email -_id");
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
+    const skip = (page - 1) * pageSize;
+    if (myCache.has("totalRequests")) {
+      var totalRequests;
+      totalRequests = myCache.get("totalRequests");
+    } else {
+      totalRequests = await Request.find({}).count();
+      myCache.set("totalRequests", totalRequests);
+    }
+    const pages = Math.ceil(totalRequests / pageSize);
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    const result = await Request.find({})
+      .populate("user", "name email")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize);
 
-    res.status(StatusCodes.OK).json({ data: requests });
+    // const result = await
+
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      count: result.length,
+      page,
+      pages,
+      data: result,
+    });
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST);
-    res.json({
-      error: error.message,
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      message: "Server Error",
     });
   }
 };
 
 export const getUserRequest = async (req, res) => {
   try {
-    const userRequests = await Request.find({ user: req.user._id }).populate(
-      "user",
-      "name email -_id"
-    );
+    const page = parseInt(req.query.page) || PAGE_LIST;
+    const pageSize = parseInt(req.query.limit) || PAGESIZE_LIST;
+    const skip = (page - 1) * pageSize;
+    if (myCache.has("totalRequests")) {
+      var totalRequests;
+      totalRequests = myCache.get("totalRequests");
+    } else {
+      totalRequests = await Request.find({ user: req.user._id }).count();
+      myCache.set("totalRequests", totalRequests);
+    }
+    const pages = Math.ceil(totalRequests / pageSize);
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    const result = await Request.find({ user: req.user._id })
+      .populate("user", "name email -_id")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize);
 
-    res.status(StatusCodes.OK).json({ data: userRequests });
+    // const result = await
+
+    if (page > pages) {
+      res.status(StatusCodes.BAD_REQUEST).json({
+        status: "Fail",
+        message: "No Page Found",
+      });
+    }
+    res.status(StatusCodes.OK).json({
+      status: "success",
+      count: result.length,
+      page,
+      pages,
+      data: result,
+    });
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST);
-    res.json({
-      error: error.message,
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      message: "Server Error",
     });
   }
 };

@@ -129,8 +129,8 @@ export default function ManageHouses() {
                                   src={h.image}
                                   key={h._id}
                                   style={{
-                                    objectFit: "cover",
-                                    width: "100%",
+                                    width: "10rem",
+                                    height: "5rem",
                                   }}
                                   alt="ImageHouse"
                                 />

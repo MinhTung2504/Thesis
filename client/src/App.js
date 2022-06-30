@@ -28,6 +28,7 @@ import PrivacyPolicy from "./components/InfoPages/PrivacyPolicy";
 import AboutUs from "./components/InfoPages/AboutUs";
 import Reports from "./components/DashboardHost/views/Reports/Reports";
 import RequestToBecomeHost from "./components/RequestToBecomeHost/RequestToBecomeHost";
+import ManageRequest from "./components/DashboardAdmin/views/ManageRequest";
 
 function App() {
   return (
@@ -97,6 +98,14 @@ function App() {
           element={
             <PrivateRoute allowedRoles={[ROLES.ADMIN]}>
               <ManageHouses />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/requests"
+          element={
+            <PrivateRoute allowedRoles={[ROLES.ADMIN]}>
+              <ManageRequest />
             </PrivateRoute>
           }
         />

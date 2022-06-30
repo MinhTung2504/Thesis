@@ -31,6 +31,11 @@ export default function Header() {
       name: "All Houses",
       layout: "/admin",
     },
+    {
+      path: "/requests",
+      name: "All Requests",
+      layout: "/admin",
+    },
   ];
   const location = useLocation();
   const mobileSidebarToggle = (e) => {

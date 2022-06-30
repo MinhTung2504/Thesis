@@ -1,6 +1,7 @@
 import { DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createRequest } from "../../actions/requestToBecomeHost";
 
@@ -14,6 +15,7 @@ import RequestModal from "./Modal/RequestModal";
 export default function UserProfile() {
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
+  const navigate = useNavigate();
   console.log(token);
   const [values, setValues] = useState({
     name: "",
@@ -44,9 +46,9 @@ export default function UserProfile() {
 
   const handleSendRequest = async (data) => {
     try {
-      let res = await createRequest(token, data);
-      console.log(res);
-      toast.success("Your request is sent");
+      await createRequest(token, data);
+      // toast.success("Your request is sent");
+      navigate("/user-request-become-host");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.data);

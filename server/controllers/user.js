@@ -80,28 +80,6 @@ export const editRoleUser = async (req, res) => {
   });
 };
 
-// export const banUser = async (req, res) => {
-//   await User.findByIdAndUpdate(req.params.userId, {
-//     isBanned: "true",
-//   });
-
-//   res.status(StatusCodes.OK).json({
-//     status: "Success",
-//     message: "Ban User Successfully!",
-//   });
-// };
-
-// export const unbanUser = async (req, res) => {
-//   await User.findByIdAndUpdate(req.params.userId, {
-//     isBanned: "false",
-//   });
-
-//   res.status(StatusCodes.OK).json({
-//     status: "Success",
-//     message: "Unban User Successfully!",
-//   });
-// };
-
 export const banUser = async (req, res) => {
   try {
     await User.findByIdAndUpdate(req.params.userId, {
@@ -162,4 +140,4 @@ export const editProfileUser = async (req, res) => {
       error: error.message,
     });
   }
-}
+};

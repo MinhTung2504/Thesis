@@ -23,8 +23,8 @@ export default function DashboardAdmin() {
   const [houseByCities, setHouseByCities] = useState([]);
   const [allFeatures, setAllFeatures] = useState();
   const [yearArray, setYearArray] = useState([]);
-  const [yearUser, setYearUser] = useState("2021");
-  const [yearHouse, setYearHouse] = useState("2021");
+  const [yearUser, setYearUser] = useState("2022");
+  const [yearHouse, setYearHouse] = useState("2022");
 
   useEffect(() => {
     loadUserStat();

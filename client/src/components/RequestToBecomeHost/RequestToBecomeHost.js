@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { sendEmail } from "../../actions/email";
+import { Link, useParams } from "react-router-dom";
 import { getUserRequests } from "../../actions/requestToBecomeHost";
 import Header from "../Header/Header";
 import ListRequest from "./ListRequest.js/ListRequest";
@@ -10,22 +9,30 @@ export default function RequestToBecomeHost() {
   const { auth } = useSelector((state) => ({ ...state }));
   const { token } = auth;
   const [requests, setRequests] = useState([]);
+  const pageNumber = useParams().pageNumber || 1;
+  // console.log(pageNumber);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [page, setPage] = useState(pageNumber);
+  const [pages, setPages] = useState(1);
 
   useEffect(() => {
     loadUserRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   const loadUserRequest = async () => {
-    const res = await getUserRequests(token);
-    // console.log(res.data.data);
-    setRequests(res.data.data);
+    setLoading(true);
+    try {
+      const res = await getUserRequests(token, page);
+      setRequests(res.data.data);
+      setLoading(false);
+      setPages(res.data.pages);
+    } catch (error) {
+      setLoading(false);
+      setError("Some Error Occured");
+    }
   };
-  const sendEmailToNotify = async (data) => {
-    await sendEmail(token, data);
-  };
-
-  console.log(requests);
 
   return (
     <>
@@ -62,7 +69,9 @@ export default function RequestToBecomeHost() {
               </p>
             </div>
           ) : (
-            requests.map((r) => <ListRequest request={r} key={r._id} />)
+            requests.map((request) => (
+              <ListRequest request={request} key={request._id} />
+            ))
           )}
           <br />
           {/* <Pagination page={page} pages={pages} changePage={setPage} /> */}
