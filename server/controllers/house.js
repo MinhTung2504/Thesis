@@ -7,6 +7,8 @@ import {
   PAGE_LIST,
   PAGESIZE_LIST,
   GREATER_THAN_PRICE,
+  GREATER_THAN_MAX_GUESTS,
+  GREATER_THAN_SIZE,
 } from "../utils/constants";
 import FilteringFeature from "../utils/filterFeature";
 import Destination from "../models/destination";
@@ -307,7 +309,18 @@ export const getSimilarHouses = async (req, res) => {
     const result = await House.find({
       isBlocked: false,
       city: h.city,
-      price: { $gte: h.price, $lte: h.price + GREATER_THAN_PRICE },
+      price: {
+        $gte: h.price - GREATER_THAN_PRICE,
+        $lte: h.price + GREATER_THAN_PRICE,
+      },
+      max_guests: {
+        $gte: h.max_guests - GREATER_THAN_MAX_GUESTS,
+        $lte: h.max_guests + GREATER_THAN_MAX_GUESTS,
+      },
+      size: {
+        $gte: h.size - GREATER_THAN_SIZE,
+        $lte: h.size + GREATER_THAN_SIZE,
+      },
     }).limit(PAGESIZE_LIST);
 
     res.status(StatusCodes.OK).json(result);

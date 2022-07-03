@@ -7,5 +7,20 @@ export const WIDTH_IMAGE = 1920;
 export const HEIGHT_IMAGE = 1080;
 export const PAGE_LIST = 1;
 export const PAGESIZE_LIST = 9;
-export const GREATER_THAN_PRICE = 100000;
-export const TWELVEMONTHS = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+export const GREATER_THAN_PRICE = 200000;
+export const GREATER_THAN_MAX_GUESTS = 2;
+export const GREATER_THAN_SIZE = 10;
+export const TWELVEMONTHS = [
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
+];
