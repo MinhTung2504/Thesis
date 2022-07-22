@@ -72,7 +72,6 @@ export default function CheckBooking() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       let res = await createNewBooking(token, bookingInformation);
       console.log(res);
@@ -163,7 +162,8 @@ export default function CheckBooking() {
                           setValues({ ...values, date_check_out: dateString })
                         }
                         disabledDate={(current) =>
-                          current && current.valueOf() < moment(date_check_in).add(1, 'd')
+                          current &&
+                          current.valueOf() < moment(date_check_in).add(1, "d")
                         }
                       />
                     </div>

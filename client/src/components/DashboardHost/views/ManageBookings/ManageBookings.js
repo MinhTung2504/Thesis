@@ -44,6 +44,7 @@ export default function ManageBookings() {
 
       setBookings(res.data.data);
       setLoading(false);
+      setPages(res.data.pages);
     } catch (error) {
       setLoading(false);
       setError("Some Error Occured");
@@ -95,6 +96,8 @@ export default function ManageBookings() {
       sendEmailToNotify(data);
     });
   };
+
+  console.log(page, pages);
 
   return (
     <>

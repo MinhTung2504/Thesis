@@ -121,15 +121,17 @@ export default function ManageHostHouses() {
                               <th scope="row">{index + 1}</th>
 
                               <td>
-                                <img
-                                  src={h.image}
-                                  key={h._id}
-                                  style={{
-                                    width: "10rem",
-                                    height: "5rem",
-                                  }}
-                                  alt="ImageHouse"
-                                />
+                                <Link to={`/house/${h._id}`}>
+                                  <img
+                                    src={h.image}
+                                    key={h._id}
+                                    style={{
+                                      width: "10rem",
+                                      height: "5rem",
+                                    }}
+                                    alt="ImageHouse"
+                                  />
+                                </Link>
                               </td>
                               <td>{h.title}</td>
                               <td>{formatCurrency(h.price)}</td>

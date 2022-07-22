@@ -15,8 +15,8 @@ export const payBooking = (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: `http://localhost:${process.env.PORT}/api/${req.params.bookingId}/success`,
-      cancel_url: `http://localhost:${process.env.PORT}/api/cancel`,
+      return_url: `https://thesis-minhtung-homestay.herokuapp.com/api/${req.params.bookingId}/success`,
+      cancel_url: `https://thesis-minhtung-homestay.herokuapp.com/api/cancel`,
     },
     transactions: [
       {
@@ -74,12 +74,14 @@ export const successPayment = (req, res) => {
         });
         p.save();
 
-        res.redirect(`http://localhost:3000/success-payment/${bookingId}`);
+        res.redirect(
+          `https://react-app-thesis-hmt.herokuapp.com/success-payment/${bookingId}`
+        );
       }
     }
   );
 };
 
 export const cancelPayment = (req, res) => {
-  res.redirect("http://localhost:3000/cancel-payment");
+  res.redirect("https://react-app-thesis-hmt.herokuapp.com/cancel-payment");
 };

@@ -181,7 +181,14 @@ export default function DashboardAdmin() {
                     </Card.Body>
                     <Card.Footer>
                       <hr></hr>
-                      <div className="stats"></div>
+                      <div className="stats">
+                        <i className="far fa-clock-o mr-1"></i>
+                        In{" "}
+                        {new Date().getMonth() +
+                          1 +
+                          "-" +
+                          new Date().getFullYear()}
+                      </div>
                     </Card.Footer>
                   </Card>
                 </Col>
@@ -210,7 +217,10 @@ export default function DashboardAdmin() {
                     </Card.Body>
                     <Card.Footer>
                       <hr></hr>
-                      <div className="stats"></div>
+                      <div className="stats">
+                        <i className="far fa-clock-o mr-1"></i>
+                        All times
+                      </div>
                     </Card.Footer>
                   </Card>
                 </Col>

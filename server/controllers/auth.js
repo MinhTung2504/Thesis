@@ -39,6 +39,8 @@ export const login = async (req, res) => {
     // check if user with that email exist
     let user = await User.findOne({ email }).exec();
     // console.log("USER EXIST", user);
+    if (user.isBanned === true)
+      return res.status(StatusCodes.BAD_REQUEST).send("User is Banned");
     if (!user)
       return res
         .status(StatusCodes.BAD_REQUEST)
@@ -47,7 +49,9 @@ export const login = async (req, res) => {
     user.comparePassword(password, (err, match) => {
       // console.log("COMPARE PASSWORD IN LOGIN ERR ", err);
       if (!match || err)
-        return res.status(StatusCodes.BAD_REQUEST).send("User or Password is Incorrect");
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .send("User or Password is Incorrect");
       // GENERATE A TOKEN THEN SEND AS RESPONSE TO CLIENT
       let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: EXPIRESIN_TOKEN,

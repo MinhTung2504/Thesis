@@ -5,7 +5,7 @@ import House from "../models/house";
 import FilteringFeature from "../utils/filterFeature";
 import { PAGESIZE_LIST, PAGE_LIST } from "../utils/constants";
 
-const myCache = new NodeCache({ stdTTL: 3600 });
+const myCache = new NodeCache({ stdTTL: 360 });
 export const createBooking = async (req, res) => {
   try {
     let booking = new Booking({

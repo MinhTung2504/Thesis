@@ -15,7 +15,11 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import "../DashboardAdmin/Dashboard.css";
 import { formatCurrency } from "../../utils";
 import { useSelector } from "react-redux";
-import { countCompletedBookingYearByHost, countRevenueYearByHost, getAllFeatureByHost } from "../../actions/statisticByHost";
+import {
+  countCompletedBookingYearByHost,
+  countRevenueYearByHost,
+  getAllFeatureByHost,
+} from "../../actions/statisticByHost";
 import ChartBooking from "./components/Charts/ChartBooking";
 import ChartRevenue from "./components/Charts/ChartRevenue";
 
@@ -35,7 +39,6 @@ export default function DashboardHost() {
     loadAllFeatures();
   }, [yearBooking, yearRevenue]);
 
-
   const loadBookingsStat = async () => {
     const res = await countCompletedBookingYearByHost(token, yearBooking);
     setBookingStat(res.data.data);
@@ -43,15 +46,16 @@ export default function DashboardHost() {
 
   const loadRevenueByHost = async () => {
     const res = await countRevenueYearByHost(token, yearRevenue);
-    console.log(res.data.data);
+    console.log("revenue", res.data.data);
     setRevenueStat(res.data.data);
-    setYearArray(res.data.yearArray)
+    setYearArray(res.data.yearArray);
   };
 
   const loadAllFeatures = async () => {
     const res = await getAllFeatureByHost(token);
     setAllFeatures(res.data);
   };
+  console.log(allFeatures);
   return (
     <>
       <div className="wrapper">
@@ -88,7 +92,11 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In {revenueStat[0] && revenueStat[0].period}
+                        In{" "}
+                        {new Date().getMonth() +
+                          1 +
+                          "-" +
+                          new Date().getFullYear()}
                       </div>
                     </Card.Footer>
                   </Card>
@@ -119,7 +127,11 @@ export default function DashboardHost() {
                       <hr></hr>
                       <div className="stats">
                         <i className="far fa-clock-o mr-1"></i>
-                        In {revenueStat[0] && revenueStat[0].period}
+                        In{" "}
+                        {new Date().getMonth() +
+                          1 +
+                          "-" +
+                          new Date().getFullYear()}
                       </div>
                     </Card.Footer>
                   </Card>
@@ -138,7 +150,9 @@ export default function DashboardHost() {
                             <p className="card-category">Houses</p>
                             {allFeatures && (
                               <Card.Title as="h4">
-                                {allFeatures.totalHouse[0].count}
+                                {allFeatures.totalHouse.length !== 0
+                                  ? allFeatures.totalHouse[0].count
+                                  : 0}
                               </Card.Title>
                             )}
                           </div>
@@ -197,8 +211,8 @@ export default function DashboardHost() {
                         <select
                           id="cities"
                           name="cities"
-                          value={yearRevenue}
-                          onChange={(e) => setYearRevenue(e.target.value)}
+                          value={yearBooking}
+                          onChange={(e) => setYearBooking(e.target.value)}
                           className="btn btn-secondary"
                         >
                           {yearArray.map((y) => (
@@ -211,7 +225,9 @@ export default function DashboardHost() {
                     </Card.Header>
                     <Card.Body>
                       <div className="" id="chartHours">
-                        <ChartBooking bookingStat={bookingStat} />
+                        {bookingStat.length !== 0 && (
+                          <ChartBooking bookingStat={bookingStat} />
+                        )}
                       </div>
                     </Card.Body>
                   </Card>
@@ -241,10 +257,11 @@ export default function DashboardHost() {
                     </Card.Header>
                     <Card.Body>
                       <div className="" id="chartHours">
-                        <ChartRevenue revenueStat={revenueStat} />
+                        {revenueStat.length !== 0 && (
+                          <ChartRevenue revenueStat={revenueStat} />
+                        )}
                       </div>
                     </Card.Body>
-
                   </Card>
                 </Col>
               </Row>
